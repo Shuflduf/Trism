@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dstlhbeulh58k"]
+
+[ext_resource type="PackedScene" uid="uid://kr12o1f7848k" path="res://Scenes/base_cube.tscn" id="1_ib28x"]
+[ext_resource type="Script" path="res://Scripts/base_piece.gd" id="1_xj3c2"]
+
+[node name="SPiece" type="Node3D"]
+script = ExtResource("1_xj3c2")
+
+[node name="Cube" parent="." instance=ExtResource("1_ib28x")]
+
+[node name="Cube2" parent="." instance=ExtResource("1_ib28x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Cube3" parent="." instance=ExtResource("1_ib28x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+
+[node name="Cube4" parent="." instance=ExtResource("1_ib28x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
