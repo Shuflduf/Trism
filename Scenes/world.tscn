@@ -74,6 +74,9 @@ shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+projection = 1
+current = true
+size = 46.846
 
 [node name="Cube" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_feah7")
@@ -81,7 +84,7 @@ mesh = SubResource("ArrayMesh_82lf5")
 skeleton = NodePath("")
 
 [node name="SpawnPos" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 24, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 22, 0)
 
 [node name="PieceParent" type="Node3D" parent="."]
 
