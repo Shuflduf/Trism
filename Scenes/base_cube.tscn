@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://kr12o1f7848k"]
+[gd_scene load_steps=6 format=3 uid="uid://kr12o1f7848k"]
+
+[ext_resource type="Script" path="res://Scripts/cube.gd" id="1_xd31j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ekpb"]
 
@@ -40,8 +42,12 @@ size = Vector3(2, 2, 2)
 [node name="Cube" type="MeshInstance3D"]
 mesh = SubResource("ArrayMesh_4auru")
 skeleton = NodePath("")
+script = ExtResource("1_xd31j")
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_02dm1")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

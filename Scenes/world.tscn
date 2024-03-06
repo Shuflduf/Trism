@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cs4vkwv73u5v7"]
+[gd_scene load_steps=21 format=3 uid="uid://cs4vkwv73u5v7"]
 
 [ext_resource type="Script" path="res://Scripts/spawn.gd" id="1_nrjqd"]
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="2_0dypb"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dstlhbeulh58k" path="res://Pieces/SPiece.tscn" id="6_apib1"]
 [ext_resource type="PackedScene" uid="uid://sro5usoj7fx4" path="res://Pieces/TPiece.tscn" id="7_2otr1"]
 [ext_resource type="PackedScene" uid="uid://ce4jqurycapvx" path="res://Pieces/ZPiece.tscn" id="8_8b7rg"]
+[ext_resource type="Script" path="res://Scripts/left_arrow_detector.gd" id="11_c8y4b"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3hcqe"]
 panorama = ExtResource("2_0dypb")
@@ -61,6 +62,12 @@ _surfaces = [{
 }]
 shadow_mesh = SubResource("ArrayMesh_sixi0")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgwq7"]
+size = Vector3(20, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yehv1"]
+size = Vector3(2, 40, 2)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_nrjqd")
 piece = Array[PackedScene]([ExtResource("2_1cxpi"), ExtResource("3_u74k0"), ExtResource("4_bo1py"), ExtResource("5_cfqvs"), ExtResource("6_apib1"), ExtResource("7_2otr1"), ExtResource("8_8b7rg")])
@@ -74,7 +81,6 @@ shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
-projection = 1
 current = true
 size = 46.846
 
@@ -90,3 +96,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 22, 0)
 
 [node name="RandomMarker" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21, 0)
+
+[node name="Bounds" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21, 0)
+shape = SubResource("BoxShape3D_vgwq7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0)
+shape = SubResource("BoxShape3D_yehv1")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0)
+shape = SubResource("BoxShape3D_yehv1")
+
+[node name="TheComponentThatReturnsTrueIfTheLeftArrowIsPressed" type="Node" parent="."]
+script = ExtResource("11_c8y4b")
