@@ -1,9 +1,9 @@
 [gd_scene load_steps=21 format=3 uid="uid://cs4vkwv73u5v7"]
 
-[ext_resource type="Script" path="res://Scripts/spawn.gd" id="1_nrjqd"]
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="2_0dypb"]
 [ext_resource type="PackedScene" uid="uid://d2wn3yc5yidwr" path="res://Pieces/IPiece.tscn" id="2_1cxpi"]
 [ext_resource type="Shader" path="res://Shaders/board_shader.gdshader" id="3_1tqgm"]
+[ext_resource type="Script" path="res://Scripts/PieceHandler.gd" id="3_6l1wv"]
 [ext_resource type="PackedScene" uid="uid://b6fi283r7ulx" path="res://Pieces/JPiece.tscn" id="3_u74k0"]
 [ext_resource type="PackedScene" uid="uid://dm4bqaaj7laek" path="res://Pieces/LPiece.tscn" id="4_bo1py"]
 [ext_resource type="PackedScene" uid="uid://dkjyjexlh7pky" path="res://Pieces/OPiece.tscn" id="5_cfqvs"]
@@ -69,8 +69,6 @@ size = Vector3(20, 2, 2)
 size = Vector3(2, 40, 2)
 
 [node name="World" type="Node3D"]
-script = ExtResource("1_nrjqd")
-piece = Array[PackedScene]([ExtResource("2_1cxpi"), ExtResource("3_u74k0"), ExtResource("4_bo1py"), ExtResource("5_cfqvs"), ExtResource("6_apib1"), ExtResource("7_2otr1"), ExtResource("8_8b7rg")])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_b1mkh")
@@ -80,24 +78,32 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 40)
+projection = 1
 current = true
 size = 46.846
 
 [node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0)
 material_override = SubResource("ShaderMaterial_feah7")
 mesh = SubResource("ArrayMesh_82lf5")
 skeleton = NodePath("")
 
 [node name="SpawnPos" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 22, 0)
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 26.5, 0)
 
-[node name="PieceParent" type="Node3D" parent="."]
+[node name="PieceHandler" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0)
+script = ExtResource("3_6l1wv")
+piece = Array[PackedScene]([ExtResource("2_1cxpi"), ExtResource("3_u74k0"), ExtResource("4_bo1py"), ExtResource("5_cfqvs"), ExtResource("6_apib1"), ExtResource("8_8b7rg"), ExtResource("7_2otr1")])
 
 [node name="RandomMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
 
 [node name="Bounds" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 0)
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -21, 0)
