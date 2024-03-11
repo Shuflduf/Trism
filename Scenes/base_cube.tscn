@@ -51,8 +51,13 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_02dm1")
 
-[node name="RayCast3D" type="RayCast3D" parent="."]
+[node name="DownRay" type="RayCast3D" parent="."]
 target_position = Vector3(0, -100, 0)
 collision_mask = 3
 collide_with_areas = true
 debug_shape_thickness = 5
+
+[node name="SideRay" type="RayCast3D" parent="."]
+target_position = Vector3(50, 0, 0)
+collision_mask = 3
+collide_with_areas = true
