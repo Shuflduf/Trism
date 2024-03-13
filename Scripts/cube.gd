@@ -5,8 +5,8 @@ extends MeshInstance3D
 @onready var area3d = $Area3D
 @onready var sideray = $SideRay as RayCast3D
 
-func _physics_process(delta):
-	print(sideray.get_collision_point().x - global_position.x)
+#func _physics_process(delta):
+	#print(sideray.get_collision_point().x - global_position.x)
 
 func get_collision_point():
 	return global_position.y - downray.get_collision_point().y > 2
@@ -18,9 +18,9 @@ func inactive():
 
 func left():
 	sideray.target_position.x = -50
+	return (global_position.x - sideray.get_collision_point().x > 2)
 	
 func right():
 	sideray.target_position.x = 50
-	
-func get_collision_side_point():
-	return global_position.x - sideray.get_collision_point().x
+	return (global_position.x + sideray.get_collision_point().x < -2)
+

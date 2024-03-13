@@ -47,6 +47,7 @@ script = ExtResource("1_xd31j")
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 4
 collision_mask = 0
+monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_02dm1")
