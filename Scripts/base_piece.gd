@@ -31,26 +31,6 @@ func move_down(spaces := 1):
 			return
 	if can_move_down:
 		position.y -= 2 * spaces
-			
-#func move_left():
-	#var can_move_left = true
-	#for block in get_children():
-		#print(block.get_collision_point())
-		#block.left()
-		#if block.get_collision_side_point() < -8:
-			#can_move_left = false
-	#if can_move_left:
-		#position.x -= 2
-			#
-#func move_right():
-	#var can_move_right = true
-	#for block in get_children():
-		#print(block.get_collision_point())
-		#block.right()
-		#if block.get_collision_side_point() > 8:
-			#can_move_right = false
-	#if can_move_right:
-		#position.x += 2
 
 func spawn_new_piece():
 	get_parent().spawn_random_piece()
@@ -66,15 +46,17 @@ func move_side(dir : String):
 		#print(block.get_collision_point())
 		match dir:
 			"left":
-				if !block.left():
-					can_move_left = false
-				else:
-					can_move_left = true
+				#if !block.left():
+					#can_move_left = false
+				#else:
+				print(block.left())
+				can_move_left = true
 			"right":
-				if !block.right():
-					can_move_right = false
-				else:
-					can_move_right = true
+				#if !block.right():
+					#can_move_right = false
+				#else:
+				print(block.right())
+				can_move_right = true
 	if can_move_left:
 		position.x -= 2
 	if can_move_right:

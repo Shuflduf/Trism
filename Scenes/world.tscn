@@ -79,7 +79,6 @@ shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 49, 40)
-projection = 1
 current = true
 size = 46.846
 

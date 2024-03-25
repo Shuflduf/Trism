@@ -18,9 +18,9 @@ func inactive():
 
 func left():
 	sideray.target_position.x = -50
-	return (global_position.x - sideray.get_collision_point().x > 2)
+	return (global_position.x - sideray.get_collision_point().x)
 	
 func right():
 	sideray.target_position.x = 50
-	return (global_position.x + sideray.get_collision_point().x < -2)
+	return (global_position.x - sideray.get_collision_point().x)
 
