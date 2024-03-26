@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://dx55n2ep1owqm"]
+
+[ext_resource type="ArrayMesh" uid="uid://ceegbex2te6cp" path="res://Assets/cube.tres" id="1_yw2yp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_go854"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e24sy"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcc7w"]
+albedo_color = Color(0, 0.283333, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hxidw"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03iob"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_52hg4"]
+albedo_color = Color(1, 0.415686, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t1imh"]
+albedo_color = Color(0.0509804, 1, 0, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Red" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_go854")
+
+[node name="Cyan" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_e24sy")
+
+[node name="Blue" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_wcc7w")
+
+[node name="Yellow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_hxidw")
+
+[node name="Pink" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_03iob")
+
+[node name="Orange" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_52hg4")
+
+[node name="Green" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_t1imh")

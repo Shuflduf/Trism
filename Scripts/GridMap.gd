@@ -1,31 +1,69 @@
 extends GridMap
 
-var i_0 = [Vector2i(0,1), Vector2i(1,1), Vector2i(2,1), Vector2i(3,1)]
-var i_90 = [Vector2i(2,0), Vector2i(2,1), Vector2i(2,2), Vector2i(2,3)]
-var i_180 = [Vector2i(0,2), Vector2i(1,2), Vector2i(2,2), Vector2i(3,2)]
-var i_270 = [Vector2i(1,0), Vector2i(1,1), Vector2i(1,2), Vector2i(1,3)]
-var i = [i_0, i_90, i_180, i_270]
+#grid consts
+const ROWS := 20
+const COLS := 10
 
-var j_0 = [Vector2i(0,0), Vector2i(0,1), Vector2i(1,1), Vector2i(2,1)]
-var j_90 = [Vector2i(2,0), Vector2i(1,0), Vector2i(1,1), Vector2i(1,2)]
-var j_180 = [Vector2i(0,1), Vector2i(1,1), Vector2i(2,1), Vector2i(2,2)]
-var j_270 = [Vector2i(1,0), Vector2i(1,1), Vector2i(1,2), Vector2i(0,2)]
-var j = [j_0, j_90, j_180, j_270]
+const SPAWN = Vector3i(-1, 9, 0)
 
-var l_0 = [Vector2i(3,0), Vector2i(0,1), Vector2i(1,1), Vector2i(2,1)]
-var l_90 = [Vector2i(2,2), Vector2i(1,0), Vector2i(1,1), Vector2i(1,2)]
-var l_180 = [Vector2i(0,1), Vector2i(1,1), Vector2i(2,1), Vector2i(0,2)]
-var l_270 = [Vector2i(1,0), Vector2i(1,1), Vector2i(1,2), Vector2i(0,0)]
-var l = [l_0, l_90, l_180, l_270]
+#game piece vars
+var piece_type
+var next_piece_type
+var rotation_index : int = 0
+var active_piece : Array
+var current_loc
 
-var o_0 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)]
-var o_90 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)]
-var o_180 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)]
-var o_270 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)]
-var o = [o_0, o_90, o_180, o_270]
+#grid vars
+var cube_id : int = 0
+var piece_color : int
 
-var s_0 = [Vector2i(0,1), Vector2i(1,1), Vector2i(1,0), Vector2i(2,0)]
-var s_90 = [Vector2i(1,0), Vector2i(1,1), Vector2i(2,1), Vector2i(2,2)]
-var s_180 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)] #TODO
-var s_270 = [Vector2i(1,0), Vector2i(2,0), Vector2i(1,1), Vector2i(2,1)]
-var s = [s_0, s_90, s_180, s_270]
+#movement variables
+const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
+var steps : int
+const steps_req : int = 50
+var speed : float
+const ACCEL : float = 0.25
+
+var bag = SRS.shapes.duplicate()
+
+func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
+	return Vector3i(vec2.x, -vec2.y, 0)
+
+func _ready():
+	new_game()
+	
+func _process(delta):
+	steps += speed
+	if steps > steps_req:
+		move_piece(Vector2i.DOWN)
+		steps = 0
+		
+func new_game():
+	speed = 1.0
+	steps = 0
+	piece_type = pick_piece()
+	piece_color = SRS.shapes.find(piece_type)
+	create_piece()
+	
+func pick_piece():
+	var piece
+	if not bag.is_empty():
+		bag.shuffle()
+		piece = bag.pop_front()
+	else:
+		bag = SRS.shapes.duplicate()
+		pick_piece()
+	return piece
+
+func create_piece():
+	current_loc = SPAWN
+	active_piece = piece_type[rotation_index]
+	draw_piece(active_piece, SPAWN)
+
+func draw_piece(piece, pos):
+	for i in piece:
+		set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
+
+func move_piece(dir):
+	current_loc += convert_vec2_vec3(dir)
+	draw_piece(active_piece, current_loc)
