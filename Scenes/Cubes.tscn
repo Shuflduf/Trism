@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dx55n2ep1owqm"]
+[gd_scene load_steps=10 format=3 uid="uid://dx55n2ep1owqm"]
 
 [ext_resource type="ArrayMesh" uid="uid://ceegbex2te6cp" path="res://Assets/cube.tres" id="1_yw2yp"]
 
@@ -22,6 +22,9 @@ albedo_color = Color(1, 0.415686, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t1imh"]
 albedo_color = Color(0.0509804, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6332x"]
+albedo_color = Color(0.176471, 0.176471, 0.176471, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -58,3 +61,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_52hg4")
 [node name="Green" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_yw2yp")
 surface_material_override/0 = SubResource("StandardMaterial3D_t1imh")
+
+[node name="Black" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+mesh = ExtResource("1_yw2yp")
+surface_material_override/0 = SubResource("StandardMaterial3D_6332x")
