@@ -6,6 +6,8 @@ const COLS := 10
 
 const SPAWN = Vector3i(-1, 8, 0)
 
+const TRANSPARENT_PIECES = [-1, 8]
+
 #game piece vars
 var piece_type
 var next_piece_type
@@ -96,8 +98,7 @@ func clear_piece():
 func draw_piece(piece, pos):
 	for i in piece:
 		set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
-	clear_ghost()
-	draw_ghost()
+	handle_ghost()
 
 func rotate_piece(dir):
 
@@ -160,7 +161,9 @@ func can_move(dir):
 	return cm
 	
 func is_free(pos : Vector3i):
-	return get_cell_item(pos) == -1 or get_cell_item(pos) == 8
+	for i in TRANSPARENT_PIECES:
+		if get_cell_item(pos) == i:
+			return true
 
 func show_piece(piece, color):
 	
@@ -177,12 +180,20 @@ func hard_drop():
 	while can_move(directions[2]):
 		move_piece(directions[2])
 	create_piece()
-	
-func draw_ghost():
+
+func handle_ghost():
+	clear_ghost()
+	var dist = find_ghost_positions()
+	draw_ghost(dist)
+
+func find_ghost_positions() -> int:
+	var ghost_positions = []
 	var min_drop_distance = 9999  # Start with a large number
-	for square in active_piece:
+
+	# First, find the minimum drop distance for the entire piece
+	for i in active_piece:
 		var drop_distance = 0
-		var ghost_pos = convert_vec2_vec3(square) + current_loc
+		var ghost_pos = convert_vec2_vec3(i) + current_loc
 
 		while is_free(ghost_pos + Vector3i(0, -1, 0)):
 			ghost_pos += Vector3i(0, -1, 0)
@@ -190,16 +201,20 @@ func draw_ghost():
 
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
+
+	print(min_drop_distance)
+	return min_drop_distance
+
+func draw_ghost(dist : int):
 	
-	for square in active_piece:
-		var ghost_pos = convert_vec2_vec3(square) + current_loc + Vector3i(0, -min_drop_distance, 0)
+	for i in active_piece:
+		var ghost_pos = convert_vec2_vec3(i) + current_loc + Vector3i(0, -dist, 0)
 		ghost_positions.append(ghost_pos)
-	
-	for pos in ghost_positions:
-		set_cell_item(pos, 8) 
+		set_cell_item(ghost_pos, 8) 
 
 func clear_ghost():
 	for i in ghost_positions:
-		set_cell_item(i, -1)
+		if get_cell_item(i) == 8:
+			set_cell_item(i, -1)
 	ghost_positions = []
 		
