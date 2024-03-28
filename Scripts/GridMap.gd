@@ -13,6 +13,7 @@ var next_piece_color
 var rotation_index : int = 0
 var active_piece : Array
 var current_loc
+var ghost_positions : Array
 
 #grid vars
 var cube_id : int = 0
@@ -41,6 +42,8 @@ func _physics_process(_delta):
 		steps[1] += 10
 	if Input.is_action_pressed("soft"):
 		steps[2] += 10
+	if Input.is_action_just_pressed("hard"):
+		hard_drop()
 	if Input.is_action_just_pressed("rot_left"):
 		rotate_piece("left")
 	if Input.is_action_just_pressed("rot_right"):
@@ -75,6 +78,7 @@ func create_piece():
 	steps = [0, 0, 0]
 	current_loc = SPAWN
 	rotation_index = 0
+	ghost_positions = []
 	
 	piece_type = next_piece_type
 	piece_color = next_piece_color
@@ -83,6 +87,7 @@ func create_piece():
 	active_piece = piece_type[rotation_index]
 	draw_piece(active_piece, SPAWN)
 	show_piece(next_piece_type[0], next_piece_color)
+	draw_ghost()
 
 func clear_piece():
 	for i in active_piece:
@@ -93,16 +98,19 @@ func draw_piece(piece, pos):
 		set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
 
 func rotate_piece(dir):
+
 	if can_rotate(dir):
-		clear_piece()
+		clear_piece()  # This should also ensure ghost positions are cleared if not already handled in draw_ghost
 		match dir:
 			"left":
 				rotation_index = (rotation_index - 1) % 4
 			"right":
 				rotation_index = (rotation_index + 1) % 4
 		active_piece = piece_type[rotation_index]
-		draw_piece(active_piece, current_loc)
 
+		draw_piece(active_piece, current_loc)
+	draw_ghost()  # Update ghost piece after rotation
+	
 func can_rotate(dir):
 	var current_positions = []
 	for square in active_piece:
@@ -123,14 +131,17 @@ func can_rotate(dir):
 	return cr
 
 func move_piece(dir):
+	
 	if can_move(dir):
 		clear_piece()
 		current_loc += convert_vec2_vec3(dir)
+		draw_ghost()
 		draw_piece(active_piece, current_loc)
+		
 	elif dir == Vector2i.DOWN:
-		land_piece()
-		create_piece()
 
+		create_piece()
+		ghost_positions = []
 	
 func can_move(dir):
 
@@ -148,15 +159,8 @@ func can_move(dir):
 			break
 	return cm
 	
-func land_piece():
-	#remove each segment from the active layer and move to board layer
-
-	for i in active_piece:
-		set_cell_item(convert_vec2_vec3(i) + current_loc, -1)
-		set_cell_item(convert_vec2_vec3(i) + current_loc, piece_color)	
-
-func is_free(pos):
-	return get_cell_item(pos) == -1
+func is_free(pos : Vector3i):
+	return get_cell_item(pos) == -1 or get_cell_item(pos) == 8
 
 func show_piece(piece, color):
 	
@@ -167,3 +171,42 @@ func show_piece(piece, color):
 	for i in piece:
 		set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), color)
 		current_shown.append(i)
+
+func hard_drop():
+	while can_move(directions[2]):
+		move_piece(directions[2])
+	create_piece()
+	ghost_positions = []
+
+func draw_ghost():
+	var min_drop_distance = 9999  # Start with a large number
+	for square in active_piece:
+		var drop_distance = 0
+		var ghost_pos = convert_vec2_vec3(square) + current_loc
+		# Find how far down this part of the piece can go
+		while is_free(ghost_pos + Vector3i(0, -1, 0)):
+			ghost_pos += Vector3i(0, -1, 0)
+			drop_distance += 1
+		# Update the minimum drop distance for the whole piece
+		if drop_distance < min_drop_distance:
+			min_drop_distance = drop_distance
+	
+	# Now, apply the minimum drop distance to calculate ghost positions for the whole piece
+	for i in ghost_positions:
+		set_cell_item(i, -1)
+	print(ghost_positions)
+	ghost_positions = []
+	for square in active_piece:
+		var ghost_pos = convert_vec2_vec3(square) + current_loc + Vector3i(0, -min_drop_distance, 0)
+		ghost_positions.append(ghost_pos)
+	
+	# Clear previous ghost positions if necessary
+	# This step depends on how you manage ghost pieces in your grid
+	# You might need to keep track of the last ghost positions and clear them before drawing new ones
+	
+	# Draw the ghost piece at the calculated positions
+	for pos in ghost_positions:
+		set_cell_item(pos, 8)  # Assuming 8 is the ID for the ghost piece
+
+		
+		
