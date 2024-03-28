@@ -4,7 +4,7 @@ extends GridMap
 const ROWS := 20
 const COLS := 10
 
-const SPAWN = Vector3i(-1, 8, 0)
+const SPAWN = Vector3i(-1, 13, 0)
 
 const TRANSPARENT_PIECES = [-1, 8]
 
@@ -37,7 +37,7 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 func _ready():
 	new_game()
 	
-func _physics_process(_delta):
+func _process(_delta):
 	if Input.is_action_pressed("left"):
 		steps[0] += 10
 	if Input.is_action_pressed("right"):
@@ -96,10 +96,11 @@ func clear_piece():
 		set_cell_item(convert_vec2_vec3(i) + current_loc, -1)
 
 func draw_piece(piece, pos):
+	draw_top()
+	handle_ghost()
 	for i in piece:
 		set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
-	handle_ghost()
-
+	
 func rotate_piece(dir):
 
 	if can_rotate(dir):
@@ -145,25 +146,25 @@ func move_piece(dir):
 		create_piece()
 
 func can_move(dir):
-
-	# Collect current positions of the active piece
-	var current_positions = []
-	for square in active_piece:
-		current_positions.append(convert_vec2_vec3(square) + current_loc)
 	
 	# Check if the entire piece can move in the specified direction
 	var cm = true
 	for square in active_piece:
 		var next_pos = convert_vec2_vec3(square) + current_loc + convert_vec2_vec3(dir)
-		if not is_free(next_pos) and next_pos not in current_positions:
+		if not is_free(next_pos, true):
 			cm = false
 			break
 	return cm
 	
-func is_free(pos : Vector3i):
+func is_free(pos : Vector3i, exclude_active_piece: bool = false) -> bool:
+	if exclude_active_piece:
+		for block_pos in active_piece:
+			if convert_vec2_vec3(block_pos) + current_loc == pos:
+				return true  # Treat as free if it's part of the active piece
 	for i in TRANSPARENT_PIECES:
 		if get_cell_item(pos) == i:
 			return true
+	return false
 
 func show_piece(piece, color):
 	
@@ -195,14 +196,14 @@ func find_ghost_positions() -> int:
 		var drop_distance = 0
 		var ghost_pos = convert_vec2_vec3(i) + current_loc
 
-		while is_free(ghost_pos + Vector3i(0, -1, 0)):
+		while is_free(ghost_pos + Vector3i(0, -1, 0), true):
 			ghost_pos += Vector3i(0, -1, 0)
 			drop_distance += 1
 
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
 
-	print(min_drop_distance)
+
 	return min_drop_distance
 
 func draw_ghost(dist : int):
@@ -218,3 +219,6 @@ func clear_ghost():
 			set_cell_item(i, -1)
 	ghost_positions = []
 		
+func draw_top():
+	for i in COLS:
+		set_cell_item(Vector3i(i -5, 10, 0), 8)
