@@ -1,15 +1,17 @@
+class_name Tetris
 extends GridMap
+
+@onready var gameover = $"../UI/Gameover"
 
 #grid consts
 const ROWS := 20
 const COLS := 10
-
 const SPAWN = Vector3i(-1, 13, 0)
 const TRANSPARENT_PIECES = [-1, 8]
 
 #game piece vars
 var piece_type
-var next_piece_type #TODO: make the next pieces an array of pieces
+var next_pieces : Array
 var next_piece_color
 var rotation_index : int = 0
 var active_piece : Array
@@ -19,7 +21,8 @@ var ghost_positions : Array
 #grid vars
 var cube_id : int = 0
 var piece_color : int
-var current_shown = []
+var current_shown_pieces = []
+var next_piece_count := 5
 
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
@@ -65,8 +68,11 @@ func _process(_delta):
 func new_game():
 	speed = 1.0
 	steps = [0, 0, 0]
-	next_piece_type = pick_piece()
-	next_piece_color = SRS.shapes.find(next_piece_type)
+	gameover.hide()
+	#next_piece_type = pick_piece()
+	#next_piece_color = SRS.shapes.find(next_piece_type)
+	for i in next_piece_count:
+		next_pieces.append(pick_piece())
 	create_piece()
 	
 #handles the bag and chooses a piece from it
@@ -81,6 +87,34 @@ func pick_piece():
 		piece = bag.pop_front()
 	return piece
 
+#handles next pieces
+func next_piece():
+	next_pieces.pop_front()
+	next_pieces.append(pick_piece())
+	show_next_pieces(next_pieces)
+
+#clears and draws the next piece
+func show_next_pieces(pieces: Array):
+	for cell in current_shown_pieces:
+		set_cell_item(cell, -1)
+	var vertical_offset = 0  # Initialize the vertical offset
+	for piece in pieces:
+		for pos in piece[0]:  # Assuming 'piece' is an Array of Vector2i or similar
+			# Convert each 2D position to 3D, adding the base position (Vector3i(8, 4, 0)) 
+			# and adjusting the y-coordinate by the current vertical_offset
+			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 8 - vertical_offset, 0)
+			current_shown_pieces.append(cell_position)
+			set_cell_item(cell_position, SRS.shapes.find(piece))  # Assuming '1' is the ID for the piece
+		vertical_offset += 4  # Increase the vertical_offset for the next piece
+	
+	#for i in current_shown:
+		#set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), -1)
+
+	#current_shown = []
+	#for i in piece:
+		#set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), color)
+		#current_shown.append(i)
+
 #handles new piece creation
 func create_piece():
 	check_rows()
@@ -88,16 +122,18 @@ func create_piece():
 	current_loc = SPAWN
 	rotation_index = 0
 
+	piece_type = next_pieces[0]
+	piece_color = SRS.shapes.find(piece_type)
+	#next_piece_type = pick_piece()
+	#next_piece_color = SRS.shapes.find(next_piece_type)
+	next_piece()
 	
-	piece_type = next_piece_type
-	piece_color = next_piece_color
-	next_piece_type = pick_piece()
-	next_piece_color = SRS.shapes.find(next_piece_type)
 	active_piece = piece_type[rotation_index]
+	
 
 	draw_piece(active_piece, SPAWN)
-	show_piece(next_piece_type[0], next_piece_color)
-	
+	#show_piece(next_piece_type[0], next_piece_color)
+
 #clears the drawn piece to avoid ghosting
 func clear_piece():
 	for i in active_piece:
@@ -179,17 +215,6 @@ func is_free(pos : Vector3i, exclude_active_piece: bool = false) -> bool:
 		if get_cell_item(pos) == i:
 			return true
 	return false
-
-#clears and draws the next piece
-func show_piece(piece, color):
-	
-	for i in current_shown:
-		set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), -1)
-
-	current_shown = []
-	for i in piece:
-		set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), color)
-		current_shown.append(i)
 
 #hard drops the piece
 func hard_drop():
@@ -286,3 +311,14 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 					# Clear the cell above since its piece has been moved down
 					set_cell_item(cell_above, -1)
 
+#how do i get 3d buttons to work
+func _on_button_input_event(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
+			new_game()
+
+#clears the board
+func clear_board():
+	for i in range(ROWS):
+		for j in range(COLS):
+			set_cell_item(Vector3i(j + 1, i + 1, 0), -1)

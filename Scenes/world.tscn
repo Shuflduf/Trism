@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=10 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -16,6 +16,12 @@ background_mode = 2
 sky = SubResource("Sky_kgqvc")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
+size = Vector3(15, 4, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1xdhy"]
+albedo_color = Color(0.172549, 0.172549, 0.172549, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -44,7 +50,7 @@ visible = false
 [node name="UI" type="Node3D" parent="."]
 
 [node name="Label3D" type="Label3D" parent="UI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 20, 0)
 text = "woohoo tetris"
 font_size = 587
 outline_size = 0
@@ -53,3 +59,30 @@ outline_size = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 8, 0)
 visible = false
 size = Vector3(10, 6, 1)
+
+[node name="Gameover" type="Node3D" parent="UI"]
+
+[node name="YouLose" type="Label3D" parent="UI/Gameover"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 4)
+text = "YOU LOSE"
+font_size = 2117
+outline_size = 0
+
+[node name="Restart" type="Label3D" parent="UI/Gameover"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 4)
+text = "Restart?"
+font_size = 717
+outline_size = 0
+
+[node name="Button" type="Area3D" parent="UI/Gameover"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UI/Gameover/Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 2)
+shape = SubResource("BoxShape3D_lvr7f")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="UI/Gameover/Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 2)
+size = Vector3(15, 4, 3)
+material = SubResource("StandardMaterial3D_1xdhy")
+
+[connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
