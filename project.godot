@@ -14,7 +14,7 @@ config/name="Fourtris"
 run/main_scene="res://Scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 run/max_fps=60
-config/icon="res://icon.svg"
+config/icon="res://Assets/fourtris_logo.png"
 
 [autoload]
 

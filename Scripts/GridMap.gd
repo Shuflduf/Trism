@@ -2,6 +2,7 @@ class_name Tetris
 extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
+@onready var placement_delay_timer = $"../placementDelayTimer"
 
 #grid consts
 const ROWS := 20
@@ -18,6 +19,8 @@ var active_piece : Array
 var current_loc
 var ghost_positions : Array
 
+var lost = false
+
 #grid vars
 var cube_id : int = 0
 var piece_color : int
@@ -29,7 +32,7 @@ const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps : Array
 const steps_req : int = 50
 var speed : float
-const ACCEL : float = 0.25
+const ACCEL : float = 0.05
 
 var bag = SRS.shapes.duplicate()
 
@@ -40,7 +43,10 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 #handles initial game run
 func _ready():
 	new_game()
-
+	for i in next_piece_count:
+		next_pieces.append(pick_piece())
+	create_piece()
+	
 #handles what happens every frame
 #TODO: make it work with any framerate
 func _process(_delta):
@@ -66,14 +72,12 @@ func _process(_delta):
 	
 #handles everything when starting a new game
 func new_game():
+	clear_board()
+	draw_top()
 	speed = 1.0
 	steps = [0, 0, 0]
 	gameover.hide()
-	#next_piece_type = pick_piece()
-	#next_piece_color = SRS.shapes.find(next_piece_type)
-	for i in next_piece_count:
-		next_pieces.append(pick_piece())
-	create_piece()
+	lost = false
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -121,18 +125,15 @@ func create_piece():
 	steps = [0, 0, 0]
 	current_loc = SPAWN
 	rotation_index = 0
-
-	piece_type = next_pieces[0]
-	piece_color = SRS.shapes.find(piece_type)
-	#next_piece_type = pick_piece()
-	#next_piece_color = SRS.shapes.find(next_piece_type)
-	next_piece()
+	detect_lost()
 	
-	active_piece = piece_type[rotation_index]
+	if !lost:
+		piece_type = next_pieces[0]
+		piece_color = SRS.shapes.find(piece_type)
+		next_piece()
 	
-
-	draw_piece(active_piece, SPAWN)
-	#show_piece(next_piece_type[0], next_piece_color)
+		active_piece = piece_type[rotation_index]
+		draw_piece(active_piece, SPAWN)
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -162,10 +163,6 @@ func rotate_piece(dir):
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(dir):
-	var current_positions = []
-	for square in active_piece:
-		current_positions.append(convert_vec2_vec3(square) + current_loc)
-
 	var cr = true
 	var temp_rotation_index
 	match dir:
@@ -175,7 +172,7 @@ func can_rotate(dir):
 			temp_rotation_index = (rotation_index + 1) % 4
 	for i in piece_type[temp_rotation_index]:
 		var next_pos = convert_vec2_vec3(i) + current_loc
-		if not is_free(next_pos) and next_pos not in current_positions:
+		if not is_free(next_pos, true):
 			cr = false
 			break
 	return cr
@@ -186,12 +183,10 @@ func move_piece(dir):
 	if can_move(dir):
 		clear_piece()
 		current_loc += convert_vec2_vec3(dir)
-
 		draw_piece(active_piece, current_loc)
 		
 	elif dir == Vector2i.DOWN:
-
-		create_piece()
+		placement_delay_timer.start()  # Start the timer instead of immediately placing the piece
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
@@ -267,58 +262,78 @@ func clear_ghost():
 #draws that little transparent bar at the top
 func draw_top():
 	for i in COLS:
-		set_cell_item(Vector3i(i -5, 10, 0), 8)
+		if is_free(Vector3i(i -5, 10, 0)):
+			set_cell_item(Vector3i(i -5, 10, 0), 8)
 
 #checks if any rows are full
 func check_rows():
-	var rows_to_clear = []
-	for y in range(ROWS):
-		var row_full = true
-		for x in range(COLS):
-			var cell = Vector3i(x - COLS / 2, -y, 0)  # Adjusting x to center and y to match grid orientation
 
-			if is_free(cell):
-				row_full = false
-				break
-		if row_full and y != 11:
-			rows_to_clear.append(y)
+	var rows_to_clear = []  # This will hold the indices of the rows that are full and need to be cleared.
+	
+	for row in range(-ROWS, 10):  # Assuming the grid's y-coordinates go from -ROWS to 0.
+		var is_row_full = true  # Assume the row is full until proven otherwise.
+		
+		for col in range(-COLS/2, COLS/2):  # Adjust according to your grid's coordinate system.
+			if is_free(Vector3i(col, row, 0)):  # Check if the cell is empty or contains a transparent piece.
+				is_row_full = false  # The row is not full since we found an empty cell.
+				break  # No need to check the rest of the row.
+		
+		if is_row_full and row != -11:
+			rows_to_clear.append(row)  # Store the row index (make sure to adjust according to your coordinate system).
 	
 	if rows_to_clear.size() > 0:
-		move_down_rows(rows_to_clear)
+		move_down_rows(rows_to_clear)  # Call a function to clear the rows and move down the rows above them.
 
 #clears rows and moves pieces above it down
 func move_down_rows(cleared_rows_indices: Array) -> void:
-	# Sort the cleared_rows_indices in descending order to ensure we clear from bottom to top
-	cleared_rows_indices.sort()
+	cleared_rows_indices.sort() # Ensure the rows are in ascending order
 
+	# Clear the rows
+	for row in cleared_rows_indices:
+		@warning_ignore("integer_division")
+		for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
+			set_cell_item(Vector3i(col, row, 0), -1) # Assuming -1 represents an empty cell
 
-	for row_index in cleared_rows_indices:
-		# Clear the row
-		for x in range(COLS):
-			var cell_to_clear = Vector3i(x - COLS / 2, -row_index, 0)  # Adjusting x to center and y to match grid orientation
-			set_cell_item(cell_to_clear, -1)  # Assuming -1 is the ID for an empty cell
+	# Move pieces down
+	for row in range(cleared_rows_indices[0] + 1, 10): # Start from the lowest cleared row
+		var rows_to_move_down = 0
+		for cleared_row in cleared_rows_indices:
+			if row > cleared_row:
+				rows_to_move_down += 1
+			else:
+				break # No need to check further if the current row is below the cleared row
 
-		# Move down all pieces above the cleared row
-		for y in range(row_index - 1, -1, -1):  # Start from the row just above the cleared row and go up
-			for x in range(COLS):
-				var cell_above = Vector3i(x - COLS / 2, -y, 0)
-				var cell_below = Vector3i(x - COLS / 2, -(y + 1), 0)  # The cell directly below the current cell
-
-				var item_above = get_cell_item(cell_above)
-				if item_above != -1:  # If the cell above is not empty
-					# Move the piece down by setting the cell below to the item above
-					set_cell_item(cell_below, item_above)
-					# Clear the cell above since its piece has been moved down
-					set_cell_item(cell_above, -1)
+		if rows_to_move_down > 0:
+			for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
+				var item_col = get_cell_item(Vector3i(col, row, 0))
+				if item_col != -1: # Check if it's not an empty cell
+					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col) # Move item down
+					set_cell_item(Vector3i(col, row, 0), -1) # Clear the original cell
+		speed += ACCEL
 
 #how do i get 3d buttons to work
-func _on_button_input_event(event):
+func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
-			new_game()
-
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
+				new_game()
+	
 #clears the board
 func clear_board():
-	for i in range(ROWS):
-		for j in range(COLS):
-			set_cell_item(Vector3i(j + 1, i + 1, 0), -1)
+	for y in range(-10, 20):  # Assuming the board's height starts from -ROWS to just below 0
+		for x in range(-COLS/2, COLS/2):  # Assuming the board's depth is centered around 0
+			set_cell_item(Vector3i(x, y, 0), -1)  # Set each cell to -1, indicating an empty state
+
+#detects if you lost the game
+func detect_lost():
+	for x in range(-COLS/2 , COLS/2 ):  # Adjust according to your grid's coordinate system
+		if !is_free(Vector3i(x, 11, 0), true):
+			game_lost()
+			
+#handles losing
+func game_lost():
+	gameover.visible = true
+	lost = true
+
+#gives the piece a bit of delay before placing
+func _on_placement_delay_timer_timeout():
+	create_piece()
