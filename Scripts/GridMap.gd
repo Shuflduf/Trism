@@ -261,12 +261,14 @@ func clear_ghost():
 		if get_cell_item(i) == 8:
 			set_cell_item(i, -1)
 	ghost_positions = []
-	
+
+
 func hold_piece():
-	held_piece = active_piece
-	if held_piece != []:
-		clear_piece()
-		create_piece()
+	pass
+	#held_piece = active_piece
+	#if held_piece != []:
+		#clear_piece()
+		#create_piece()
 	
 #draws that little transparent bar at the top
 func draw_top():
