@@ -18,6 +18,7 @@ var rotation_index : int = 0
 var active_piece : Array
 var current_loc
 var ghost_positions : Array
+var held_piece := []
 
 var lost = false
 
@@ -32,7 +33,7 @@ const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps : Array
 const steps_req : int = 50
 var speed : float
-const ACCEL : float = 0.05
+const ACCEL : float = 0.01
 
 var bag = SRS.shapes.duplicate()
 
@@ -58,6 +59,8 @@ func _process(_delta):
 		steps[2] += 10
 	if Input.is_action_just_pressed("hard"):
 		hard_drop()
+	if Input.is_action_just_pressed("hold"):
+		hold_piece()
 	if Input.is_action_just_pressed("rot_left"):
 		rotate_piece("left")
 	if Input.is_action_just_pressed("rot_right"):
@@ -186,7 +189,7 @@ func move_piece(dir):
 		draw_piece(active_piece, current_loc)
 		
 	elif dir == Vector2i.DOWN:
-		placement_delay_timer.start()  # Start the timer instead of immediately placing the piece
+		create_piece()
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
@@ -258,7 +261,13 @@ func clear_ghost():
 		if get_cell_item(i) == 8:
 			set_cell_item(i, -1)
 	ghost_positions = []
-		
+	
+func hold_piece():
+	held_piece = active_piece
+	if held_piece != []:
+		clear_piece()
+		create_piece()
+	
 #draws that little transparent bar at the top
 func draw_top():
 	for i in COLS:
@@ -273,6 +282,7 @@ func check_rows():
 	for row in range(-ROWS, 10):  # Assuming the grid's y-coordinates go from -ROWS to 0.
 		var is_row_full = true  # Assume the row is full until proven otherwise.
 		
+		@warning_ignore("integer_division", "integer_division", "integer_division")
 		for col in range(-COLS/2, COLS/2):  # Adjust according to your grid's coordinate system.
 			if is_free(Vector3i(col, row, 0)):  # Check if the cell is empty or contains a transparent piece.
 				is_row_full = false  # The row is not full since we found an empty cell.
@@ -290,12 +300,12 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 
 	# Clear the rows
 	for row in cleared_rows_indices:
-		@warning_ignore("integer_division")
+		@warning_ignore("integer_division", "integer_division", "integer_division")
 		for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
 			set_cell_item(Vector3i(col, row, 0), -1) # Assuming -1 represents an empty cell
 
 	# Move pieces down
-	for row in range(cleared_rows_indices[0] + 1, 10): # Start from the lowest cleared row
+	for row in range(cleared_rows_indices[0] + 1, 11): # Start from the lowest cleared row
 		var rows_to_move_down = 0
 		for cleared_row in cleared_rows_indices:
 			if row > cleared_row:
@@ -304,14 +314,15 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				break # No need to check further if the current row is below the cleared row
 
 		if rows_to_move_down > 0:
+			@warning_ignore("integer_division")
 			for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
 				var item_col = get_cell_item(Vector3i(col, row, 0))
-				if item_col != -1: # Check if it's not an empty cell
+				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col) # Move item down
 					set_cell_item(Vector3i(col, row, 0), -1) # Clear the original cell
 		speed += ACCEL
 
-#how do i get 3d buttons to work
+#how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
@@ -320,11 +331,13 @@ func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 #clears the board
 func clear_board():
 	for y in range(-10, 20):  # Assuming the board's height starts from -ROWS to just below 0
+		@warning_ignore("integer_division", "integer_division")
 		for x in range(-COLS/2, COLS/2):  # Assuming the board's depth is centered around 0
 			set_cell_item(Vector3i(x, y, 0), -1)  # Set each cell to -1, indicating an empty state
 
 #detects if you lost the game
 func detect_lost():
+	@warning_ignore("integer_division")
 	for x in range(-COLS/2 , COLS/2 ):  # Adjust according to your grid's coordinate system
 		if !is_free(Vector3i(x, 11, 0), true):
 			game_lost()
@@ -334,6 +347,3 @@ func game_lost():
 	gameover.visible = true
 	lost = true
 
-#gives the piece a bit of delay before placing
-func _on_placement_delay_timer_timeout():
-	create_piece()
