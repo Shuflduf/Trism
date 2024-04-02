@@ -2,7 +2,6 @@ class_name Tetris
 extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
-@onready var placement_delay_timer = $"../placementDelayTimer"
 
 #grid consts
 const ROWS := 20
@@ -14,6 +13,7 @@ const TRANSPARENT_PIECES = [-1, 8]
 var piece_type
 var next_pieces : Array
 var next_piece_color
+var current_held_piece : Array
 var rotation_index : int = 0
 var active_piece : Array
 var current_loc
@@ -43,6 +43,7 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 
 #handles initial game run
 func _ready():
+	randomize()
 	new_game()
 	for i in next_piece_count:
 		next_pieces.append(pick_piece())
@@ -81,6 +82,7 @@ func new_game():
 	steps = [0, 0, 0]
 	gameover.hide()
 	lost = false
+	held_piece = []
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -261,15 +263,51 @@ func clear_ghost():
 		if get_cell_item(i) == 8:
 			set_cell_item(i, -1)
 	ghost_positions = []
-	
+
+#handles everything related to holding pieces
 func hold_piece():
-	held_piece = active_piece
-	if held_piece != []:
+	var temp_color = piece_color
+	# Check if the player has already held a piece during this turn
+	if held_piece == []:
+		# Store the current piece as the held piece
+		held_piece = piece_type
+		# Clear the current piece from the board
 		clear_piece()
+		# Generate a new piece for the player
+		next_piece()
 		create_piece()
-	
+	else:
+		# Swap the current piece with the held piece
+		clear_piece()
+		
+		var temp_piece = piece_type
+		piece_type = held_piece
+		held_piece = temp_piece
+		# Reset the piece's position and rotation
+		current_loc = SPAWN
+		rotation_index = 0
+		
+		active_piece = piece_type[rotation_index]
+		piece_color = SRS.shapes.find(piece_type)
+		# Clear the current piece's position on the board and redraw
+		
+		draw_piece(active_piece, current_loc)
+
+	show_held_piece(held_piece, temp_color)
+		
+#shows the active held piece
+func show_held_piece(piece : Array, color):
+	for i in current_held_piece:
+		set_cell_item(i, -1)
+	current_held_piece = []
+	for i in piece[0]:
+		var piece_pos = convert_vec2_vec3(i + Vector2i(-11, -8))
+		set_cell_item(piece_pos, color)
+		current_held_piece.append(piece_pos)
+		
 #draws that little transparent bar at the top
 func draw_top():
+	
 	for i in COLS:
 		if is_free(Vector3i(i -5, 10, 0)):
 			set_cell_item(Vector3i(i -5, 10, 0), 8)
@@ -282,14 +320,14 @@ func check_rows():
 	for row in range(-ROWS, 10):  # Assuming the grid's y-coordinates go from -ROWS to 0.
 		var is_row_full = true  # Assume the row is full until proven otherwise.
 		
-		@warning_ignore("integer_division", "integer_division", "integer_division")
+		@warning_ignore("integer_division", "integer_division")
 		for col in range(-COLS/2, COLS/2):  # Adjust according to your grid's coordinate system.
 			if is_free(Vector3i(col, row, 0)):  # Check if the cell is empty or contains a transparent piece.
 				is_row_full = false  # The row is not full since we found an empty cell.
 				break  # No need to check the rest of the row.
 		
 		if is_row_full and row != -11:
-			rows_to_clear.append(row)  # Store the row index (make sure to adjust according to your coordinate system).
+			rows_to_clear.append(row)  # Store the row index
 	
 	if rows_to_clear.size() > 0:
 		move_down_rows(rows_to_clear)  # Call a function to clear the rows and move down the rows above them.
