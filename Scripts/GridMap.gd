@@ -13,6 +13,7 @@ const TRANSPARENT_PIECES = [-1, 8]
 var piece_type
 var next_pieces : Array
 var next_piece_color
+var can_hold = true
 var current_held_piece : Array
 var rotation_index : int = 0
 var active_piece : Array
@@ -133,6 +134,8 @@ func create_piece():
 	detect_lost()
 	
 	if !lost:
+		can_hold = true
+		
 		piece_type = next_pieces[0]
 		piece_color = SRS.shapes.find(piece_type)
 		next_piece()
@@ -267,34 +270,37 @@ func clear_ghost():
 #handles everything related to holding pieces
 func hold_piece():
 	var temp_color = piece_color
+	if can_hold:
 	# Check if the player has already held a piece during this turn
-	if held_piece == []:
-		# Store the current piece as the held piece
-		held_piece = piece_type
-		# Clear the current piece from the board
-		clear_piece()
-		# Generate a new piece for the player
-		next_piece()
-		create_piece()
-	else:
-		# Swap the current piece with the held piece
-		clear_piece()
-		
-		var temp_piece = piece_type
-		piece_type = held_piece
-		held_piece = temp_piece
-		# Reset the piece's position and rotation
-		current_loc = SPAWN
-		rotation_index = 0
-		
-		active_piece = piece_type[rotation_index]
-		piece_color = SRS.shapes.find(piece_type)
-		# Clear the current piece's position on the board and redraw
-		
-		draw_piece(active_piece, current_loc)
+		if held_piece == []:
+			# Store the current piece as the held piece
+			held_piece = piece_type
+			# Clear the current piece from the board
+			clear_piece()
+			# Generate a new piece for the player
+			next_piece()
+			create_piece()
+		else:
+			# Swap the current piece with the held piece
+			clear_piece()
+			
+			var temp_piece = piece_type
+			piece_type = held_piece
+			held_piece = temp_piece
+			# Reset the piece's position and rotation
+			current_loc = SPAWN
+			rotation_index = 0
+			
+			active_piece = piece_type[rotation_index]
+			piece_color = SRS.shapes.find(piece_type)
+			# Clear the current piece's position on the board and redraw
+			
+			draw_piece(active_piece, current_loc)
 
-	show_held_piece(held_piece, temp_color)
-		
+		show_held_piece(held_piece, temp_color)
+	else:
+		show_held_piece(held_piece, -1)
+	can_hold = false
 #shows the active held piece
 func show_held_piece(piece : Array, color):
 	for i in current_held_piece:
