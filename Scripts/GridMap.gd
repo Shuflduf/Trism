@@ -269,6 +269,7 @@ func clear_ghost():
 
 #handles everything related to holding pieces
 func hold_piece():
+	
 	var temp_color = piece_color
 	if can_hold:
 	# Check if the player has already held a piece during this turn
@@ -301,6 +302,7 @@ func hold_piece():
 	else:
 		show_held_piece(held_piece, -1)
 	can_hold = false
+
 #shows the active held piece
 func show_held_piece(piece : Array, color):
 	for i in current_held_piece:
