@@ -79,10 +79,12 @@ func _process(_delta):
 func new_game():
 	clear_board()
 	draw_top()
+	shuffle_bag()
 	speed = 1.0
 	steps = [0, 0, 0]
 	gameover.hide()
 	lost = false
+	clear_held_piece()
 	held_piece = []
 	
 #handles the bag and chooses a piece from it
@@ -96,6 +98,11 @@ func pick_piece():
 		bag.shuffle()
 		piece = bag.pop_front()
 	return piece
+
+func shuffle_bag():
+	bag = SRS.shapes.duplicate()
+	bag.shuffle()
+	show_next_pieces(next_pieces)
 
 #handles next pieces
 func next_piece():
@@ -269,7 +276,7 @@ func clear_ghost():
 
 #handles everything related to holding pieces
 func hold_piece():
-	
+	clear_held_piece()
 	var temp_color = piece_color
 	if can_hold:
 	# Check if the player has already held a piece during this turn
@@ -279,7 +286,7 @@ func hold_piece():
 			# Clear the current piece from the board
 			clear_piece()
 			# Generate a new piece for the player
-			next_piece()
+			#next_piece()
 			create_piece()
 		else:
 			# Swap the current piece with the held piece
@@ -305,13 +312,15 @@ func hold_piece():
 
 #shows the active held piece
 func show_held_piece(piece : Array, color):
-	for i in current_held_piece:
-		set_cell_item(i, -1)
-	current_held_piece = []
 	for i in piece[0]:
 		var piece_pos = convert_vec2_vec3(i + Vector2i(-11, -8))
 		set_cell_item(piece_pos, color)
 		current_held_piece.append(piece_pos)
+	
+#clear held piece
+func clear_held_piece():
+	for i in current_held_piece:
+		set_cell_item(i, -1)
 		
 #draws that little transparent bar at the top
 func draw_top():
