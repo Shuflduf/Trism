@@ -46,9 +46,6 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 func _ready():
 	randomize()
 	new_game()
-	for i in next_piece_count:
-		next_pieces.append(pick_piece())
-	create_piece()
 	
 #handles what happens every frame
 #TODO: make it work with any framerate
@@ -86,6 +83,7 @@ func new_game():
 	lost = false
 	clear_held_piece()
 	held_piece = []
+	create_piece()
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -102,8 +100,9 @@ func pick_piece():
 #shuffles the bag
 func shuffle_bag():
 	bag = SRS.shapes.duplicate()
-	bag.shuffle()
-	show_next_pieces(next_pieces)
+	next_pieces = []
+	for i in next_piece_count:
+		next_pieces.append(pick_piece())
 
 #handles next pieces
 func next_piece():
@@ -247,7 +246,6 @@ func find_ghost_positions() -> int:
 
 #draws the ghost piece
 func draw_ghost(dist : int):
-	
 	for i in active_piece:
 		var ghost_pos = convert_vec2_vec3(i) + current_loc + Vector3i(0, -dist, 0)
 		ghost_positions.append(ghost_pos)
