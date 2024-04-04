@@ -3,6 +3,7 @@ extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
+@onready var pause_menu = %PauseMenu
 
 #grid consts
 const ROWS := 20
@@ -12,6 +13,7 @@ const TRANSPARENT_PIECES = [-1, 8]
 
 #game state vars
 var lost = false
+var paused = false
 var can_hold = true
 
 #game piece vars
@@ -48,6 +50,7 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 
 #handles initial game run
 func _ready():
+	animation_player.assigned_animation = "countdown"
 	lost = true
 	randomize()
 	await SceneManager.transitioned_out
@@ -55,7 +58,9 @@ func _ready():
 	
 #handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
-	if !lost:
+	if Input.is_action_just_pressed("pause"):
+			pause_game()
+	if !lost and !paused:
 		if Input.is_action_pressed("left"):
 			steps[0] += 10
 		if Input.is_action_pressed("right"):
@@ -389,3 +394,18 @@ func detect_lost():
 func game_lost():
 	gameover.visible = true
 	lost = true
+
+#i dont know what this does
+func pause_game():
+	if paused:
+		#code to unpause
+		if animation_player.is_playing():
+			animation_player.speed_scale = 1
+		paused = false
+		pause_menu.visible = false
+	else:
+		#code to pause
+		if animation_player.is_playing():
+			animation_player.speed_scale = 0
+		paused = true
+		pause_menu.visible = true

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d2oe8jbri624v"
-path="res://.godot/imported/fourtriscube.glb-40fae5e8351f2cabe832049487fcefd0.scn"
+uid="uid://3pugnnoo06g8"
+path="res://.godot/imported/game board.glb-44ec74d3b30ab93cee2f24b4f4e61315.scn"
 
 [deps]
 
-source_file="res://Assets/fourtriscube.glb"
-dest_files=["res://.godot/imported/fourtriscube.glb-40fae5e8351f2cabe832049487fcefd0.scn"]
+source_file="res://Assets/game board.glb"
+dest_files=["res://.godot/imported/game board.glb-44ec74d3b30ab93cee2f24b4f4e61315.scn"]
 
 [params]
 
