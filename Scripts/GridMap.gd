@@ -87,7 +87,6 @@ func new_game():
 	held_piece = []
 	create_piece()
 	
-	
 #handles the bag and chooses a piece from it
 func pick_piece():
 	var piece
@@ -290,7 +289,6 @@ func hold_piece():
 	#else:
 		#show_held_piece(held_piece, 8)
 	
-
 #shows the active held piece
 func show_held_piece(piece : Array, color):
 	if piece != []:
@@ -362,8 +360,9 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
-				new_game()
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
+			new_game()
+
 	
 #clears the board
 func clear_board():
@@ -383,4 +382,3 @@ func detect_lost():
 func game_lost():
 	gameover.visible = true
 	lost = true
-

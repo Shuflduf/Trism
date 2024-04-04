@@ -28,14 +28,8 @@ func transition_to(scene: String) -> void:
 	root.get_child(root.get_child_count() - 1).free()
 	root.add_child(new_scene)
 
-	#new_scene.load_scene()
-	#await new_scene.loaded
-
 	transition_out()
 	await transitioned_out
-
-	#new_scene.activate()
-
 
 func _on_animation_player_animation_finished(anim_name: String) -> void:
 	if anim_name == "in":

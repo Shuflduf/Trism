@@ -19,7 +19,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
-size = Vector3(21, 6, 4)
+size = Vector3(21, 6, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fapqn"]
 albedo_color = Color(0.00392157, 0.00392157, 0.00392157, 1)
@@ -68,11 +68,6 @@ font_size = 1200
 outline_size = 127
 uppercase = true
 
-[node name="CSGBox3D" type="CSGBox3D" parent="UI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 8, 0)
-visible = false
-size = Vector3(10, 6, 1)
-
 [node name="Gameover" type="Node3D" parent="UI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
 
@@ -95,13 +90,12 @@ outline_size = 127
 uppercase = true
 
 [node name="Button" type="Area3D" parent="UI/Gameover"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 2)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="UI/Gameover/Button"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 2.5)
 shape = SubResource("BoxShape3D_lvr7f")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="UI/Gameover/Button"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 2)
 size = Vector3(21, 6, 3)
 material = SubResource("StandardMaterial3D_fapqn")
 
