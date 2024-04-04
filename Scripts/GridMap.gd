@@ -83,6 +83,7 @@ func new_game():
 	clear_board()
 	draw_top()
 	shuffle_bag()
+	show_next_pieces(next_pieces)
 	speed = 1.0
 	steps = [0, 0, 0]
 	gameover.hide()
@@ -148,6 +149,7 @@ func create_piece():
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, SPAWN)
 		show_held_piece(held_piece, held_piece_color)
+		draw_top()
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
