@@ -264,8 +264,6 @@ func clear_ghost():
 
 #handles everything related to holding pieces
 func hold_piece():
-	
-	
 	if can_hold:
 		held_piece_color = piece_color
 		clear_held_piece()
