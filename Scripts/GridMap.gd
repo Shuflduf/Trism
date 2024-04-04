@@ -2,6 +2,7 @@ class_name Tetris
 extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
+@onready var animation_player = %AnimationPlayer
 
 #grid consts
 const ROWS := 20
@@ -47,32 +48,35 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 
 #handles initial game run
 func _ready():
+	lost = true
 	randomize()
+	await SceneManager.transitioned_out
 	new_game()
 	
 #handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
-	if Input.is_action_pressed("left"):
-		steps[0] += 10
-	if Input.is_action_pressed("right"):
-		steps[1] += 10
-	if Input.is_action_pressed("soft"):
-		steps[2] += 10
-	if Input.is_action_just_pressed("hard"):
-		hard_drop()
-	if Input.is_action_just_pressed("hold"):
-		hold_piece()
-	if Input.is_action_just_pressed("rot_left"):
-		rotate_piece("left")
-	if Input.is_action_just_pressed("rot_right"):
-		rotate_piece("right")
+	if !lost:
+		if Input.is_action_pressed("left"):
+			steps[0] += 10
+		if Input.is_action_pressed("right"):
+			steps[1] += 10
+		if Input.is_action_pressed("soft"):
+			steps[2] += 10
+		if Input.is_action_just_pressed("hard"):
+			hard_drop()
+		if Input.is_action_just_pressed("hold"):
+			hold_piece()
+		if Input.is_action_just_pressed("rot_left"):
+			rotate_piece("left")
+		if Input.is_action_just_pressed("rot_right"):
+			rotate_piece("right")
+			
 		
-	
-	steps[2] += speed
-	for i in range(steps.size()):
-		if steps[i] > steps_req:
-			move_piece(directions[i])
-			steps[i] = 0
+		steps[2] += speed
+		for i in range(steps.size()):
+			if steps[i] > steps_req:
+				move_piece(directions[i])
+				steps[i] = 0
 	
 #handles everything when starting a new game
 func new_game():
@@ -82,11 +86,12 @@ func new_game():
 	speed = 1.0
 	steps = [0, 0, 0]
 	gameover.hide()
+	animation_player.play("countdown")
+	await animation_player.animation_finished
 	lost = false
 	clear_held_piece()
 	held_piece = []
 	create_piece()
-	
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -290,7 +295,6 @@ func hold_piece():
 	#else:
 		#show_held_piece(held_piece, 8)
 	
-
 #shows the active held piece
 func show_held_piece(piece : Array, color):
 	if piece != []:
@@ -362,9 +366,9 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
-				new_game()
-	
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
+			new_game()
+
 #clears the board
 func clear_board():
 	for y in range(-10, 20):
@@ -383,4 +387,3 @@ func detect_lost():
 func game_lost():
 	gameover.visible = true
 	lost = true
-
