@@ -2,13 +2,16 @@ class_name Tetris
 extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
-@onready var placement_delay_timer = $"../placementDelayTimer"
 
 #grid consts
 const ROWS := 20
 const COLS := 10
 const SPAWN = Vector3i(-1, 13, 0)
 const TRANSPARENT_PIECES = [-1, 8]
+
+#game state vars
+var lost = false
+var can_hold = true
 
 #game piece vars
 var piece_type
@@ -18,9 +21,10 @@ var rotation_index : int = 0
 var active_piece : Array
 var current_loc
 var ghost_positions : Array
-var held_piece := []
 
-var lost = false
+var held_piece := []
+var held_piece_color
+var current_held_piece : Array
 
 #grid vars
 var cube_id : int = 0
@@ -43,13 +47,10 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 
 #handles initial game run
 func _ready():
+	randomize()
 	new_game()
-	for i in next_piece_count:
-		next_pieces.append(pick_piece())
-	create_piece()
 	
-#handles what happens every frame
-#TODO: make it work with any framerate
+#handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
 	if Input.is_action_pressed("left"):
 		steps[0] += 10
@@ -77,10 +78,15 @@ func _process(_delta):
 func new_game():
 	clear_board()
 	draw_top()
+	shuffle_bag()
 	speed = 1.0
 	steps = [0, 0, 0]
 	gameover.hide()
 	lost = false
+	clear_held_piece()
+	held_piece = []
+	create_piece()
+	
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -94,6 +100,13 @@ func pick_piece():
 		piece = bag.pop_front()
 	return piece
 
+#shuffles the bag
+func shuffle_bag():
+	bag = SRS.shapes.duplicate()
+	next_pieces = []
+	for i in next_piece_count:
+		next_pieces.append(pick_piece())
+
 #handles next pieces
 func next_piece():
 	next_pieces.pop_front()
@@ -104,23 +117,13 @@ func next_piece():
 func show_next_pieces(pieces: Array):
 	for cell in current_shown_pieces:
 		set_cell_item(cell, -1)
-	var vertical_offset = 0  # Initialize the vertical offset
+	var vertical_offset = 0
 	for piece in pieces:
-		for pos in piece[0]:  # Assuming 'piece' is an Array of Vector2i or similar
-			# Convert each 2D position to 3D, adding the base position (Vector3i(8, 4, 0)) 
-			# and adjusting the y-coordinate by the current vertical_offset
+		for pos in piece[0]:
 			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 8 - vertical_offset, 0)
 			current_shown_pieces.append(cell_position)
-			set_cell_item(cell_position, SRS.shapes.find(piece))  # Assuming '1' is the ID for the piece
-		vertical_offset += 4  # Increase the vertical_offset for the next piece
-	
-	#for i in current_shown:
-		#set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), -1)
-
-	#current_shown = []
-	#for i in piece:
-		#set_cell_item(convert_vec2_vec3(i) + Vector3i(8, 4, 0), color)
-		#current_shown.append(i)
+			set_cell_item(cell_position, SRS.shapes.find(piece))
+		vertical_offset += 4
 
 #handles new piece creation
 func create_piece():
@@ -131,12 +134,15 @@ func create_piece():
 	detect_lost()
 	
 	if !lost:
+		can_hold = true
+		
 		piece_type = next_pieces[0]
 		piece_color = SRS.shapes.find(piece_type)
 		next_piece()
 	
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, SPAWN)
+		show_held_piece(held_piece, held_piece_color)
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -152,7 +158,6 @@ func draw_piece(piece, pos):
 	
 #rotates the piece
 func rotate_piece(dir):
-
 	if can_rotate(dir):
 		clear_piece() 
 		match dir:
@@ -193,8 +198,6 @@ func move_piece(dir):
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
-	
-	# Check if the entire piece can move in the specified direction
 	var cm = true
 	for square in active_piece:
 		var next_pos = convert_vec2_vec3(square) + current_loc + convert_vec2_vec3(dir)
@@ -208,7 +211,7 @@ func is_free(pos : Vector3i, exclude_active_piece: bool = false) -> bool:
 	if exclude_active_piece:
 		for block_pos in active_piece:
 			if convert_vec2_vec3(block_pos) + current_loc == pos:
-				return true  # Treat as free if it's part of the active piece
+				return true
 	for i in TRANSPARENT_PIECES:
 		if get_cell_item(pos) == i:
 			return true
@@ -230,9 +233,8 @@ func handle_ghost():
 #finds how far the ghost piece has to move down
 func find_ghost_positions() -> int:
 	ghost_positions = []
-	var min_drop_distance = 9999  # Start with a large number
+	var min_drop_distance = 9999
 
-	# First, find the minimum drop distance for the entire piece
 	for i in active_piece:
 		var drop_distance = 0
 		var ghost_pos = convert_vec2_vec3(i) + current_loc
@@ -244,12 +246,10 @@ func find_ghost_positions() -> int:
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
 
-
 	return min_drop_distance
 
 #draws the ghost piece
 func draw_ghost(dist : int):
-	
 	for i in active_piece:
 		var ghost_pos = convert_vec2_vec3(i) + current_loc + Vector3i(0, -dist, 0)
 		ghost_positions.append(ghost_pos)
@@ -262,16 +262,51 @@ func clear_ghost():
 			set_cell_item(i, -1)
 	ghost_positions = []
 
-
+#handles everything related to holding pieces
 func hold_piece():
-	pass
-	#held_piece = active_piece
-	#if held_piece != []:
-		#clear_piece()
-		#create_piece()
+	if can_hold:
+		held_piece_color = piece_color
+		clear_held_piece()
+		if held_piece == []:
+			held_piece = piece_type
+			clear_piece()
+			create_piece()
+		else:
+			clear_piece()
+			
+			var temp_piece = piece_type
+			piece_type = held_piece
+			held_piece = temp_piece
+			current_loc = SPAWN
+			rotation_index = 0
+			
+			active_piece = piece_type[rotation_index]
+			piece_color = SRS.shapes.find(piece_type)
+			
+			draw_piece(active_piece, current_loc)
+
+		show_held_piece(held_piece, 8)
+		can_hold = false
+	#else:
+		#show_held_piece(held_piece, 8)
 	
+
+#shows the active held piece
+func show_held_piece(piece : Array, color):
+	if piece != []:
+		for i in piece[0]:
+			var piece_pos = convert_vec2_vec3(i + Vector2i(-11, -8))
+			set_cell_item(piece_pos, color)
+			current_held_piece.append(piece_pos)
+	
+#clear held piece
+func clear_held_piece():
+	for i in current_held_piece:
+		set_cell_item(i, -1)
+		
 #draws that little transparent bar at the top
 func draw_top():
+	
 	for i in COLS:
 		if is_free(Vector3i(i -5, 10, 0)):
 			set_cell_item(Vector3i(i -5, 10, 0), 8)
@@ -279,49 +314,49 @@ func draw_top():
 #checks if any rows are full
 func check_rows():
 
-	var rows_to_clear = []  # This will hold the indices of the rows that are full and need to be cleared.
+	var rows_to_clear = []
 	
-	for row in range(-ROWS, 10):  # Assuming the grid's y-coordinates go from -ROWS to 0.
-		var is_row_full = true  # Assume the row is full until proven otherwise.
+	for row in range(-ROWS, 10):
+		var is_row_full = true
 		
-		@warning_ignore("integer_division", "integer_division", "integer_division")
-		for col in range(-COLS/2, COLS/2):  # Adjust according to your grid's coordinate system.
-			if is_free(Vector3i(col, row, 0)):  # Check if the cell is empty or contains a transparent piece.
-				is_row_full = false  # The row is not full since we found an empty cell.
-				break  # No need to check the rest of the row.
+		@warning_ignore("integer_division", "integer_division")
+		for col in range(-COLS/2, COLS/2):
+			if is_free(Vector3i(col, row, 0)):
+				is_row_full = false
+				break
 		
 		if is_row_full and row != -11:
-			rows_to_clear.append(row)  # Store the row index (make sure to adjust according to your coordinate system).
+			rows_to_clear.append(row)
 	
 	if rows_to_clear.size() > 0:
-		move_down_rows(rows_to_clear)  # Call a function to clear the rows and move down the rows above them.
+		move_down_rows(rows_to_clear)
 
 #clears rows and moves pieces above it down
 func move_down_rows(cleared_rows_indices: Array) -> void:
-	cleared_rows_indices.sort() # Ensure the rows are in ascending order
+	cleared_rows_indices.sort()
 
 	# Clear the rows
 	for row in cleared_rows_indices:
 		@warning_ignore("integer_division", "integer_division", "integer_division")
-		for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
-			set_cell_item(Vector3i(col, row, 0), -1) # Assuming -1 represents an empty cell
+		for col in range(-COLS/2, COLS/2):
+			set_cell_item(Vector3i(col, row, 0), -1)
 
 	# Move pieces down
-	for row in range(cleared_rows_indices[0] + 1, 11): # Start from the lowest cleared row
+	for row in range(cleared_rows_indices[0] + 1, 11):
 		var rows_to_move_down = 0
 		for cleared_row in cleared_rows_indices:
 			if row > cleared_row:
 				rows_to_move_down += 1
 			else:
-				break # No need to check further if the current row is below the cleared row
+				break
 
 		if rows_to_move_down > 0:
 			@warning_ignore("integer_division")
-			for col in range(-COLS/2, COLS/2): # Adjust according to your grid's coordinate system
+			for col in range(-COLS/2, COLS/2):
 				var item_col = get_cell_item(Vector3i(col, row, 0))
 				if !is_free(Vector3i(col, row, 0)):
-					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col) # Move item down
-					set_cell_item(Vector3i(col, row, 0), -1) # Clear the original cell
+					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
+					set_cell_item(Vector3i(col, row, 0), -1)
 		speed += ACCEL
 
 #how did i get 3d buttons to work
@@ -332,15 +367,15 @@ func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	
 #clears the board
 func clear_board():
-	for y in range(-10, 20):  # Assuming the board's height starts from -ROWS to just below 0
+	for y in range(-10, 20):
 		@warning_ignore("integer_division", "integer_division")
-		for x in range(-COLS/2, COLS/2):  # Assuming the board's depth is centered around 0
-			set_cell_item(Vector3i(x, y, 0), -1)  # Set each cell to -1, indicating an empty state
+		for x in range(-COLS/2, COLS/2):
+			set_cell_item(Vector3i(x, y, 0), -1)
 
 #detects if you lost the game
 func detect_lost():
 	@warning_ignore("integer_division")
-	for x in range(-COLS/2 , COLS/2 ):  # Adjust according to your grid's coordinate system
+	for x in range(-COLS/2 , COLS/2 ):
 		if !is_free(Vector3i(x, 11, 0), true):
 			game_lost()
 			

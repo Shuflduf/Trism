@@ -63,3 +63,7 @@ hold={
 3d_physics/layer_1="Board"
 3d_physics/layer_2="Piece"
 3d_physics/layer_3="Active Piece"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

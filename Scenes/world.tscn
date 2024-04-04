@@ -51,7 +51,13 @@ visible = false
 
 [node name="Label3D" type="Label3D" parent="UI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 20, 0)
-text = "woohoo tetris"
+text = "next"
+font_size = 587
+outline_size = 0
+
+[node name="Label3D2" type="Label3D" parent="UI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 20, 0)
+text = "hold"
 font_size = 587
 outline_size = 0
 
