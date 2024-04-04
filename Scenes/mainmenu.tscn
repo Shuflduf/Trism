@@ -6,7 +6,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_rhico"]
 font = ExtResource("2_h4vkp")
 font_size = 111
-outline_size = 30
+outline_size = 25
 outline_color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control"]
@@ -37,8 +37,9 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "FOURTRIS"
+text = "Tetrism"
 label_settings = SubResource("LabelSettings_rhico")
+uppercase = true
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

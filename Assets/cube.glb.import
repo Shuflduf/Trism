@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://3pugnnoo06g8"
-path="res://.godot/imported/fourtris board.glb-0a6cb5c405fc76308f67b5b8cea729a8.scn"
+uid="uid://d2oe8jbri624v"
+path="res://.godot/imported/cube.glb-76470422a9fd47c846a357f09618e032.scn"
 
 [deps]
 
-source_file="res://Assets/fourtris board.glb"
-dest_files=["res://.godot/imported/fourtris board.glb-0a6cb5c405fc76308f67b5b8cea729a8.scn"]
+source_file="res://Assets/cube.glb"
+dest_files=["res://.godot/imported/cube.glb-76470422a9fd47c846a357f09618e032.scn"]
 
 [params]
 
