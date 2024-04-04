@@ -42,6 +42,8 @@ label_settings = SubResource("LabelSettings_rhico")
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_h4vkp")
+theme_override_font_sizes/font_size = 96
 text = "PLAY"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
