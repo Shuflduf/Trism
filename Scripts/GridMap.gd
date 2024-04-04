@@ -9,19 +9,22 @@ const COLS := 10
 const SPAWN = Vector3i(-1, 13, 0)
 const TRANSPARENT_PIECES = [-1, 8]
 
+#game state vars
+var lost = false
+var can_hold = true
+
 #game piece vars
 var piece_type
 var next_pieces : Array
 var next_piece_color
-var can_hold = true
-var current_held_piece : Array
 var rotation_index : int = 0
 var active_piece : Array
 var current_loc
 var ghost_positions : Array
-var held_piece := []
 
-var lost = false
+var held_piece := []
+var held_piece_color
+var current_held_piece : Array
 
 #grid vars
 var cube_id : int = 0
@@ -47,8 +50,7 @@ func _ready():
 	randomize()
 	new_game()
 	
-#handles what happens every frame
-#TODO: make it work with any framerate
+#handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
 	if Input.is_action_pressed("left"):
 		steps[0] += 10
@@ -84,6 +86,7 @@ func new_game():
 	clear_held_piece()
 	held_piece = []
 	create_piece()
+	
 	
 #handles the bag and chooses a piece from it
 func pick_piece():
@@ -139,6 +142,7 @@ func create_piece():
 	
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, SPAWN)
+		show_held_piece(held_piece, held_piece_color)
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -260,9 +264,11 @@ func clear_ghost():
 
 #handles everything related to holding pieces
 func hold_piece():
-	clear_held_piece()
-	var temp_color = piece_color
+	
+	
 	if can_hold:
+		held_piece_color = piece_color
+		clear_held_piece()
 		if held_piece == []:
 			held_piece = piece_type
 			clear_piece()
@@ -281,17 +287,19 @@ func hold_piece():
 			
 			draw_piece(active_piece, current_loc)
 
-		show_held_piece(held_piece, temp_color)
-	else:
-		show_held_piece(held_piece, -1)
-	can_hold = false
+		show_held_piece(held_piece, 8)
+		can_hold = false
+	#else:
+		#show_held_piece(held_piece, 8)
+	
 
 #shows the active held piece
 func show_held_piece(piece : Array, color):
-	for i in piece[0]:
-		var piece_pos = convert_vec2_vec3(i + Vector2i(-11, -8))
-		set_cell_item(piece_pos, color)
-		current_held_piece.append(piece_pos)
+	if piece != []:
+		for i in piece[0]:
+			var piece_pos = convert_vec2_vec3(i + Vector2i(-11, -8))
+			set_cell_item(piece_pos, color)
+			current_held_piece.append(piece_pos)
 	
 #clear held piece
 func clear_held_piece():
