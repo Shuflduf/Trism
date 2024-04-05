@@ -60,8 +60,9 @@ func _ready():
 	
 #handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
-	if Input.is_action_just_pressed("pause"):
-			pause_game()
+	if Input.is_action_just_pressed("pause") and not paused:
+		print("PAUSE")
+		pause_game()	
 	if !lost and !paused:
 		if Input.is_action_pressed("left"):
 			steps[0] += 10
@@ -78,7 +79,6 @@ func _process(_delta):
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
 			
-		
 		steps[2] += speed
 		for i in range(steps.size()):
 			if steps[i] > steps_req:
@@ -427,15 +427,15 @@ func game_lost():
 
 #i dont know what this does
 func pause_game():
-	if paused:
-		#code to unpause
-		if animation_player.is_playing():
-			animation_player.speed_scale = 1
-		paused = false
-		pause_menu.visible = false
-	else:
-		#code to pause
-		if animation_player.is_playing():
-			animation_player.speed_scale = 0
-		paused = true
-		pause_menu.visible = true
+
+	paused = true
+	if animation_player.is_playing():
+		animation_player.speed_scale = 0
+	
+	pause_menu.pause_game()
+
+
+func _on_pause_menu_unpause():
+	paused = false
+	if animation_player.is_playing():
+		animation_player.speed_scale = 1

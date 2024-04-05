@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=5 format=3 uid="uid://dhy2c3qh7bhrl"]
 
+[ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]
@@ -12,12 +13,14 @@ outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dkwbe")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -28,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="PAUSED" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,10 +39,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="PAUSED"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PAUSED/CenterContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="PAUSED/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "PAUSED"
 label_settings = SubResource("LabelSettings_8vvx3")
+
+[node name="Open Settings" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 36
+text = "Settings"
+
+[node name="Settings" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/CenterContainer"]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 31
+text = "RTX"
+
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_epsu2")
+text = "man what else do i add"
+
+[connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
