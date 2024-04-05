@@ -214,6 +214,8 @@ func can_rotate(dir):
 			temp_rotation_index = (rotation_index - 1) % 4
 		"right":
 			temp_rotation_index = (rotation_index + 1) % 4
+	var srs_kick_table = str_to_var(("n" if piece_type != SRS.i else "i") + str(abs(rotation_index)) + str(abs(temp_rotation_index)))
+	print(srs_kick_table) #Causes null
 	for i in piece_type[temp_rotation_index]:
 		var next_pos = convert_vec2_vec3(i) + current_loc
 		if not is_free(next_pos, true):
