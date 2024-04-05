@@ -130,13 +130,6 @@ func next_piece():
 
 #clears and draws the next piece
 func show_next_pieces(pieces: Array):
-	# what i have to do:
-	# draw all the pieces
-	# remove the piece at the top
-	# use a tween to smoothly move the gridmap up
-	# clear all the pieces
-	# instantly move the gridmap down
-	# redraw the pieces at the position they were at
 	var vertical_offset = 0
 	for piece in pieces:
 		for pos in piece[0]:
@@ -145,7 +138,7 @@ func show_next_pieces(pieces: Array):
 			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
 		vertical_offset += 4
 		
-	for i in range(0,3): #removes the first 4 cubes (1st piece)
+	for i in range(0,3):
 		for cell in current_shown_pieces[i]:
 			next_pieces_grid.set_cell_item(cell, -1)
 			
