@@ -18,6 +18,9 @@ sky_material = SubResource("PanoramaSkyMaterial_lvpja")
 background_mode = 2
 sky = SubResource("Sky_kgqvc")
 tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
@@ -232,6 +235,10 @@ data = {
 }
 script = ExtResource("3_1fno7")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="NextPieces" type="GridMap" parent="GridMap"]
+mesh_library = ExtResource("2_ahqo1")
+cell_center_z = false
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 35)

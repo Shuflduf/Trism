@@ -4,6 +4,7 @@ extends GridMap
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
 @onready var pause_menu = %PauseMenu
+@onready var next_pieces_grid = $NextPieces
 
 #grid consts
 const ROWS := 20
@@ -18,6 +19,7 @@ var can_hold = true
 
 #game piece vars
 var piece_type
+var next_pieces_tween : Tween
 var next_pieces : Array
 var next_piece_color
 var rotation_index : int = 0
@@ -85,6 +87,7 @@ func _process(_delta):
 	
 #handles everything when starting a new game
 func new_game():
+	clear_held_piece()
 	clear_board()
 	draw_top()
 	shuffle_bag()
@@ -95,7 +98,7 @@ func new_game():
 	animation_player.play("countdown")
 	await animation_player.animation_finished
 	lost = false
-	clear_held_piece()
+	
 	held_piece = []
 	create_piece()
 	
@@ -126,14 +129,41 @@ func next_piece():
 
 #clears and draws the next piece
 func show_next_pieces(pieces: Array):
-	for cell in current_shown_pieces:
-		set_cell_item(cell, -1)
+	# what i have to do:
+	# draw all the pieces
+	# remove the piece at the top
+	# use a tween to smoothly move the gridmap up
+	# clear all the pieces
+	# instantly move the gridmap down
+	# redraw the pieces at the position they were at
 	var vertical_offset = 0
 	for piece in pieces:
 		for pos in piece[0]:
-			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 8 - vertical_offset, 0)
+			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 6 - vertical_offset, 0)
 			current_shown_pieces.append(cell_position)
-			set_cell_item(cell_position, SRS.shapes.find(piece))
+			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
+		vertical_offset += 4
+		
+	for i in range(0,3): #removes the first 4 cubes (1st piece)
+		for cell in current_shown_pieces[i]:
+			next_pieces_grid.set_cell_item(cell, -1)
+			
+	if next_pieces_tween:
+		next_pieces_tween.kill()
+		next_pieces_grid.position.y = 4
+	next_pieces_tween = create_tween()
+	next_pieces_tween.tween_property(next_pieces_grid, "position", Vector3(0, 4, 0), 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	
+	for i in current_shown_pieces:
+		next_pieces_grid.set_cell_item(i, -1)
+	
+	next_pieces_grid.position.y = 0
+	
+	for piece in pieces:
+		for pos in piece[0]:
+			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 26 - vertical_offset, 0)
+			current_shown_pieces.append(cell_position)
+			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
 		vertical_offset += 4
 
 #handles new piece creation
