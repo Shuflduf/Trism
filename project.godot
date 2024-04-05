@@ -15,7 +15,7 @@ config/version="0.1.1"
 run/main_scene="res://Scenes/mainmenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 run/max_fps=60
-config/icon="res://Assets/fourtris_logo.png"
+config/icon="res://Assets/tetrism_logo.png"
 
 [autoload]
 

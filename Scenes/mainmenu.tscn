@@ -39,6 +39,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Tetrism"
 label_settings = SubResource("LabelSettings_rhico")
+horizontal_alignment = 1
 uppercase = true
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]

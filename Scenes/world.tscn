@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://3pugnnoo06g8" path="res://Assets/game board.glb" id="4_kgxy6"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
-[ext_resource type="PackedScene" uid="uid://n3h0rltqycn8" path="res://Scenes/pause_menu.tscn" id="7_aporu"]
+[ext_resource type="PackedScene" uid="uid://dhy2c3qh7bhrl" path="res://Scenes/pause_menu.tscn" id="7_aporu"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
