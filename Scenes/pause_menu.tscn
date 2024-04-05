@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhy2c3qh7bhrl"]
+
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]
+bg_color = Color(0, 0, 0, 0.462745)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8vvx3"]
+font = ExtResource("1_epsu2")
+font_size = 116
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "PAUSED"
+label_settings = SubResource("LabelSettings_8vvx3")
