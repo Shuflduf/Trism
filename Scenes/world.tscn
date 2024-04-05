@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=16 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://3pugnnoo06g8" path="res://Assets/game board.glb" id="4_kgxy6"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
+[ext_resource type="PackedScene" uid="uid://dhy2c3qh7bhrl" path="res://Scenes/pause_menu.tscn" id="7_aporu"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -330,5 +331,9 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_7ep4b")
 }
+
+[node name="PauseMenu" parent="." instance=ExtResource("7_aporu")]
+unique_name_in_owner = true
+visible = false
 
 [connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
