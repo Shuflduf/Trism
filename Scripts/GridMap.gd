@@ -89,7 +89,7 @@ func _process(_delta):
 #handles everything when starting a new game
 func new_game():
 	clear_held_piece()
-	#clear_board()
+	clear_board()
 	draw_top()
 	shuffle_bag()
 	show_next_pieces(next_pieces)
@@ -197,36 +197,35 @@ func rotate_piece(dir):
 	var temp_rotation_index 
 	match dir:
 			"left":
-				temp_rotation_index = (rotation_index - 1) % 4
+				temp_rotation_index = (rotation_index + 3) % 4
 			"right":
 				temp_rotation_index = (rotation_index + 1) % 4
 				
 	var srs_kick_table : Array = SRS.get(("n" if piece_type != SRS.i else "i")\
-	 + str(abs(rotation_index)) + str(abs(temp_rotation_index)))
+	 + str(rotation_index) + str(temp_rotation_index))
 	var temp_kick_table = srs_kick_table.duplicate()
 	temp_kick_table.push_front(Vector2i(0,0))
 	
-	print(("n" if piece_type != SRS.i else "i")\
-	 + str(abs(rotation_index)) + str(abs(temp_rotation_index)))
-	
 	for offset in temp_kick_table:
 		if can_rotate(temp_rotation_index, offset):
-			print(offset)
 			clear_piece() 
 			rotation_index = temp_rotation_index
 
 			active_piece = piece_type[rotation_index] 
-			current_loc += convert_vec2_vec3(offset)
+			#current_loc += convert_vec2_vec3(offset)
+			current_loc.x += offset.x
+			current_loc.y += offset.y
 			draw_piece(active_piece, current_loc)
-			break
+			return
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
-	
 	var cr = false
 
 	for block_position in piece_type[temp_rot_idx]: # Check each block in the piece
-		var next_pos = convert_vec2_vec3(block_position + offset) + current_loc
+		var next_pos = convert_vec2_vec3(block_position) + current_loc
+		next_pos.x += offset.x
+		next_pos.y += offset.y
 		if not is_free(next_pos, true): # If any position is not free
 			return false
 	
