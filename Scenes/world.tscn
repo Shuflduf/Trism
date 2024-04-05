@@ -21,7 +21,6 @@ tonemap_mode = 2
 ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
-sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
@@ -222,6 +221,7 @@ _data = {
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
 environment = SubResource("Environment_eml8j")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -344,4 +344,4 @@ libraries = {
 unique_name_in_owner = true
 
 [connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
-[connection signal="unpause" from="PauseMenu" to="GridMap" method="_on_pause_menu_unpause"]
+[connection signal="toggle_rtx" from="PauseMenu" to="GridMap" method="_on_pause_menu_toggle_rtx"]

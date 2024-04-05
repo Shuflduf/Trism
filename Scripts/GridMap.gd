@@ -5,11 +5,12 @@ extends GridMap
 @onready var animation_player = %AnimationPlayer
 @onready var pause_menu = %PauseMenu
 @onready var next_pieces_grid = $NextPieces
+@onready var env = %WorldEnvironment.environment
 
 #grid consts
 const ROWS := 20
 const COLS := 10
-const SPAWN = Vector3i(-1, 13, 0)
+const SPAWN = Vector3i(-2, 13, 0)
 const TRANSPARENT_PIECES = [-1, 8]
 
 #game state vars
@@ -60,9 +61,9 @@ func _ready():
 	
 #handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
-	if Input.is_action_just_pressed("pause") and not paused:
-		print("PAUSE")
+	if Input.is_action_just_pressed("pause"):
 		pause_game()	
+		
 	if !lost and !paused:
 		if Input.is_action_pressed("left"):
 			steps[0] += 10
@@ -152,7 +153,7 @@ func show_next_pieces(pieces: Array):
 		next_pieces_tween.kill()
 		next_pieces_grid.position.y = 4
 	next_pieces_tween = create_tween()
-	next_pieces_tween.tween_property(next_pieces_grid, "position", Vector3(0, 4, 0), 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	next_pieces_tween.tween_property(next_pieces_grid, "position", Vector3(0, 4, 0), 1).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 	
 	for i in current_shown_pieces:
 		next_pieces_grid.set_cell_item(i, -1)
@@ -427,15 +428,18 @@ func game_lost():
 
 #i dont know what this does
 func pause_game():
+	if !paused:
+		paused = true
+		if animation_player.is_playing():
+			animation_player.speed_scale = 0	
+		pause_menu.pause_game()
+		
+	elif paused:
+		paused = false
+		if animation_player.is_playing():
+			animation_player.speed_scale = 1
+		pause_menu.unpause_game()
 
-	paused = true
-	if animation_player.is_playing():
-		animation_player.speed_scale = 0
-	
-	pause_menu.pause_game()
-
-
-func _on_pause_menu_unpause():
-	paused = false
-	if animation_player.is_playing():
-		animation_player.speed_scale = 1
+func _on_pause_menu_toggle_rtx(on_off):
+	print(on_off)
+	env.sdfgi_enabled = on_off
