@@ -8,13 +8,17 @@ extends GridMap
 @onready var env = %WorldEnvironment.environment
 
 # DAS and ARR settings
-const INITIAL_DELAY := 0.2  # Delay in seconds before auto-repeat starts
-const AUTO_REPEAT_RATE := 0.05  # Time in seconds between auto-repeats
+const DAS := 10  # Delay in seconds before auto-repeat starts
+const ARR := 2  # Time in seconds between auto-repeats
+const SDF := 6 # Soft Drop Factor
 
 # Timers for each direction
-var left_timer := 0.0
-var right_timer := 0.0
-var down_timer := 0.0
+var left_timer := 0
+var right_timer := 0
+var down_timer := 0
+
+var moving_left = false
+var moving_right = false
 
 #grid consts
 const ROWS := 20
@@ -51,8 +55,15 @@ var next_piece_count := 5
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps : Array
 var steps_req = 50
-var speed : float
-const ACCEL : float = 0.01
+
+# ways gravity could work
+# 1. how much it moves down each frame
+# 2. a counter that counts up each frame, and moves down when above a threshold
+# 3. yea 2 works
+var grav_counter : int
+var active_gravity := 60
+var temp_grav := active_gravity
+const ACCEL := 1
 
 var bag = SRS.shapes.duplicate()
 
@@ -68,41 +79,59 @@ func _ready():
 	await SceneManager.transitioned_out
 	new_game()
 	
-#handles what happens every frame TODO: make it work with any framerate
-func _physics_process(delta):
+#handles what happens every frame
+func _physics_process(_delta):
 	if Input.is_action_just_pressed("pause"):
 		pause_game()
 
 	if !lost and !paused:
-		# Handle DAS for left movement
-		if Input.is_action_pressed("left"):
+		
+		if Input.is_action_just_pressed("left"):
 			move_piece(directions[0])
-			left_timer += delta
-			if left_timer > INITIAL_DELAY:
-				move_piece(directions[0])
-				left_timer = AUTO_REPEAT_RATE  # Reset timer for auto-repeat
+			moving_left = true
+			moving_right = false
+			
+		if Input.is_action_just_pressed("right"):
+			move_piece(directions[1])
+			moving_left = false
+			moving_right = true
+		
+		if Input.is_action_just_released("left"):
+			moving_left = false
+		
+		if Input.is_action_just_released("right"):
+			moving_right = false
+		
+		# Handle DAS for left movement
+		if moving_left:
+			left_timer += 1
+			if left_timer > DAS:
+				if left_timer % ARR == 0:
+					move_piece(directions[0])
 		else:
-			left_timer = 0  # Reset timer if key is not pressed
+			left_timer = 0
 
 		# Handle DAS for right movement
-		if Input.is_action_pressed("right"):
-			move_piece(directions[1])
-			right_timer += delta
-			if right_timer > INITIAL_DELAY:
-				move_piece(directions[1])
-				right_timer = AUTO_REPEAT_RATE
+		if moving_right:
+			right_timer += 1
+			if right_timer > DAS:
+				if right_timer % ARR == 0:
+					move_piece(directions[1])
 		else:
 			right_timer = 0
+		
 
-		# Handle DAS for soft drop
 		if Input.is_action_pressed("soft"):
-			down_timer += delta
-			if down_timer > INITIAL_DELAY:
-				steps[2] += 10
-				down_timer = AUTO_REPEAT_RATE
+			temp_grav = active_gravity
+			change_gravity(active_gravity / SDF)
 		else:
-			down_timer = 0
-
+			change_gravity(temp_grav)
+			
+		grav_counter += 1
+		if grav_counter > active_gravity:
+			move_piece(directions[2])
+			grav_counter = 0
+		
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
 			hard_drop()
@@ -113,12 +142,6 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
 
-		steps[2] += speed
-		for i in range(steps.size()):
-			if steps[i] > steps_req:
-				move_piece(directions[i])
-				steps[i] = 0
-	
 #handles everything when starting a new game
 func new_game():
 	clear_held_piece()
@@ -126,7 +149,7 @@ func new_game():
 	draw_top()
 	shuffle_bag()
 	show_next_pieces(next_pieces)
-	speed = 1.0
+	change_gravity(60)
 	steps = [0, 0, 0]
 	gameover.hide()
 	animation_player.play("countdown")
@@ -253,8 +276,6 @@ func rotate_piece(dir):
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
-	var cr = false
-
 	for block_position in piece_type[temp_rot_idx]: # Check each block in the piece
 		var next_pos = convert_vec2_vec3(block_position) + current_loc
 		next_pos.x += offset.x
@@ -435,7 +456,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-		speed += ACCEL
+		change_gravity(ACCEL, true)
 
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
@@ -477,5 +498,11 @@ func pause_game():
 		pause_menu.unpause_game()
 
 func _on_pause_menu_toggle_rtx(on_off):
-
 	env.sdfgi_enabled = on_off
+
+func change_gravity(value : int, increase_mode := false):
+	if increase_mode:
+		active_gravity += value
+	else: 
+		active_gravity = value
+	
