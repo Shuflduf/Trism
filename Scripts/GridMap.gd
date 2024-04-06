@@ -4,11 +4,13 @@ extends GridMap
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
 @onready var pause_menu = %PauseMenu
+@onready var next_pieces_grid = $NextPieces
+@onready var env = %WorldEnvironment.environment
 
 #grid consts
 const ROWS := 20
 const COLS := 10
-const SPAWN = Vector3i(-1, 13, 0)
+const SPAWN = Vector3i(-2, 13, 0)
 const TRANSPARENT_PIECES = [-1, 8]
 
 #game state vars
@@ -18,6 +20,7 @@ var can_hold = true
 
 #game piece vars
 var piece_type
+var next_pieces_tween : Tween
 var next_pieces : Array
 var next_piece_color
 var rotation_index : int = 0
@@ -59,7 +62,8 @@ func _ready():
 #handles what happens every frame TODO: make it work with any framerate
 func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
-			pause_game()
+		pause_game()	
+		
 	if !lost and !paused:
 		if Input.is_action_pressed("left"):
 			steps[0] += 10
@@ -76,7 +80,6 @@ func _process(_delta):
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
 			
-		
 		steps[2] += speed
 		for i in range(steps.size()):
 			if steps[i] > steps_req:
@@ -85,6 +88,7 @@ func _process(_delta):
 	
 #handles everything when starting a new game
 func new_game():
+	clear_held_piece()
 	clear_board()
 	draw_top()
 	shuffle_bag()
@@ -95,7 +99,7 @@ func new_game():
 	animation_player.play("countdown")
 	await animation_player.animation_finished
 	lost = false
-	clear_held_piece()
+	
 	held_piece = []
 	create_piece()
 	
@@ -126,14 +130,34 @@ func next_piece():
 
 #clears and draws the next piece
 func show_next_pieces(pieces: Array):
-	for cell in current_shown_pieces:
-		set_cell_item(cell, -1)
 	var vertical_offset = 0
 	for piece in pieces:
 		for pos in piece[0]:
-			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 8 - vertical_offset, 0)
+			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 6 - vertical_offset, 0)
 			current_shown_pieces.append(cell_position)
-			set_cell_item(cell_position, SRS.shapes.find(piece))
+			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
+		vertical_offset += 4
+		
+	for i in range(0,3):
+		for cell in current_shown_pieces[i]:
+			next_pieces_grid.set_cell_item(cell, -1)
+			
+	if next_pieces_tween:
+		next_pieces_tween.kill()
+		next_pieces_grid.position.y = 4
+	next_pieces_tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	next_pieces_tween.tween_property(next_pieces_grid, "position", Vector3(0, 4, 0), 1)
+	
+	for i in current_shown_pieces:
+		next_pieces_grid.set_cell_item(i, -1)
+	
+	next_pieces_grid.position.y = 0
+	
+	for piece in pieces:
+		for pos in piece[0]:
+			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 26 - vertical_offset, 0)
+			current_shown_pieces.append(cell_position)
+			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
 		vertical_offset += 4
 
 #handles new piece creation
@@ -170,32 +194,42 @@ func draw_piece(piece, pos):
 	
 #rotates the piece
 func rotate_piece(dir):
-	if can_rotate(dir):
-		clear_piece() 
-		match dir:
+	var temp_rotation_index 
+	match dir:
 			"left":
-				rotation_index = (rotation_index - 1) % 4
+				temp_rotation_index = (rotation_index + 3) % 4
 			"right":
-				rotation_index = (rotation_index + 1) % 4
-		active_piece = piece_type[rotation_index]
+				temp_rotation_index = (rotation_index + 1) % 4
+				
+	var srs_kick_table : Array = SRS.get(("n" if piece_type != SRS.i else "i")\
+	 + str(rotation_index) + str(temp_rotation_index))
+	var temp_kick_table = srs_kick_table.duplicate()
+	temp_kick_table.push_front(Vector2i(0,0))
+	
+	for offset in temp_kick_table:
+		if can_rotate(temp_rotation_index, offset):
+			clear_piece() 
+			rotation_index = temp_rotation_index
 
-		draw_piece(active_piece, current_loc)
+			active_piece = piece_type[rotation_index] 
+			#current_loc += convert_vec2_vec3(offset)
+			current_loc.x += offset.x
+			current_loc.y += offset.y
+			draw_piece(active_piece, current_loc)
+			return
 	
 #checks if the piece can perform a valid rotation
-func can_rotate(dir):
-	var cr = true
-	var temp_rotation_index
-	match dir:
-		"left":
-			temp_rotation_index = (rotation_index - 1) % 4
-		"right":
-			temp_rotation_index = (rotation_index + 1) % 4
-	for i in piece_type[temp_rotation_index]:
-		var next_pos = convert_vec2_vec3(i) + current_loc
-		if not is_free(next_pos, true):
-			cr = false
-			break
-	return cr
+func can_rotate(temp_rot_idx, offset):
+	var cr = false
+
+	for block_position in piece_type[temp_rot_idx]: # Check each block in the piece
+		var next_pos = convert_vec2_vec3(block_position) + current_loc
+		next_pos.x += offset.x
+		next_pos.y += offset.y
+		if not is_free(next_pos, true): # If any position is not free
+			return false
+	
+	return true
 
 #moves the piece in a specified direction
 func move_piece(dir):
@@ -397,15 +431,18 @@ func game_lost():
 
 #i dont know what this does
 func pause_game():
-	if paused:
-		#code to unpause
+	if !paused:
+		paused = true
+		if animation_player.is_playing():
+			animation_player.speed_scale = 0	
+		pause_menu.pause_game()
+		
+	elif paused:
+		paused = false
 		if animation_player.is_playing():
 			animation_player.speed_scale = 1
-		paused = false
-		pause_menu.visible = false
-	else:
-		#code to pause
-		if animation_player.is_playing():
-			animation_player.speed_scale = 0
-		paused = true
-		pause_menu.visible = true
+		pause_menu.unpause_game()
+
+func _on_pause_menu_toggle_rtx(on_off):
+
+	env.sdfgi_enabled = on_off
