@@ -7,6 +7,15 @@ extends GridMap
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 
+# DAS and ARR settings
+const INITIAL_DELAY := 0.2  # Delay in seconds before auto-repeat starts
+const AUTO_REPEAT_RATE := 0.05  # Time in seconds between auto-repeats
+
+# Timers for each direction
+var left_timer := 0.0
+var right_timer := 0.0
+var down_timer := 0.0
+
 #grid consts
 const ROWS := 20
 const COLS := 10
@@ -41,7 +50,7 @@ var next_piece_count := 5
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps : Array
-const steps_req : int = 50
+var steps_req = 50
 var speed : float
 const ACCEL : float = 0.01
 
@@ -60,17 +69,41 @@ func _ready():
 	new_game()
 	
 #handles what happens every frame TODO: make it work with any framerate
-func _process(_delta):
+func _physics_process(delta):
 	if Input.is_action_just_pressed("pause"):
-		pause_game()	
-		
+		pause_game()
+
 	if !lost and !paused:
+		# Handle DAS for left movement
 		if Input.is_action_pressed("left"):
-			steps[0] += 10
+			move_piece(directions[0])
+			left_timer += delta
+			if left_timer > INITIAL_DELAY:
+				move_piece(directions[0])
+				left_timer = AUTO_REPEAT_RATE  # Reset timer for auto-repeat
+		else:
+			left_timer = 0  # Reset timer if key is not pressed
+
+		# Handle DAS for right movement
 		if Input.is_action_pressed("right"):
-			steps[1] += 10
+			move_piece(directions[1])
+			right_timer += delta
+			if right_timer > INITIAL_DELAY:
+				move_piece(directions[1])
+				right_timer = AUTO_REPEAT_RATE
+		else:
+			right_timer = 0
+
+		# Handle DAS for soft drop
 		if Input.is_action_pressed("soft"):
-			steps[2] += 10
+			down_timer += delta
+			if down_timer > INITIAL_DELAY:
+				steps[2] += 10
+				down_timer = AUTO_REPEAT_RATE
+		else:
+			down_timer = 0
+
+		# Other controls
 		if Input.is_action_just_pressed("hard"):
 			hard_drop()
 		if Input.is_action_just_pressed("hold"):
@@ -79,7 +112,7 @@ func _process(_delta):
 			rotate_piece("left")
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
-			
+
 		steps[2] += speed
 		for i in range(steps.size()):
 			if steps[i] > steps_req:

@@ -13,7 +13,6 @@ outline_size = 20
 outline_color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +31,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,10 +87,8 @@ theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 31
 text = "RTX"
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="Settings/CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_epsu2")
-text = "man what else do i add"
 
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
 [connection signal="toggled" from="Settings/CenterContainer/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
