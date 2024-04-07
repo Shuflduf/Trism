@@ -515,7 +515,7 @@ func _on_pause_menu_modify_handling(setting, value):
 	soft_dropping = false
 	set(setting, value)
 
-
+#handles pausing the actual game
 func _on_pause_menu_pause_state(pause_state):
 	if pause_state:
 		paused = true

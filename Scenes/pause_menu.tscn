@@ -235,26 +235,246 @@ theme_override_constants/margin_bottom = 50
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Arrow Keys"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Left" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+[node name="MoveLeft" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Left"]
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/MoveLeft"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Move Piece Left"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Left"]
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/MoveLeft"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Left Arrow"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="WASD" type="VBoxContainer" parent="Controls/TabContainer"]
+[node name="MoveRight" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Right"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Right Arrow"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="SoftDrop" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/SoftDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Soft Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/SoftDrop"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Down Arrow"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="HardDrop" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/HardDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hard Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/HardDrop"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Space"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="CCW" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/CCW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Counterclockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/CCW"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Z"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="CW" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/CW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Clockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/CW"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "X"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="Hold" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Hold"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hold Piece"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Hold"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Shift"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
 visible = false
 layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/WASD"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoveLeft" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/MoveLeft"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Left"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/MoveLeft"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "A"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="MoveRight" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Right"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "D"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="SoftDrop" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/SoftDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Soft Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/SoftDrop"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "W"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="HardDrop" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/HardDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hard Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/HardDrop"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "S"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="CCW" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/CCW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Counterclockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/CCW"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Left Arrow"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="CW" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/CW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Clockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/CW"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Right Arrow"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="Hold" type="HBoxContainer" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/Hold"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hold Piece"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/WASD/VBoxContainer/VBoxContainer/Hold"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Shift"
+label_settings = ExtResource("6_6ih8y")
 
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
 [connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
