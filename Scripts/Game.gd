@@ -7,6 +7,20 @@ extends GridMap
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 
+# Handling stuff
+var DAS := 10  # Delay in frames before auto-repeat starts
+var ARR := 2  # Time in frames between auto-repeats
+var SDF := 6.0 # Soft Drop Factor
+
+# Timers for each direction
+var left_timer := 0
+var right_timer := 0
+var down_timer := 0
+
+var moving_left = false
+var moving_right = false
+var soft_dropping = false
+
 #grid consts
 const ROWS := 20
 const COLS := 10
@@ -41,9 +55,16 @@ var next_piece_count := 5
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps : Array
-const steps_req : int = 50
-var speed : float
-const ACCEL : float = 0.01
+var steps_req = 50
+
+# ways gravity could work
+# 1. how much it moves down each frame
+# 2. a counter that counts up each frame, and moves down when above a threshold
+# 3. yea 2 works
+var grav_counter : int
+const STARTER_GRAV = 30.0
+var active_gravity : float = STARTER_GRAV
+const ACCEL := 0.01
 
 var bag = SRS.shapes.duplicate()
 
@@ -59,18 +80,70 @@ func _ready():
 	await SceneManager.transitioned_out
 	new_game()
 	
-#handles what happens every frame TODO: make it work with any framerate
-func _process(_delta):
+#handles what happens every frame
+func _physics_process(_delta):
+	#print(str(active_gravity) + "  " + str(soft_dropping))
 	if Input.is_action_just_pressed("pause"):
-		pause_game()	
-		
+		pause_menu.handle_pause()
+
 	if !lost and !paused:
-		if Input.is_action_pressed("left"):
-			steps[0] += 10
-		if Input.is_action_pressed("right"):
-			steps[1] += 10
-		if Input.is_action_pressed("soft"):
-			steps[2] += 10
+		
+		if Input.is_action_just_pressed("left"):
+			move_piece(directions[0])
+			moving_left = true
+			moving_right = false
+			
+		if Input.is_action_just_pressed("right"):
+			move_piece(directions[1])
+			moving_left = false
+			moving_right = true
+		
+		if Input.is_action_just_released("left"):
+			if Input.is_action_pressed("right"):
+				move_piece(directions[1])
+				moving_right = true
+			moving_left = false
+		
+		if Input.is_action_just_released("right"):
+			if Input.is_action_pressed("left"):
+				move_piece(directions[0])
+				moving_left = true
+			moving_right = false
+		
+		# Handle DAS for left movement
+		if moving_left:
+			left_timer += 1
+			if left_timer > DAS:
+				if left_timer % ARR == 0:
+					move_piece(directions[0])
+		else:
+			left_timer = 0
+
+		# Handle DAS for right movement
+		if moving_right:
+			right_timer += 1
+			if right_timer > DAS:
+				if right_timer % ARR == 0:
+					move_piece(directions[1])
+		else:
+			right_timer = 0
+		
+
+		if Input.is_action_just_pressed("soft"):
+			soft_dropping = true
+			change_gravity(active_gravity / SDF)
+			
+		if Input.is_action_just_released("soft"):
+			soft_dropping = false
+			change_gravity(active_gravity * SDF)
+			
+			
+		grav_counter += 1
+		if grav_counter > active_gravity:
+			move_piece(directions[2])
+			grav_counter = 0
+		
+		# Other controls
 		if Input.is_action_just_pressed("hard"):
 			hard_drop()
 		if Input.is_action_just_pressed("hold"):
@@ -79,13 +152,7 @@ func _process(_delta):
 			rotate_piece("left")
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
-			
-		steps[2] += speed
-		for i in range(steps.size()):
-			if steps[i] > steps_req:
-				move_piece(directions[i])
-				steps[i] = 0
-	
+
 #handles everything when starting a new game
 func new_game():
 	clear_held_piece()
@@ -93,7 +160,7 @@ func new_game():
 	draw_top()
 	shuffle_bag()
 	show_next_pieces(next_pieces)
-	speed = 1.0
+	change_gravity(STARTER_GRAV)
 	steps = [0, 0, 0]
 	gameover.hide()
 	animation_player.play("countdown")
@@ -220,8 +287,6 @@ func rotate_piece(dir):
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
-	var cr = false
-
 	for block_position in piece_type[temp_rot_idx]: # Check each block in the piece
 		var next_pos = convert_vec2_vec3(block_position) + current_loc
 		next_pos.x += offset.x
@@ -402,7 +467,10 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-		speed += ACCEL
+			if soft_dropping:
+				change_gravity(ACCEL / SDF, true)
+			else:
+				change_gravity(ACCEL, true)
 
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
@@ -429,20 +497,29 @@ func game_lost():
 	gameover.visible = true
 	lost = true
 
-#i dont know what this does
-func pause_game():
-	if !paused:
-		paused = true
-		if animation_player.is_playing():
-			animation_player.speed_scale = 0	
-		pause_menu.pause_game()
-		
-	elif paused:
-		paused = false
-		if animation_player.is_playing():
-			animation_player.speed_scale = 1
-		pause_menu.unpause_game()
-
+#toggles rtx 🕶️
 func _on_pause_menu_toggle_rtx(on_off):
-
 	env.sdfgi_enabled = on_off
+
+#handles everything related to changing the gravity
+func change_gravity(value : float, increase_mode := false):
+	if increase_mode:
+		active_gravity -= value
+	else: 
+		active_gravity = value
+	
+	active_gravity = clamp(active_gravity,0.1,INF)
+	
+#modifies the handling from the settings
+func _on_pause_menu_modify_handling(setting, value):
+	soft_dropping = false
+	set(setting, value)
+
+#handles pausing the actual game
+func _on_pause_menu_pause_state(pause_state):
+	if pause_state:
+		paused = true
+		animation_player.speed_scale = 0	
+	elif not pause_state:
+		paused = false
+		animation_player.speed_scale = 1

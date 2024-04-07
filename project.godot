@@ -14,7 +14,6 @@ config/name="Tetrism"
 config/version="0.1.2"
 run/main_scene="res://Scenes/mainmenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-run/max_fps=60
 config/icon="res://Assets/tetrism_logo.png"
 
 [autoload]
