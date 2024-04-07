@@ -355,4 +355,5 @@ unique_name_in_owner = true
 
 [connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
 [connection signal="modify_handling" from="PauseMenu" to="GridMap" method="_on_pause_menu_modify_handling"]
+[connection signal="pause_state" from="PauseMenu" to="GridMap" method="_on_pause_menu_pause_state"]
 [connection signal="toggle_rtx" from="PauseMenu" to="GridMap" method="_on_pause_menu_toggle_rtx"]

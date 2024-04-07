@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bm5u2sn4wmeel"]
 
-[ext_resource type="Script" path="res://Scripts/Control.gd" id="1_dd0bb"]
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rhico"]

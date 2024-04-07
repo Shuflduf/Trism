@@ -84,7 +84,7 @@ func _ready():
 func _physics_process(_delta):
 	#print(str(active_gravity) + "  " + str(soft_dropping))
 	if Input.is_action_just_pressed("pause"):
-		pause_game()
+		pause_menu.handle_pause()
 
 	if !lost and !paused:
 		
@@ -497,23 +497,11 @@ func game_lost():
 	gameover.visible = true
 	lost = true
 
-#i dont know what this does
-func pause_game():
-	if !paused:
-		paused = true
-		if animation_player.is_playing():
-			animation_player.speed_scale = 0	
-		pause_menu.pause_game()
-		
-	elif paused:
-		paused = false
-		if animation_player.is_playing():
-			animation_player.speed_scale = 1
-		pause_menu.unpause_game()
-
+#toggles rtx 🕶️
 func _on_pause_menu_toggle_rtx(on_off):
 	env.sdfgi_enabled = on_off
 
+#handles everything related to changing the gravity
 func change_gravity(value : float, increase_mode := false):
 	if increase_mode:
 		active_gravity -= value
@@ -522,6 +510,16 @@ func change_gravity(value : float, increase_mode := false):
 	
 	active_gravity = clamp(active_gravity,0.1,INF)
 	
+#modifies the handling from the settings
 func _on_pause_menu_modify_handling(setting, value):
 	soft_dropping = false
 	set(setting, value)
+
+
+func _on_pause_menu_pause_state(pause_state):
+	if pause_state:
+		paused = true
+		animation_player.speed_scale = 0	
+	elif not pause_state:
+		paused = false
+		animation_player.speed_scale = 1

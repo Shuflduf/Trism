@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=10 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
 [ext_resource type="LabelSettings" uid="uid://3hv6ytdg8wv" path="res://Assets/Fonts/settingsmaybe.tres" id="3_aq7cx"]
+[ext_resource type="Script" path="res://Scripts/Controls.gd" id="4_w80sp"]
+[ext_resource type="LabelSettings" uid="uid://cbt75dcn0d7vd" path="res://Assets/Fonts/controllabel.tres" id="5_icmgu"]
+[ext_resource type="LabelSettings" uid="uid://bvh2x3eplk2cx" path="res://Assets/Fonts/inputlabel.tres" id="6_6ih8y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]
 bg_color = Color(0, 0, 0, 0.462745)
@@ -38,7 +41,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,7 +71,8 @@ theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 36
 text = "Settings"
 
-[node name="Settings" type="Control" parent="."]
+[node name="Settings" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,74 +80,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Settings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Settings/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings"]
 layout_mode = 2
 
-[node name="RTX" type="CheckButton" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="RTX" type="CheckButton" parent="Settings/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 31
 text = "RTX"
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer"]
 layout_mode = 2
 text = "HANDLING"
 label_settings = SubResource("LabelSettings_yry84")
 horizontal_alignment = 1
 
-[node name="ARR" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="ARR" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/ARR"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/ARR"]
 layout_mode = 2
 text = "ARR"
 label_settings = ExtResource("3_aq7cx")
 
-[node name="ARRSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/ARR"]
-custom_minimum_size = Vector2(200, 0)
+[node name="ARRSlider" type="HSlider" parent="Settings/VBoxContainer/ARR"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = 1.0
 max_value = 5.0
 value = 2.0
 rounded = true
 
-[node name="ARRLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/ARR"]
+[node name="ARRLineEdit" type="SpinBox" parent="Settings/VBoxContainer/ARR"]
 layout_mode = 2
 max_value = 5.0
 value = 2.0
 rounded = true
 suffix = "F"
 
-[node name="DAS" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="DAS" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/DAS"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/DAS"]
 layout_mode = 2
 text = "DAS
 "
 label_settings = ExtResource("3_aq7cx")
 
-[node name="DASSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/DAS"]
-custom_minimum_size = Vector2(200, 0)
+[node name="DASSlider" type="HSlider" parent="Settings/VBoxContainer/DAS"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = 1.0
 max_value = 20.0
 value = 10.0
 rounded = true
 
-[node name="DASLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/DAS"]
+[node name="DASLineEdit" type="SpinBox" parent="Settings/VBoxContainer/DAS"]
 layout_mode = 2
 min_value = 1.0
 max_value = 20.0
@@ -152,19 +147,19 @@ value = 10.0
 rounded = true
 suffix = "F"
 
-[node name="DCD" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="DCD" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/DCD"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/DCD"]
 layout_mode = 2
 text = "DCD (todo)
 "
 label_settings = ExtResource("3_aq7cx")
 
-[node name="HSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/DCD"]
-custom_minimum_size = Vector2(200, 0)
+[node name="HSlider" type="HSlider" parent="Settings/VBoxContainer/DCD"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 20.0
 value = 1.0
@@ -172,33 +167,33 @@ rounded = true
 editable = false
 scrollable = false
 
-[node name="LineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/DCD"]
+[node name="LineEdit" type="SpinBox" parent="Settings/VBoxContainer/DCD"]
 layout_mode = 2
 max_value = 20.0
 value = 1.0
 rounded = true
 editable = false
 
-[node name="SDF" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="SDF" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/SDF"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/SDF"]
 layout_mode = 2
 text = "SDF
 "
 label_settings = ExtResource("3_aq7cx")
 
-[node name="SDFSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/SDF"]
-custom_minimum_size = Vector2(200, 0)
+[node name="SDFSlider" type="HSlider" parent="Settings/VBoxContainer/SDF"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = 5.0
 max_value = 30.0
 value = 6.0
 rounded = true
 
-[node name="SDFLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/SDF"]
+[node name="SDFLineEdit" type="SpinBox" parent="Settings/VBoxContainer/SDF"]
 layout_mode = 2
 min_value = 5.0
 max_value = 30.0
@@ -206,11 +201,67 @@ value = 6.0
 rounded = true
 suffix = "F"
 
+[node name="SwitchToControls" type="Button" parent="Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 30
+text = "Customize Controls"
+
+[node name="Controls" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 70
+script = ExtResource("4_w80sp")
+
+[node name="TabContainer" type="TabContainer" parent="Controls"]
+layout_mode = 2
+tab_alignment = 1
+
+[node name="Arrow Keys" type="MarginContainer" parent="Controls/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Arrow Keys"]
+layout_mode = 2
+
+[node name="Left" type="HBoxContainer" parent="Controls/TabContainer/Arrow Keys/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Left"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Left"
+label_settings = ExtResource("5_icmgu")
+
+[node name="Label2" type="Label" parent="Controls/TabContainer/Arrow Keys/VBoxContainer/Left"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Left Arrow"
+label_settings = ExtResource("6_6ih8y")
+
+[node name="WASD" type="VBoxContainer" parent="Controls/TabContainer"]
+visible = false
+layout_mode = 2
+
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
-[connection signal="toggled" from="Settings/CenterContainer/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/DAS/DASSlider" to="." method="_on_das_slider_value_changed"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/DAS/DASLineEdit" to="." method="_on_das_line_edit_value_changed"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
-[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
+[connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
+[connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/DAS/DASSlider" to="." method="_on_das_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/DAS/DASLineEdit" to="." method="_on_das_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
+[connection signal="pressed" from="Settings/VBoxContainer/SwitchToControls" to="." method="_on_switch_to_controls_pressed"]
