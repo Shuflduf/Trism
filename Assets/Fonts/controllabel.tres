@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cbt75dcn0d7vd"]
+
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_16ftj"]
+
+[resource]
+font = ExtResource("1_16ftj")
+font_size = 20
