@@ -5,9 +5,9 @@ extends Node
 
 func _on_tab_container_tab_changed(tab):
 	match tab:
-		0:
-			switch_keybind_presets(keybind_resource.arrow_keys)
 		1:
+			switch_keybind_presets(keybind_resource.arrow_keys)
+		0:
 			switch_keybind_presets(keybind_resource.wasd_keys)
 
 func switch_keybind_presets(preset: Array):
