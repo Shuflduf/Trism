@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=11 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
 [ext_resource type="LabelSettings" uid="uid://3hv6ytdg8wv" path="res://Assets/Fonts/settingsmaybe.tres" id="3_aq7cx"]
 [ext_resource type="Script" path="res://Scripts/Controls.gd" id="4_w80sp"]
+[ext_resource type="Resource" uid="uid://de12cjtbdaokm" path="res://keybind_resource.tres" id="5_i655h"]
 [ext_resource type="LabelSettings" uid="uid://cbt75dcn0d7vd" path="res://Assets/Fonts/controllabel.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://bvh2x3eplk2cx" path="res://Assets/Fonts/inputlabel.tres" id="6_6ih8y"]
 
@@ -105,6 +106,7 @@ text = "ARR"
 label_settings = ExtResource("3_aq7cx")
 
 [node name="ARRSlider" type="HSlider" parent="Settings/VBoxContainer/ARR"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -114,6 +116,7 @@ value = 2.0
 rounded = true
 
 [node name="ARRLineEdit" type="SpinBox" parent="Settings/VBoxContainer/ARR"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 value = 2.0
@@ -131,6 +134,7 @@ text = "DAS
 label_settings = ExtResource("3_aq7cx")
 
 [node name="DASSlider" type="HSlider" parent="Settings/VBoxContainer/DAS"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -140,6 +144,7 @@ value = 10.0
 rounded = true
 
 [node name="DASLineEdit" type="SpinBox" parent="Settings/VBoxContainer/DAS"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
 max_value = 20.0
@@ -185,6 +190,7 @@ text = "SDF
 label_settings = ExtResource("3_aq7cx")
 
 [node name="SDFSlider" type="HSlider" parent="Settings/VBoxContainer/SDF"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -194,6 +200,7 @@ value = 6.0
 rounded = true
 
 [node name="SDFLineEdit" type="SpinBox" parent="Settings/VBoxContainer/SDF"]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 5.0
 max_value = 30.0
@@ -221,12 +228,15 @@ theme_override_constants/margin_top = 70
 theme_override_constants/margin_right = 70
 theme_override_constants/margin_bottom = 70
 script = ExtResource("4_w80sp")
+keybind_resource = ExtResource("5_i655h")
 
 [node name="TabContainer" type="TabContainer" parent="Controls"]
 layout_mode = 2
 tab_alignment = 1
+current_tab = 1
 
 [node name="Arrow Keys" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -350,7 +360,6 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -485,3 +494,4 @@ label_settings = ExtResource("6_6ih8y")
 [connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
 [connection signal="pressed" from="Settings/VBoxContainer/SwitchToControls" to="." method="_on_switch_to_controls_pressed"]
+[connection signal="tab_changed" from="Controls/TabContainer" to="Controls" method="_on_tab_container_tab_changed"]

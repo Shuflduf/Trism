@@ -5,14 +5,12 @@ extends Control
 @onready var controls = $Controls
 
 #region handling vars
-@onready var arr_slider = $Settings/CenterContainer/VBoxContainer/ARR/ARRSlider
-@onready var arr_num = $Settings/CenterContainer/VBoxContainer/ARR/ARRLineEdit
-
-@onready var das_slider = $Settings/CenterContainer/VBoxContainer/DAS/DASSlider
-@onready var das_num = $Settings/CenterContainer/VBoxContainer/DAS/DASLineEdit
-
-@onready var sdf_slider = $Settings/CenterContainer/VBoxContainer/SDF/SDFSlider
-@onready var sdf_num = $Settings/CenterContainer/VBoxContainer/SDF/SDFLineEdit
+@onready var arr_slider = %ARRSlider
+@onready var arr_num = %ARRLineEdit
+@onready var das_slider = %DASSlider
+@onready var das_num = %DASLineEdit
+@onready var sdf_slider = %SDFSlider
+@onready var sdf_num = %SDFLineEdit
 #endregion
 
 signal pause_state(pause_state : bool)
