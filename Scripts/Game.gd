@@ -10,7 +10,7 @@ extends GridMap
 # Handling stuff
 const DAS := 10  # Delay in seconds before auto-repeat starts
 const ARR := 2  # Time in seconds between auto-repeats
-const SDF := 6 # Soft Drop Factor
+const SDF := 6.0 # Soft Drop Factor
 
 # Timers for each direction
 var left_timer := 0
@@ -65,7 +65,7 @@ var grav_counter : int
 const STARTER_GRAV = 30.0
 var active_gravity := STARTER_GRAV
 var temp_grav := STARTER_GRAV
-const ACCEL := 1 # 0.05
+const ACCEL := 0.05
 
 var bag = SRS.shapes.duplicate()
 
@@ -83,7 +83,7 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
-	print(active_gravity)
+	print(str(active_gravity) + "  " + str(soft_dropping))
 	if Input.is_action_just_pressed("pause"):
 		pause_game()
 
@@ -132,12 +132,13 @@ func _physics_process(_delta):
 
 		if Input.is_action_just_pressed("soft"):
 			soft_dropping = true
-			temp_grav = active_gravity
 			change_gravity(active_gravity / SDF)
+			
 			
 		if Input.is_action_just_released("soft"):
 			soft_dropping = false
-			change_gravity(temp_grav)
+			change_gravity(active_gravity * SDF)
+			
 			
 		grav_counter += 1
 		if grav_counter > active_gravity:
@@ -468,7 +469,10 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-		change_gravity(ACCEL, true)
+			if soft_dropping:
+				change_gravity(ACCEL / SDF, true)
+			else:
+				change_gravity(ACCEL, true)
 
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
@@ -513,24 +517,10 @@ func _on_pause_menu_toggle_rtx(on_off):
 	env.sdfgi_enabled = on_off
 
 func change_gravity(value : float, increase_mode := false):
-	var modified_gravity
-	match soft_dropping:
-		true:
-			modified_gravity = temp_grav
-		false:
-			modified_gravity = active_gravity
-			
 	if increase_mode:
-		modified_gravity -= value
+		active_gravity -= value
 	else: 
-		modified_gravity = value
+		active_gravity = value
 	
-	modified_gravity = floor(clamp(modified_gravity,2,INF))
-	
-	match soft_dropping:
-		true:
-			temp_grav = modified_gravity
-		false:
-			active_gravity = modified_gravity
-			
+	active_gravity = clamp(active_gravity,1,INF)
 	
