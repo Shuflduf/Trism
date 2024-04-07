@@ -161,7 +161,6 @@ func new_game():
 	shuffle_bag()
 	show_next_pieces(next_pieces)
 	change_gravity(STARTER_GRAV)
-	steps = [0, 0, 0]
 	gameover.hide()
 	animation_player.play("countdown")
 	await animation_player.animation_finished
