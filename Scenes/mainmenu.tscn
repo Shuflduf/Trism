@@ -1,13 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bm5u2sn4wmeel"]
 
-[ext_resource type="Script" path="res://Scripts/Control.gd" id="1_dd0bb"]
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_rhico"]
-font = ExtResource("2_h4vkp")
-font_size = 111
-outline_size = 25
-outline_color = Color(0, 0, 0, 1)
+[ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -38,7 +33,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Tetrism"
-label_settings = SubResource("LabelSettings_rhico")
+label_settings = ExtResource("2_j3nmr")
 horizontal_alignment = 1
 uppercase = true
 

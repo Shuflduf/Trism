@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerKeybindResource" load_steps=2 format=3 uid="uid://jtd7cbtmwwjd"]
+
+[ext_resource type="Script" path="res://Scripts/player_keybind_resource.gd" id="1_wej3m"]
+
+[resource]
+script = ExtResource("1_wej3m")
+WASD_LEFT_KEY = 65
+WASD_RIGHT_KEY = 68
+WASD_SOFT_KEY = 87
+WASD_HARD_KEY = 83
+WASD_ROT_LEFT_KEY = 4194319
+WASD_ROT_RIGHT_KEY = 4194321
+WASD_HOLD_KEY = 4194325

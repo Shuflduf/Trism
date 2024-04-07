@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://ceef1murwut4i"]
+
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_vpp7g"]
+
+[resource]
+font = ExtResource("1_vpp7g")
+font_size = 50
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
