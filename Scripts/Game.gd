@@ -8,9 +8,9 @@ extends GridMap
 @onready var env = %WorldEnvironment.environment
 
 # Handling stuff
-const DAS := 10  # Delay in seconds before auto-repeat starts
-const ARR := 2  # Time in seconds between auto-repeats
-const SDF := 6.0 # Soft Drop Factor
+var DAS := 10  # Delay in frames before auto-repeat starts
+var ARR := 2  # Time in frames between auto-repeats
+var SDF := 6.0 # Soft Drop Factor
 
 # Timers for each direction
 var left_timer := 0
@@ -63,9 +63,8 @@ var steps_req = 50
 # 3. yea 2 works
 var grav_counter : int
 const STARTER_GRAV = 30.0
-var active_gravity := STARTER_GRAV
-var temp_grav := STARTER_GRAV
-const ACCEL := 0.05
+var active_gravity : float = STARTER_GRAV
+const ACCEL := 0.01
 
 var bag = SRS.shapes.duplicate()
 
@@ -83,7 +82,7 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
-	print(str(active_gravity) + "  " + str(soft_dropping))
+	#print(str(active_gravity) + "  " + str(soft_dropping))
 	if Input.is_action_just_pressed("pause"):
 		pause_game()
 
@@ -133,7 +132,6 @@ func _physics_process(_delta):
 		if Input.is_action_just_pressed("soft"):
 			soft_dropping = true
 			change_gravity(active_gravity / SDF)
-			
 			
 		if Input.is_action_just_released("soft"):
 			soft_dropping = false
@@ -522,5 +520,8 @@ func change_gravity(value : float, increase_mode := false):
 	else: 
 		active_gravity = value
 	
-	active_gravity = clamp(active_gravity,1,INF)
+	active_gravity = clamp(active_gravity,0.1,INF)
 	
+func _on_pause_menu_modify_handling(setting, value):
+	soft_dropping = false
+	set(setting, value)

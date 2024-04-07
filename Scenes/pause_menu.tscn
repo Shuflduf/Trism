@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=7 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
+[ext_resource type="LabelSettings" uid="uid://3hv6ytdg8wv" path="res://Assets/Fonts/settingsmaybe.tres" id="3_aq7cx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]
 bg_color = Color(0, 0, 0, 0.462745)
@@ -10,6 +11,12 @@ bg_color = Color(0, 0, 0, 0.462745)
 font = ExtResource("1_epsu2")
 font_size = 116
 outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yry84"]
+font = ExtResource("1_epsu2")
+font_size = 26
+outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" type="Control"]
@@ -87,8 +94,123 @@ theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 31
 text = "RTX"
 
-[node name="OptionButton" type="OptionButton" parent="Settings/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer"]
 layout_mode = 2
+text = "HANDLING"
+label_settings = SubResource("LabelSettings_yry84")
+horizontal_alignment = 1
+
+[node name="ARR" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/ARR"]
+layout_mode = 2
+text = "ARR"
+label_settings = ExtResource("3_aq7cx")
+
+[node name="ARRSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/ARR"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 5.0
+value = 2.0
+rounded = true
+
+[node name="ARRLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/ARR"]
+layout_mode = 2
+max_value = 5.0
+value = 2.0
+rounded = true
+suffix = "F"
+
+[node name="DAS" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/DAS"]
+layout_mode = 2
+text = "DAS
+"
+label_settings = ExtResource("3_aq7cx")
+
+[node name="DASSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/DAS"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 20.0
+value = 10.0
+rounded = true
+
+[node name="DASLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/DAS"]
+layout_mode = 2
+min_value = 1.0
+max_value = 20.0
+value = 10.0
+rounded = true
+suffix = "F"
+
+[node name="DCD" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/DCD"]
+layout_mode = 2
+text = "DCD (todo)
+"
+label_settings = ExtResource("3_aq7cx")
+
+[node name="HSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/DCD"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 20.0
+value = 1.0
+rounded = true
+editable = false
+scrollable = false
+
+[node name="LineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/DCD"]
+layout_mode = 2
+max_value = 20.0
+value = 1.0
+rounded = true
+editable = false
+
+[node name="SDF" type="HBoxContainer" parent="Settings/CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Settings/CenterContainer/VBoxContainer/SDF"]
+layout_mode = 2
+text = "SDF
+"
+label_settings = ExtResource("3_aq7cx")
+
+[node name="SDFSlider" type="HSlider" parent="Settings/CenterContainer/VBoxContainer/SDF"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 5.0
+max_value = 30.0
+value = 6.0
+rounded = true
+
+[node name="SDFLineEdit" type="SpinBox" parent="Settings/CenterContainer/VBoxContainer/SDF"]
+layout_mode = 2
+min_value = 5.0
+max_value = 30.0
+value = 6.0
+rounded = true
+suffix = "F"
 
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
 [connection signal="toggled" from="Settings/CenterContainer/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/DAS/DASSlider" to="." method="_on_das_slider_value_changed"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/DAS/DASLineEdit" to="." method="_on_das_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
+[connection signal="value_changed" from="Settings/CenterContainer/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
