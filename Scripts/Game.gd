@@ -7,7 +7,7 @@ extends GridMap
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 
-# DAS and ARR settings
+# Handling stuff
 const DAS := 10  # Delay in seconds before auto-repeat starts
 const ARR := 2  # Time in seconds between auto-repeats
 const SDF := 6 # Soft Drop Factor
@@ -19,6 +19,7 @@ var down_timer := 0
 
 var moving_left = false
 var moving_right = false
+var soft_dropping = false
 
 #grid consts
 const ROWS := 20
@@ -61,9 +62,10 @@ var steps_req = 50
 # 2. a counter that counts up each frame, and moves down when above a threshold
 # 3. yea 2 works
 var grav_counter : int
-var active_gravity := 60
-var temp_grav := active_gravity
-const ACCEL := 1
+const STARTER_GRAV = 30.0
+var active_gravity := STARTER_GRAV
+var temp_grav := STARTER_GRAV
+const ACCEL := 1 # 0.05
 
 var bag = SRS.shapes.duplicate()
 
@@ -81,6 +83,7 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
+	print(active_gravity)
 	if Input.is_action_just_pressed("pause"):
 		pause_game()
 
@@ -97,9 +100,15 @@ func _physics_process(_delta):
 			moving_right = true
 		
 		if Input.is_action_just_released("left"):
+			if Input.is_action_pressed("right"):
+				move_piece(directions[1])
+				moving_right = true
 			moving_left = false
 		
 		if Input.is_action_just_released("right"):
+			if Input.is_action_pressed("left"):
+				move_piece(directions[0])
+				moving_left = true
 			moving_right = false
 		
 		# Handle DAS for left movement
@@ -121,10 +130,13 @@ func _physics_process(_delta):
 			right_timer = 0
 		
 
-		if Input.is_action_pressed("soft"):
+		if Input.is_action_just_pressed("soft"):
+			soft_dropping = true
 			temp_grav = active_gravity
 			change_gravity(active_gravity / SDF)
-		else:
+			
+		if Input.is_action_just_released("soft"):
+			soft_dropping = false
 			change_gravity(temp_grav)
 			
 		grav_counter += 1
@@ -149,7 +161,7 @@ func new_game():
 	draw_top()
 	shuffle_bag()
 	show_next_pieces(next_pieces)
-	change_gravity(60)
+	change_gravity(STARTER_GRAV)
 	steps = [0, 0, 0]
 	gameover.hide()
 	animation_player.play("countdown")
@@ -500,9 +512,25 @@ func pause_game():
 func _on_pause_menu_toggle_rtx(on_off):
 	env.sdfgi_enabled = on_off
 
-func change_gravity(value : int, increase_mode := false):
+func change_gravity(value : float, increase_mode := false):
+	var modified_gravity
+	match soft_dropping:
+		true:
+			modified_gravity = temp_grav
+		false:
+			modified_gravity = active_gravity
+			
 	if increase_mode:
-		active_gravity += value
+		modified_gravity -= value
 	else: 
-		active_gravity = value
+		modified_gravity = value
+	
+	modified_gravity = floor(clamp(modified_gravity,2,INF))
+	
+	match soft_dropping:
+		true:
+			temp_grav = modified_gravity
+		false:
+			active_gravity = modified_gravity
+			
 	
