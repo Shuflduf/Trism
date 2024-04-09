@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=12 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
@@ -7,6 +7,8 @@
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://b8ki582y8fda5" path="res://Assets/Fonts/Font Styles/Info.tres" id="6_6ih8y"]
+[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="8_q8d13"]
+[ext_resource type="Script" path="res://Scripts/input_button.gd" id="9_tjw1b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]
 bg_color = Color(0, 0, 0, 0.462745)
@@ -36,6 +38,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -213,7 +216,6 @@ theme_override_font_sizes/font_size = 30
 text = "Customize Controls"
 
 [node name="Controls" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,8 +234,10 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
+current_tab = 2
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -482,6 +486,143 @@ layout_mode = 2
 size_flags_horizontal = 10
 text = "Shift"
 label_settings = ExtResource("6_6ih8y")
+
+[node name="Custom" type="MarginContainer" parent="Controls/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Custom"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoveLeft" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/MoveLeft"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Left"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetLeft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveLeft"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="MoveRight" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/MoveRight"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Move Piece Right"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetRight" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveRight"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="SoftDrop" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/SoftDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Soft Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetSoft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/SoftDrop"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="HardDrop" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/HardDrop"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hard Drop"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetHard" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/HardDrop"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="CCW" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/CCW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Counterclockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetCCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CCW"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="CW" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/CW"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Rotate Clockwise"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CW"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
+
+[node name="Hold" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="Controls/TabContainer/Custom/VBoxContainer/Hold"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Hold Piece"
+label_settings = ExtResource("5_icmgu")
+
+[node name="SetHold" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/Hold"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_q8d13")
+theme_override_font_sizes/font_size = 20
+text = "[click]"
+script = ExtResource("9_tjw1b")
 
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
 [connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]

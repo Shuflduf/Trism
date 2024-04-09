@@ -67,7 +67,7 @@ const STARTER_GRAV = 30.0
 var active_gravity : float = STARTER_GRAV
 const ACCEL := 0.01
 
-var bag #= active_table.shapes.duplicate()
+var bag 
 
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
