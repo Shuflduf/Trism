@@ -13,7 +13,6 @@ func _on_tab_container_tab_changed(tab):
 func switch_keybind_presets(preset: Array):
 	for i in range(preset.size()):
 		var event_key = InputEventKey.new()
-		# Use the mapping to convert the string to a keycode
 		var keycode = preset[i]
 		if keycode:
 			event_key.keycode = keycode

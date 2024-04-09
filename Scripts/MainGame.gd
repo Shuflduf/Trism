@@ -1,5 +1,6 @@
-class_name Tetris
 extends GridMap
+
+@export var active_table : SRS
 
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
@@ -66,7 +67,7 @@ const STARTER_GRAV = 30.0
 var active_gravity : float = STARTER_GRAV
 const ACCEL := 0.01
 
-var bag = SRS.shapes.duplicate()
+var bag #= active_table.shapes.duplicate()
 
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
@@ -176,14 +177,14 @@ func pick_piece():
 		bag.shuffle()
 		piece = bag.pop_front()
 	else:
-		bag = SRS.shapes.duplicate()
+		bag = active_table.shapes.duplicate()
 		bag.shuffle()
 		piece = bag.pop_front()
 	return piece
 
 #shuffles the bag
 func shuffle_bag():
-	bag = SRS.shapes.duplicate()
+	bag = active_table.shapes.duplicate()
 	next_pieces = []
 	for i in next_piece_count:
 		next_pieces.append(pick_piece())
@@ -201,7 +202,7 @@ func show_next_pieces(pieces: Array):
 		for pos in piece[0]:
 			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 6 - vertical_offset, 0)
 			current_shown_pieces.append(cell_position)
-			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
+			next_pieces_grid.set_cell_item(cell_position, active_table.shapes.find(piece))
 		vertical_offset += 4
 		
 	for i in range(0,3):
@@ -223,7 +224,7 @@ func show_next_pieces(pieces: Array):
 		for pos in piece[0]:
 			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 26 - vertical_offset, 0)
 			current_shown_pieces.append(cell_position)
-			next_pieces_grid.set_cell_item(cell_position, SRS.shapes.find(piece))
+			next_pieces_grid.set_cell_item(cell_position, active_table.shapes.find(piece))
 		vertical_offset += 4
 
 #handles new piece creation
@@ -238,7 +239,7 @@ func create_piece():
 		can_hold = true
 		
 		piece_type = next_pieces[0]
-		piece_color = SRS.shapes.find(piece_type)
+		piece_color = active_table.shapes.find(piece_type)
 		next_piece()
 	
 		active_piece = piece_type[rotation_index]
@@ -267,7 +268,7 @@ func rotate_piece(dir):
 			"right":
 				temp_rotation_index = (rotation_index + 1) % 4
 				
-	var srs_kick_table : Array = SRS.get(("n" if piece_type != SRS.i else "i")\
+	var srs_kick_table : Array = active_table.get(("n" if piece_type != active_table.i else "i")\
 	 + str(rotation_index) + str(temp_rotation_index))
 	var temp_kick_table = srs_kick_table.duplicate()
 	temp_kick_table.push_front(Vector2i(0,0))
@@ -391,7 +392,7 @@ func hold_piece():
 			rotation_index = 0
 			
 			active_piece = piece_type[rotation_index]
-			piece_color = SRS.shapes.find(piece_type)
+			piece_color = active_table.shapes.find(piece_type)
 			
 			draw_piece(active_piece, current_loc)
 

@@ -18,7 +18,6 @@ config/icon="res://Assets/tetrism_logo.png"
 
 [autoload]
 
-SRS="*res://Scripts/SRS.gd"
 SceneManager="*res://Scenes/scene_manager.tscn"
 
 [input]
