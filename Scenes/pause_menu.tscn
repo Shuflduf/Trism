@@ -235,6 +235,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
+tab_focus_mode = 0
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
 layout_mode = 2
@@ -515,7 +516,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="MoveRight" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -534,7 +535,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="SoftDrop" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -553,7 +554,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="HardDrop" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -572,7 +573,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="CCW" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -591,7 +592,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="CW" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -610,7 +611,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [node name="Hold" type="HBoxContainer" parent="Controls/TabContainer/Custom/VBoxContainer"]
@@ -629,7 +630,7 @@ layout_mode = 2
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
-text = "[click]"
+text = "[set]"
 script = ExtResource("9_tjw1b")
 
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]

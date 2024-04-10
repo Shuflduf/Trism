@@ -1,9 +1,11 @@
 extends Node
 
+#var save_nodes = get_tree().get_nodes_in_group("Persist")
+
 @export var keybind_resource : PlayerKeybindResource
 
 func _ready():
-	switch_keybind_presets(keybind_resource.wasd_keys)
+	_on_tab_container_tab_changed(get_child(0).current_tab)
 	
 func _on_tab_container_tab_changed(tab):
 	match tab:
@@ -24,7 +26,11 @@ func switch_keybind_presets(preset: Array):
 			print("Keycode for ", preset[i], " not found in mapping.")
 		InputMap.action_erase_events(keybind_resource.input_keys[i])
 		InputMap.action_add_event(keybind_resource.input_keys[i], event_key)
+	
 
 func _on_custom_updated_keybinds(keys):
 	keybind_resource.custom_keys = keys
 	switch_keybind_presets(keybind_resource.custom_keys)
+
+
+	
