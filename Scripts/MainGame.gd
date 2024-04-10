@@ -34,6 +34,12 @@ var paused = false
 var can_hold = true
 
 #game piece vars
+var counting = false
+var drop_timer := 0
+var temp_timer := 0
+const MAX_DROP_TIME = 120
+const TEMP_DROP_TIME = 40
+
 var piece_type
 var next_pieces_tween : Tween
 var next_pieces : Array
@@ -83,7 +89,6 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
-	#print(str(active_gravity) + "  " + str(soft_dropping))
 	if Input.is_action_just_pressed("pause"):
 		pause_menu.handle_pause()
 
@@ -143,6 +148,17 @@ func _physics_process(_delta):
 		if grav_counter > active_gravity:
 			move_piece(directions[2])
 			grav_counter = 0
+			
+		if counting:
+			drop_timer += 1
+			temp_timer += 1
+			if temp_timer > TEMP_DROP_TIME or drop_timer > MAX_DROP_TIME:
+				drop_timer = 0
+				temp_timer = 0
+				hard_drop()
+
+
+		
 		
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
@@ -229,6 +245,7 @@ func show_next_pieces(pieces: Array):
 
 #handles new piece creation
 func create_piece():
+	counting = false
 	check_rows()
 	steps = [0, 0, 0]
 	current_loc = SPAWN
@@ -275,6 +292,7 @@ func rotate_piece(dir):
 	
 	for offset in temp_kick_table:
 		if can_rotate(temp_rotation_index, offset):
+			temp_timer = 0
 			clear_piece() 
 			rotation_index = temp_rotation_index
 
@@ -303,9 +321,12 @@ func move_piece(dir):
 		clear_piece()
 		current_loc += convert_vec2_vec3(dir)
 		draw_piece(active_piece, current_loc)
+		is_free_below()
+		temp_timer = 0
 		
 	elif dir == Vector2i.DOWN:
-		create_piece()
+		#create_piece()
+		pass
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
@@ -523,3 +544,11 @@ func _on_pause_menu_pause_state(pause_state):
 	elif not pause_state:
 		paused = false
 		animation_player.speed_scale = 1
+
+func is_free_below():
+	for i in active_piece:
+		if !is_free(convert_vec2_vec3(i + Vector2i(0, 1)) + current_loc, true):
+			counting = true
+			return
+		else:
+			counting = false
