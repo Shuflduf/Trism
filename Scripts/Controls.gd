@@ -2,6 +2,9 @@ extends Node
 
 @export var keybind_resource : PlayerKeybindResource
 
+func _ready():
+	switch_keybind_presets(keybind_resource.wasd_keys)
+	
 func _on_tab_container_tab_changed(tab):
 	match tab:
 		2:

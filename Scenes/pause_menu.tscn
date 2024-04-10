@@ -235,10 +235,8 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
-current_tab = 2
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -489,6 +487,7 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="Custom" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
