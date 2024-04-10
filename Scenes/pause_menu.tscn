@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=13 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://b8ki582y8fda5" path="res://Assets/Fonts/Font Styles/Info.tres" id="6_6ih8y"]
+[ext_resource type="Script" path="res://Scripts/CustomControls.gd" id="8_0namw"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="8_q8d13"]
 [ext_resource type="Script" path="res://Scripts/input_button.gd" id="9_tjw1b"]
 
@@ -38,7 +39,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -216,6 +216,7 @@ theme_override_font_sizes/font_size = 30
 text = "Customize Controls"
 
 [node name="Controls" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -493,6 +494,7 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
+script = ExtResource("8_0namw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Custom"]
 layout_mode = 2
@@ -511,6 +513,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetLeft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveLeft"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -529,6 +532,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetRight" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveRight"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -547,6 +551,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetSoft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/SoftDrop"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -565,6 +570,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetHard" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/HardDrop"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -583,6 +589,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetCCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CCW"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -601,6 +608,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CW"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -619,6 +627,7 @@ label_settings = ExtResource("5_icmgu")
 [node name="SetHold" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/Hold"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
 text = "[click]"
@@ -634,3 +643,4 @@ script = ExtResource("9_tjw1b")
 [connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
 [connection signal="pressed" from="Settings/VBoxContainer/SwitchToControls" to="." method="_on_switch_to_controls_pressed"]
 [connection signal="tab_changed" from="Controls/TabContainer" to="Controls" method="_on_tab_container_tab_changed"]
+[connection signal="updated_keybinds" from="Controls/TabContainer/Custom" to="Controls" method="_on_custom_updated_keybinds"]
