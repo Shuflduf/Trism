@@ -7,6 +7,14 @@ extends GridMap
 @onready var pause_menu = %PauseMenu
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
+@onready var cleared = %Cleared
+
+var cleared_lines = {
+	1 : "One",
+	2 : "Two",
+	3 : "Three",
+	4 : "Four",
+}
 
 # Handling stuff
 var DAS := 10  # Delay in frames before auto-repeat starts
@@ -39,6 +47,8 @@ var drop_timer := 0
 var temp_timer := 0
 const MAX_DROP_TIME = 120
 const TEMP_DROP_TIME = 40
+
+var tspin_valid
 
 var piece_type
 var next_pieces_tween : Tween
@@ -290,18 +300,37 @@ func rotate_piece(dir):
 	var temp_kick_table = srs_kick_table.duplicate()
 	temp_kick_table.push_front(Vector2i(0,0))
 	
-	for offset in temp_kick_table:
+	for i in range(temp_kick_table.size()):
+		var offset = temp_kick_table[i]
 		if can_rotate(temp_rotation_index, offset):
 			temp_timer = 0
-			clear_piece() 
+			clear_piece()
 			rotation_index = temp_rotation_index
 
-			active_piece = piece_type[rotation_index] 
-			#current_loc += convert_vec2_vec3(offset)
+			active_piece = piece_type[rotation_index]
 			current_loc.x += offset.x
 			current_loc.y += offset.y
 			draw_piece(active_piece, current_loc)
+
+		# Check if the offset is the first or the last in the list
+			if piece_type == active_table.t:  # Assuming 'piece_type' holds the type of the current piece and "T" represents the T piece
+				if i == 0:
+					print("Used the first offset in the list.")
+				elif i == temp_kick_table.size() - 1:
+					print("Used the last offset in the list.")
+
 			return
+	#for offset in temp_kick_table:
+		#if can_rotate(temp_rotation_index, offset):
+			#temp_timer = 0
+			#clear_piece() 
+			#rotation_index = temp_rotation_index
+#
+			#active_piece = piece_type[rotation_index] 
+			#current_loc.x += offset.x
+			#current_loc.y += offset.y
+			#draw_piece(active_piece, current_loc)
+			#return
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
@@ -323,6 +352,7 @@ func move_piece(dir):
 		draw_piece(active_piece, current_loc)
 		is_free_below()
 		temp_timer = 0
+		tspin_valid = false
 		
 	elif dir == Vector2i.DOWN:
 		#create_piece()
@@ -492,7 +522,11 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				change_gravity(ACCEL / SDF, true)
 			else:
 				change_gravity(ACCEL, true)
-
+			
+			animation_player.stop()
+			cleared.text = cleared_lines[rows_to_move_down]
+			animation_player.play("lines_cleared")
+			
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 	if event is InputEventMouseButton:
@@ -545,6 +579,7 @@ func _on_pause_menu_pause_state(pause_state):
 		paused = false
 		animation_player.speed_scale = 1
 
+#checks if the moving down is valid, used for lock delay
 func is_free_below():
 	for i in active_piece:
 		if !is_free(convert_vec2_vec3(i + Vector2i(0, 1)) + current_loc, true):
@@ -552,3 +587,6 @@ func is_free_below():
 			return
 		else:
 			counting = false
+
+func detect_spin():
+	pass	
