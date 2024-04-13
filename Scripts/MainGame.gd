@@ -16,6 +16,8 @@ var cleared_lines = {
 	4 : "Four",
 }
 
+var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 0), Vector2i(2, 2)]
+
 # Handling stuff
 var DAS := 10  # Delay in frames before auto-repeat starts
 var ARR := 2  # Time in frames between auto-repeats
@@ -265,6 +267,9 @@ func create_piece():
 	if !lost:
 		can_hold = true
 		
+		if piece_type == active_table.t:
+			print(tspin_valid)
+		
 		piece_type = next_pieces[0]
 		piece_color = active_table.shapes.find(piece_type)
 		next_piece()
@@ -273,6 +278,7 @@ func create_piece():
 		draw_piece(active_piece, SPAWN)
 		show_held_piece(held_piece, held_piece_color)
 		draw_top()
+		tspin_valid = false
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -313,24 +319,13 @@ func rotate_piece(dir):
 			draw_piece(active_piece, current_loc)
 
 		# Check if the offset is the first or the last in the list
-			if piece_type == active_table.t:  # Assuming 'piece_type' holds the type of the current piece and "T" represents the T piece
-				if i == 0:
-					print("Used the first offset in the list.")
-				elif i == temp_kick_table.size() - 1:
-					print("Used the last offset in the list.")
-
+			if piece_type == active_table.t:
+				if i == 0 or i == temp_kick_table.size() - 1:
+					if detect_tspin():
+						tspin_valid = true
+					else:
+						tspin_valid = false
 			return
-	#for offset in temp_kick_table:
-		#if can_rotate(temp_rotation_index, offset):
-			#temp_timer = 0
-			#clear_piece() 
-			#rotation_index = temp_rotation_index
-#
-			#active_piece = piece_type[rotation_index] 
-			#current_loc.x += offset.x
-			#current_loc.y += offset.y
-			#draw_piece(active_piece, current_loc)
-			#return
 	
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
@@ -343,9 +338,23 @@ func can_rotate(temp_rot_idx, offset):
 	
 	return true
 
+func detect_tspin():
+	var current_3x3 = []
+	for j in grid_3x3_corners:
+		var grid_space = convert_vec2_vec3(j) + current_loc
+		current_3x3.append(grid_space)
+	#current_3x3.pop_at(rotation_index)
+	var in_front = []
+	#for j in current_3x3:
+	for l in range(2):
+		in_front.append(current_3x3.pop_at((rotation_index - 3) % 4))
+		
+	for j in in_front:
+		set_cell_item(j, 8)
+	print(str(in_front) + " IN FRONT")
+
 #moves the piece in a specified direction
 func move_piece(dir):
-	
 	if can_move(dir):
 		clear_piece()
 		current_loc += convert_vec2_vec3(dir)
@@ -353,10 +362,6 @@ func move_piece(dir):
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = false
-		
-	elif dir == Vector2i.DOWN:
-		#create_piece()
-		pass
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
@@ -481,7 +486,7 @@ func check_rows():
 		var is_row_full = true
 		
 		@warning_ignore("integer_division", "integer_division")
-		for col in range(-COLS/2, COLS/2):
+		for col in range(-COLS/2.0, COLS/2.0):
 			if is_free(Vector3i(col, row, 0)):
 				is_row_full = false
 				break
@@ -499,7 +504,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 	# Clear the rows
 	for row in cleared_rows_indices:
 		@warning_ignore("integer_division", "integer_division", "integer_division")
-		for col in range(-COLS/2, COLS/2):
+		for col in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(col, row, 0), -1)
 
 	# Move pieces down
@@ -513,7 +518,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 
 		if rows_to_move_down > 0:
 			@warning_ignore("integer_division")
-			for col in range(-COLS/2, COLS/2):
+			for col in range(-COLS/2.0, COLS/2.0):
 				var item_col = get_cell_item(Vector3i(col, row, 0))
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
@@ -537,13 +542,13 @@ func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 func clear_board():
 	for y in range(-10, 20):
 		@warning_ignore("integer_division", "integer_division")
-		for x in range(-COLS/2, COLS/2):
+		for x in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(x, y, 0), -1)
 
 #detects if you lost the game
 func detect_lost():
 	@warning_ignore("integer_division")
-	for x in range(-COLS/2 , COLS/2 ):
+	for x in range(-COLS/2.0 , COLS/2.0 ):
 		if !is_free(Vector3i(x, 11, 0), true):
 			game_lost()
 			
@@ -587,6 +592,7 @@ func is_free_below():
 			return
 		else:
 			counting = false
+
 
 func detect_spin():
 	pass	
