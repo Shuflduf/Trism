@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=7 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
+[ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
+[ext_resource type="PackedScene" uid="uid://dhy2c3qh7bhrl" path="res://Scenes/pause_menu.tscn" id="5_plgkr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2janm"]
+shader = ExtResource("2_cgjbf")
+shader_parameter/color_gap = Color(1, 0.635294, 0, 1)
+shader_parameter/color_stripe = Color(1, 0.75, 0, 1)
+shader_parameter/divisions = 16.0
+shader_parameter/stripe_bias = 2.0
+shader_parameter/speed = 0.05
+shader_parameter/angle = 0.785
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -14,10 +25,20 @@ grow_vertical = 2
 script = ExtResource("1_dd0bb")
 next_scene = "res://Scenes/world.tscn"
 
+[node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_2janm")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.525174
+anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -29,6 +50,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -43,4 +65,14 @@ theme_override_fonts/font = ExtResource("2_h4vkp")
 theme_override_font_sizes/font_size = 96
 text = "PLAY"
 
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_h4vkp")
+theme_override_font_sizes/font_size = 50
+text = "OPTIONS"
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_plgkr")]
+layout_mode = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]

@@ -19,8 +19,12 @@ signal toggle_rtx(on_off)
 
 signal modify_handling(setting, value)
 
-func handle_pause():
+func handle_pause(go_to_options := false):
 	if not visible:
+		if go_to_options:
+			settings.visible = true
+			pause_state.emit(true)
+			return
 		visible = true
 		pause_state.emit(true)
 		return
