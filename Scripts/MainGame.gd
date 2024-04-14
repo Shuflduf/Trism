@@ -338,6 +338,7 @@ func can_rotate(temp_rot_idx, offset):
 	
 	return true
 
+#hmmmm
 func detect_tspin():
 	var current_3x3 = []
 	for j in grid_3x3_corners:
@@ -346,8 +347,9 @@ func detect_tspin():
 	#current_3x3.pop_at(rotation_index)
 	var in_front = []
 	#for j in current_3x3:
+	print(str(current_3x3) + " CORNERS FOR " + str(rotation_index))
 	for l in range(2):
-		in_front.append(current_3x3.pop_at((rotation_index - 3) % 4))
+		in_front.append(current_3x3.pop_at((rotation_index % 4) - 1))
 		
 	for j in in_front:
 		set_cell_item(j, 8)
@@ -592,7 +594,3 @@ func is_free_below():
 			return
 		else:
 			counting = false
-
-
-func detect_spin():
-	pass	
