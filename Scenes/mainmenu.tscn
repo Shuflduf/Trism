@@ -12,8 +12,12 @@ shader_parameter/color_gap = Color(1, 0.635294, 0, 1)
 shader_parameter/color_stripe = Color(1, 0.75, 0, 1)
 shader_parameter/divisions = 16.0
 shader_parameter/stripe_bias = 2.0
-shader_parameter/speed = 0.05
-shader_parameter/angle = 0.785
+shader_parameter/speed = 0.03
+shader_parameter/angle = 0.7854
+shader_parameter/mask_width = 0.03
+shader_parameter/shadow_width = 0.09
+shader_parameter/zigzag_frequency = -3.0
+shader_parameter/zigzag_amplitude = -0.03
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -29,7 +33,7 @@ next_scene = "res://Scenes/world.tscn"
 material = SubResource("ShaderMaterial_2janm")
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.5
+anchor_right = 0.547743
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
