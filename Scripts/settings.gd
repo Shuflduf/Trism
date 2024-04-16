@@ -1,12 +1,14 @@
 extends Node
 
-var current_keybinds := []
+#var current_keybinds := []
+
+var rtx_on := false
 
 # handling settings
-var arr : int
-var das : int
+var arr := 2
+var das := 10
 var dcd : int
-var sdf : int
+var sdf := 6
 
 
 # Called when the node enters the scene tree for the first time.

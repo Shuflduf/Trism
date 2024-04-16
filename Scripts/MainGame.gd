@@ -18,9 +18,9 @@ var cleared_lines = {
 var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 0), Vector2i(2, 2)]
 
 # Handling stuff
-var DAS := 10  # Delay in frames before auto-repeat starts
-var ARR := 2  # Time in frames between auto-repeats
-var SDF := 6.0 # Soft Drop Factor
+var DAS := Settings.das  # Delay in frames before auto-repeat starts
+var ARR := Settings.arr  # Time in frames between auto-repeats
+var SDF := float(Settings.sdf) # Soft Drop Factor
 
 # Timers for each direction
 var left_timer := 0

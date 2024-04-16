@@ -1,7 +1,7 @@
 extends Control
 
 @onready var main_paused = $PAUSED
-@onready var settings = $Settings
+@onready var settings_menu = $Settings
 @onready var controls = $Controls
 
 #region handling vars
@@ -27,14 +27,14 @@ func handle_pause(go_to_options := false):
 		
 		if go_to_options:
 			main_paused.visible = false
-			settings.visible = true
+			settings_menu.visible = true
 		return
 	if controls.visible:
 		controls.visible = false
-		settings.visible = true
+		settings_menu.visible = true
 		return
-	if settings.visible:
-		settings.visible = false
+	if settings_menu.visible:
+		settings_menu.visible = false
 		main_paused.visible = true
 		return
 	if main_paused.visible:
@@ -43,27 +43,26 @@ func handle_pause(go_to_options := false):
 		return
 
 func _ready():
-	SceneManager.transitioned_out.connect(func():
-		print("JISG")
-		_on_rtx_toggled(%RTX.button_pressed))
 	visible = false
 
 func _on_open_settings_pressed():
 	main_paused.visible = false
-	settings.visible = true
+	settings_menu.visible = true
 	
 func _on_switch_to_controls_pressed():
-	settings.visible = false
+	settings_menu.visible = false
 	controls.visible = true
 
 func unpause_game():
 	visible = false
 
 func _on_rtx_toggled(toggled_on):
+	Settings.rtx = true
 	toggle_rtx.emit(toggled_on)
 
 #region handling stuff
 func _on_arr_slider_value_changed(value):
+	Settings.arr = value
 	arr_num.value = value
 	modify_handling.emit("ARR", value)
 
@@ -71,6 +70,7 @@ func _on_arr_line_edit_value_changed(value):
 	arr_slider.value = value
 
 func _on_das_slider_value_changed(value):
+	Settings.das = value
 	das_num.value = value
 	modify_handling.emit("DAS", value)
 
@@ -78,6 +78,7 @@ func _on_das_line_edit_value_changed(value):
 	das_slider.value = value
 
 func _on_sdf_slider_value_changed(value):
+	Settings.sdf = value
 	sdf_num.value = value
 	modify_handling.emit("SDF", value)
 
