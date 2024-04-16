@@ -4,7 +4,6 @@ extends GridMap
 
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
-@onready var pause_menu = %PauseMenu
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 @onready var cleared = %Cleared
@@ -91,6 +90,12 @@ var bag
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 	return Vector3i(vec2.x, -vec2.y, 0)
 
+func _init():
+	PauseMenu.pause_state.connect(func(pause_state):
+		_on_pause_menu_pause_state(pause_state))
+	PauseMenu.toggle_rtx.connect(func(on_off):
+		_on_pause_menu_toggle_rtx(on_off))
+		
 #handles initial game run
 func _ready():
 	animation_player.assigned_animation = "countdown"
@@ -102,7 +107,7 @@ func _ready():
 #handles what happens every frame
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("pause"):
-		pause_menu.handle_pause()
+		PauseMenu.handle_pause()
 
 	if !lost and !paused:
 		

@@ -20,13 +20,14 @@ signal toggle_rtx(on_off)
 signal modify_handling(setting, value)
 
 func handle_pause(go_to_options := false):
+	get_parent().move_child(self, get_parent().get_child_count() - 1)
 	if not visible:
-		if go_to_options:
-			settings.visible = true
-			pause_state.emit(true)
-			return
 		visible = true
 		pause_state.emit(true)
+		
+		if go_to_options:
+			main_paused.visible = false
+			settings.visible = true
 		return
 	if controls.visible:
 		controls.visible = false
@@ -42,6 +43,9 @@ func handle_pause(go_to_options := false):
 		return
 
 func _ready():
+	SceneManager.transitioned_out.connect(func():
+		print("JISG")
+		_on_rtx_toggled(%RTX.button_pressed))
 	visible = false
 
 func _on_open_settings_pressed():

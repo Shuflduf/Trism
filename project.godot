@@ -19,6 +19,7 @@ config/icon="res://Assets/tetrism_logo.png"
 [autoload]
 
 SceneManager="*res://Scenes/scene_manager.tscn"
+PauseMenu="*res://Scenes/pause_menu.tscn"
 
 [input]
 

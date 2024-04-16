@@ -1,16 +1,16 @@
 extends Control
 
 @export_file("*.tscn") var next_scene: String
-@onready var pause_menu = $PauseMenu
 
 func _on_button_pressed():
+	get_parent().move_child(self, get_parent().get_child_count() - 1)
 	SceneManager.transition_to(next_scene)
 
 func _input(event):
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_ESCAPE:
-			pause_menu.handle_pause(true)
-
-
+	match event.get_class():
+		"InputEventKey":
+			if Input.is_action_just_pressed("pause"):
+				PauseMenu.handle_pause()
+				
 func _on_options_pressed():
-	pass # Replace with function body.
+	PauseMenu.handle_pause(true)

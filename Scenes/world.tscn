@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -6,7 +6,6 @@
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
-[ext_resource type="PackedScene" uid="uid://dhy2c3qh7bhrl" path="res://Scenes/pause_menu.tscn" id="7_aporu"]
 [ext_resource type="LightmapGIData" uid="uid://dmge53gou1w45" path="res://Scenes/world.lmbake" id="8_3aru1"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
@@ -493,10 +492,4 @@ font = ExtResource("6_2n4b1")
 font_size = 682
 outline_size = 70
 
-[node name="PauseMenu" parent="." instance=ExtResource("7_aporu")]
-unique_name_in_owner = true
-
 [connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
-[connection signal="modify_handling" from="PauseMenu" to="GridMap" method="_on_pause_menu_modify_handling"]
-[connection signal="pause_state" from="PauseMenu" to="GridMap" method="_on_pause_menu_pause_state"]
-[connection signal="toggle_rtx" from="PauseMenu" to="GridMap" method="_on_pause_menu_toggle_rtx"]
