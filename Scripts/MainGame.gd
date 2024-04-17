@@ -72,8 +72,6 @@ var next_piece_count := 5
 
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
-var steps : Array
-var steps_req = 50
 
 # ways gravity could work
 # 1. how much it moves down each frame
@@ -264,7 +262,6 @@ func show_next_pieces(pieces: Array):
 func create_piece():
 	counting = false
 	check_rows()
-	steps = [0, 0, 0]
 	current_loc = SPAWN
 	rotation_index = 0
 	detect_lost()
