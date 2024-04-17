@@ -1,6 +1,6 @@
 extends Node
 
-#var current_keybinds := []
+signal settings_changed
 
 var rtx_on := false
 
