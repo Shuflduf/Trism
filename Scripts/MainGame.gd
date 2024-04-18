@@ -17,16 +17,6 @@ var cleared_lines = {
 
 var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 0), Vector2i(2, 2)]
 
-# Handling stuff
-var DAS := Settings.das  # Delay in frames before auto-repeat starts
-var ARR := Settings.arr  # Time in frames between auto-repeats
-var SDF := float(Settings.sdf) # Soft Drop Factor
-
-# Timers for each direction
-var left_timer := 0
-var right_timer := 0
-var down_timer := 0
-
 var moving_left = false
 var moving_right = false
 var soft_dropping = false
@@ -72,6 +62,7 @@ var next_piece_count := 5
 
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
+var dir_timers = [0, 0]
 
 # ways gravity could work
 # 1. how much it moves down each frame
@@ -133,30 +124,30 @@ func _physics_process(_delta):
 		
 		# Handle DAS for left movement
 		if moving_left:
-			left_timer += 1
-			if left_timer > DAS:
-				if left_timer % ARR == 0:
+			dir_timers[0] += 1
+			if dir_timers[0] > Settings.das:
+				if dir_timers[0] % Settings.arr == 0:
 					move_piece(directions[0])
 		else:
-			left_timer = 0
+			dir_timers[0] = 0
 
 		# Handle DAS for right movement
 		if moving_right:
-			right_timer += 1
-			if right_timer > DAS:
-				if right_timer % ARR == 0:
+			dir_timers[1] += 1
+			if dir_timers[1] > Settings.das:
+				if dir_timers[1] % Settings.arr == 0:
 					move_piece(directions[1])
 		else:
-			right_timer = 0
+			dir_timers[1] = 0
 		
 
 		if Input.is_action_just_pressed("soft"):
 			soft_dropping = true
-			change_gravity(active_gravity / SDF)
+			change_gravity(active_gravity / float(Settings.sdf))
 			
 		if Input.is_action_just_released("soft"):
 			soft_dropping = false
-			change_gravity(active_gravity * SDF)
+			change_gravity(active_gravity * float(Settings.sdf))
 			
 			
 		grav_counter += 1
@@ -172,9 +163,6 @@ func _physics_process(_delta):
 				temp_timer = 0
 				hard_drop()
 
-
-		
-		
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
 			hard_drop()
@@ -507,7 +495,6 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 
 	# Clear the rows
 	for row in cleared_rows_indices:
-		@warning_ignore("integer_division", "integer_division", "integer_division")
 		for col in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(col, row, 0), -1)
 
@@ -521,14 +508,13 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				break
 
 		if rows_to_move_down > 0:
-			@warning_ignore("integer_division")
 			for col in range(-COLS/2.0, COLS/2.0):
 				var item_col = get_cell_item(Vector3i(col, row, 0))
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
 			if soft_dropping:
-				change_gravity(ACCEL / SDF, true)
+				change_gravity(ACCEL / float(Settings.sdf), true)
 			else:
 				change_gravity(ACCEL, true)
 			

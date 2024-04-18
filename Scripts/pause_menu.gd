@@ -57,7 +57,7 @@ func unpause_game():
 	visible = false
 
 func _on_rtx_toggled(toggled_on):
-	Settings.rtx = true
+	Settings.rtx_on = true
 	toggle_rtx.emit(toggled_on)
 
 #region handling stuff
