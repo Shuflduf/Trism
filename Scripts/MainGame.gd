@@ -15,7 +15,7 @@ var cleared_lines = {
 	4 : "Four",
 }
 
-var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 0), Vector2i(2, 2)]
+var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 2), Vector2i(2, 0)]
 
 var moving_left = false
 var moving_right = false
@@ -82,8 +82,8 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 func _init():
 	PauseMenu.pause_state.connect(func(pause_state):
 		_on_pause_menu_pause_state(pause_state))
-	PauseMenu.toggle_rtx.connect(func(on_off):
-		_on_pause_menu_toggle_rtx(on_off))
+	Settings.settings_changed.connect(func():
+		_on_settings_changed())
 		
 #handles initial game run
 func _ready():
@@ -334,16 +334,24 @@ func detect_tspin():
 	for j in grid_3x3_corners:
 		var grid_space = convert_vec2_vec3(j) + current_loc
 		current_3x3.append(grid_space)
-	#current_3x3.pop_at(rotation_index)
-	var in_front = []
-	#for j in current_3x3:
-	print(str(current_3x3) + " CORNERS FOR " + str(rotation_index))
-	for l in range(2):
-		in_front.append(current_3x3.pop_at((rotation_index % 4) - 1))
 		
-	for j in in_front:
-		set_cell_item(j, 8)
-	print(str(in_front) + " IN FRONT")
+	var in_front = []
+	
+	for i in range(2):
+		in_front.append(current_3x3[(rotation_index + i + 1) % 4])
+	print(str(in_front) + "  " + str(rotation_index))
+	for i in in_front:
+		set_cell_item(i, 8)
+	#current_3x3.pop_at(rotation_index)
+	#var in_front = []
+	#for j in current_3x3:
+		#print(str(current_3x3) + " CORNERS FOR " + str(rotation_index))
+	#for l in range(2):
+		#in_front.append(current_3x3.pop_at((rotation_index % 4) - 1))
+		
+	#for j in current_3x3:
+		#set_cell_item(j, 8)
+	#print(str(in_front) + " IN FRONT")
 
 #moves the piece in a specified direction
 func move_piece(dir):
@@ -548,8 +556,9 @@ func game_lost():
 	lost = true
 
 #toggles rtx 🕶️
-func _on_pause_menu_toggle_rtx(on_off):
-	env.sdfgi_enabled = on_off
+func _on_settings_changed():
+	#print(Settings.rtx_on)
+	env.sdfgi_enabled = Settings.rtx_on
 
 #handles everything related to changing the gravity
 func change_gravity(value : float, increase_mode := false):

@@ -15,8 +15,6 @@ extends Control
 
 signal pause_state(pause_state : bool)
 
-signal toggle_rtx(on_off)
-
 signal modify_handling(setting, value)
 
 func handle_pause(go_to_options := false):
@@ -57,8 +55,7 @@ func unpause_game():
 	visible = false
 
 func _on_rtx_toggled(toggled_on):
-	Settings.rtx_on = true
-	toggle_rtx.emit(toggled_on)
+	Settings.rtx_on = toggled_on
 
 #region handling stuff
 func _on_arr_slider_value_changed(value):
