@@ -67,3 +67,4 @@ var i30 = [Vector2i(1, 0), Vector2i(-2, 0), Vector2i(1, -2), Vector2i(-2, 1)]
 var i03 = [Vector2i(-1, 0), Vector2i(2, 0), Vector2i(-1, 2), Vector2i(2, -1)]
 
 var i_kicks = [i01, i10, i12, i21, i23, i32, i30, i03]
+

@@ -7,6 +7,7 @@ extends GridMap
 @onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 @onready var cleared = %Cleared
+@onready var tspin_label = %Tspin
 
 var cleared_lines = {
 	1 : "One",
@@ -15,7 +16,7 @@ var cleared_lines = {
 	4 : "Four",
 }
 
-var grid_3x3_corners = [Vector2i(0, 0), Vector2i(0, 2), Vector2i(2, 2), Vector2i(2, 0)]
+var grid_3x3_corners = [Vector2i(0, 0), Vector2i(2, 0), Vector2i(2, 2), Vector2i(0, 2)]
 
 var moving_left = false
 var moving_right = false
@@ -39,7 +40,7 @@ var temp_timer := 0
 const MAX_DROP_TIME = 120
 const TEMP_DROP_TIME = 40
 
-var tspin_valid
+var tspin_valid : String
 
 var piece_type
 var next_pieces_tween : Tween
@@ -87,6 +88,7 @@ func _init():
 		
 #handles initial game run
 func _ready():
+	animation_player.play("RESET")
 	animation_player.assigned_animation = "countdown"
 	lost = true
 	randomize()
@@ -257,9 +259,6 @@ func create_piece():
 	if !lost:
 		can_hold = true
 		
-		if piece_type == active_table.t:
-			print(tspin_valid)
-		
 		piece_type = next_pieces[0]
 		piece_color = active_table.shapes.find(piece_type)
 		next_piece()
@@ -268,7 +267,7 @@ func create_piece():
 		draw_piece(active_piece, SPAWN)
 		show_held_piece(held_piece, held_piece_color)
 		draw_top()
-		tspin_valid = false
+		tspin_valid = "false"
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -307,16 +306,19 @@ func rotate_piece(dir):
 			current_loc.x += offset.x
 			current_loc.y += offset.y
 			draw_piece(active_piece, current_loc)
+			
 
 		# Check if the offset is the first or the last in the list
 			if piece_type == active_table.t:
-				if i == 0 or i == temp_kick_table.size() - 1:
-					if detect_tspin():
-						tspin_valid = true
-					else:
-						tspin_valid = false
-			return
-	
+				match detect_tspin(i):
+					"standard":
+						tspin_valid = "standard"
+					"mini":
+						tspin_valid = "mini"
+					_:
+						tspin_valid = "false"
+			break	
+
 #checks if the piece can perform a valid rotation
 func can_rotate(temp_rot_idx, offset):
 	for block_position in piece_type[temp_rot_idx]: # Check each block in the piece
@@ -329,29 +331,44 @@ func can_rotate(temp_rot_idx, offset):
 	return true
 
 #hmmmm
-func detect_tspin():
+func detect_tspin(kick):
 	var current_3x3 = []
 	for j in grid_3x3_corners:
 		var grid_space = convert_vec2_vec3(j) + current_loc
 		current_3x3.append(grid_space)
 		
-	var in_front = []
-	
+	var on_front = []
 	for i in range(2):
-		in_front.append(current_3x3[(rotation_index + i + 1) % 4])
-	print(str(in_front) + "  " + str(rotation_index))
-	for i in in_front:
-		set_cell_item(i, 8)
-	#current_3x3.pop_at(rotation_index)
-	#var in_front = []
-	#for j in current_3x3:
-		#print(str(current_3x3) + " CORNERS FOR " + str(rotation_index))
-	#for l in range(2):
-		#in_front.append(current_3x3.pop_at((rotation_index % 4) - 1))
+		on_front.append(current_3x3[(rotation_index + i) % 4])
 		
-	#for j in current_3x3:
-		#set_cell_item(j, 8)
-	#print(str(in_front) + " IN FRONT")
+		
+	var on_back = []
+	for i in range(2):
+		on_back.append(current_3x3[(rotation_index + i + 2) % 4])
+	
+	if kick == 0:
+		for i in on_front:
+			if is_free(i):
+				return "false"
+		for i in on_back:
+			if !is_free(i):
+				return "standard"
+				
+	elif kick == 3:
+		for i in on_back:
+			if is_free(i):
+				return "false"
+		for i in on_front:
+			if !is_free(i):
+				return "standard"
+				
+	else:
+		for i in on_back:
+			if is_free(i):
+				return "false"
+		for i in on_front:
+			if !is_free(i):
+				return "mini"
 
 #moves the piece in a specified direction
 func move_piece(dir):
@@ -361,7 +378,7 @@ func move_piece(dir):
 		draw_piece(active_piece, current_loc)
 		is_free_below()
 		temp_timer = 0
-		tspin_valid = false
+		tspin_valid = "false"
 
 #checks if the piece can move in a specified direction
 func can_move(dir):
@@ -527,6 +544,12 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				change_gravity(ACCEL, true)
 			
 			animation_player.stop()
+			if tspin_valid == "standard":
+				tspin_label.text = "T SPUN"
+			elif tspin_valid == "mini":
+				tspin_label.text = "MINI T SPUN"
+			elif tspin_valid == "false":
+				tspin_label.text = ""
 			cleared.text = cleared_lines[rows_to_move_down]
 			animation_player.play("lines_cleared")
 			
