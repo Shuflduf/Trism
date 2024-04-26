@@ -62,13 +62,9 @@ var current_shown_pieces = []
 var next_piece_count := 5
 
 #movement variables
+var current_dcd = Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers = [0, 0]
-
-# ways gravity could work
-# 1. how much it moves down each frame
-# 2. a counter that counts up each frame, and moves down when above a threshold
-# 3. yea 2 works
 var grav_counter : int
 const STARTER_GRAV = 30.0
 var active_gravity : float = STARTER_GRAV
@@ -127,7 +123,7 @@ func _physics_process(_delta):
 		# Handle DAS for left movement
 		if moving_left:
 			dir_timers[0] += 1
-			if dir_timers[0] > Settings.das:
+			if dir_timers[0] > Settings.das and current_dcd > 0:
 				if dir_timers[0] % Settings.arr == 0:
 					move_piece(directions[0])
 		else:
@@ -136,7 +132,7 @@ func _physics_process(_delta):
 		# Handle DAS for right movement
 		if moving_right:
 			dir_timers[1] += 1
-			if dir_timers[1] > Settings.das:
+			if dir_timers[1] > Settings.das and current_dcd > 0:
 				if dir_timers[1] % Settings.arr == 0:
 					move_piece(directions[1])
 		else:
@@ -164,6 +160,8 @@ func _physics_process(_delta):
 				drop_timer = 0
 				temp_timer = 0
 				hard_drop()
+				
+		current_dcd -= 1
 
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
@@ -257,6 +255,7 @@ func create_piece():
 	detect_lost()
 	
 	if !lost:
+		current_dcd = Settings.dcd
 		can_hold = true
 		
 		piece_type = next_pieces[0]
@@ -306,6 +305,7 @@ func rotate_piece(dir):
 			current_loc.x += offset.x
 			current_loc.y += offset.y
 			draw_piece(active_piece, current_loc)
+			current_dcd = Settings.dcd
 			
 
 		# Check if the offset is the first or the last in the list

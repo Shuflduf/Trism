@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=24 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -18,10 +18,12 @@ sky_material = SubResource("PanoramaSkyMaterial_lvpja")
 background_mode = 2
 sky = SubResource("Sky_kgqvc")
 tonemap_mode = 2
-ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
 glow_enabled = true
+volumetric_fog_density = 0.01
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_wnlbq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6332x"]
 albedo_color = Color(0.176471, 0.176471, 0.176471, 1)
@@ -399,6 +401,7 @@ transform = Transform3D(0.866027, -0.43301, 0.249997, 5.68659e-08, 0.499998, 0.8
 shadow_enabled = true
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
+camera_attributes = SubResource("CameraAttributesPractical_wnlbq")
 light_data = ExtResource("8_3aru1")
 
 [node name="GridMap" type="GridMap" parent="."]

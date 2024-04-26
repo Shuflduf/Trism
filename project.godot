@@ -21,6 +21,15 @@ config/icon="res://Assets/tetrism_logo.png"
 SceneManager="*res://Scenes/scene_manager.tscn"
 PauseMenu="*res://Scenes/pause_menu.tscn"
 Settings="*res://Scripts/settings.gd"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
+
+[display]
+
+window/vsync/vsync_mode=0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg")
 
 [input]
 

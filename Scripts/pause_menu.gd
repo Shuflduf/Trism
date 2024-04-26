@@ -9,13 +9,15 @@ extends Control
 @onready var arr_num = %ARRLineEdit
 @onready var das_slider = %DASSlider
 @onready var das_num = %DASLineEdit
+@onready var dcd_slider = %DCDSlider
+@onready var dcd_num = %DCDLineEdit
 @onready var sdf_slider = %SDFSlider
 @onready var sdf_num = %SDFLineEdit
 #endregion
 
 signal pause_state(pause_state : bool)
 
-signal modify_handling(setting, value)
+#signal modify_handling(setting, value)
 
 func handle_pause(go_to_options := false):
 	get_parent().move_child(self, get_parent().get_child_count() - 1)
@@ -61,7 +63,7 @@ func _on_rtx_toggled(toggled_on):
 func _on_arr_slider_value_changed(value):
 	Settings.arr = value
 	arr_num.value = value
-	modify_handling.emit("ARR", value)
+	#modify_handling.emit("ARR", value)
 
 func _on_arr_line_edit_value_changed(value):
 	arr_slider.value = value
@@ -69,19 +71,30 @@ func _on_arr_line_edit_value_changed(value):
 func _on_das_slider_value_changed(value):
 	Settings.das = value
 	das_num.value = value
-	modify_handling.emit("DAS", value)
+	#modify_handling.emit("DAS", value)
 
 func _on_das_line_edit_value_changed(value):
 	das_slider.value = value
+	
+func _on_dcd_slider_value_changed(value):
+	Settings.dcd = value
+	dcd_num.value = value
+	#modify_handling.emit("DCD", value)
 
+func _on_dcd_line_edit_value_changed(value):
+	dcd_slider.value = value
+	
 func _on_sdf_slider_value_changed(value):
 	Settings.sdf = value
 	sdf_num.value = value
-	modify_handling.emit("SDF", value)
+	#modify_handling.emit("SDF", value)
 
 func _on_sdf_line_edit_value_changed(value):
 	sdf_slider.value = value
 #endregion
+
+
+
 
 
 
