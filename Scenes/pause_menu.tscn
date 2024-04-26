@@ -28,6 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dkwbe")
+main_menu = "res://Scenes/mainmenu.tscn"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -62,12 +63,19 @@ layout_mode = 2
 text = "PAUSED"
 label_settings = SubResource("LabelSettings_8vvx3")
 
-[node name="Open Settings" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
+[node name="OpenSettings" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 36
 text = "Settings"
+
+[node name="MainMenu" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 36
+text = "Main Menu"
 
 [node name="Settings" type="CenterContainer" parent="."]
 visible = false
@@ -184,6 +192,7 @@ rounded = true
 
 [node name="SDF" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 2
 tooltip_text = "Soft Drop Factor: the factor with which soft drops change the gravity speed"
 alignment = 1
 
@@ -211,6 +220,13 @@ max_value = 30.0
 value = 6.0
 rounded = true
 suffix = "F"
+
+[node name="Sonic" type="CheckButton" parent="Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 30
+text = "Sonic"
 
 [node name="SwitchToControls" type="Button" parent="Settings/VBoxContainer"]
 layout_mode = 2
@@ -637,7 +653,8 @@ theme_override_font_sizes/font_size = 20
 text = "[set]"
 script = ExtResource("9_tjw1b")
 
-[connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/Open Settings" to="." method="_on_open_settings_pressed"]
+[connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/OpenSettings" to="." method="_on_open_settings_pressed"]
+[connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
 [connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
@@ -647,6 +664,7 @@ script = ExtResource("9_tjw1b")
 [connection signal="value_changed" from="Settings/VBoxContainer/DCD/DCDLineEdit" to="." method="_on_dcd_line_edit_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
+[connection signal="toggled" from="Settings/VBoxContainer/Sonic" to="." method="_on_sonic_toggled"]
 [connection signal="pressed" from="Settings/VBoxContainer/SwitchToControls" to="." method="_on_switch_to_controls_pressed"]
 [connection signal="tab_changed" from="Controls/TabContainer" to="Controls" method="_on_tab_container_tab_changed"]
 [connection signal="updated_keybinds" from="Controls/TabContainer/Custom" to="Controls" method="_on_custom_updated_keybinds"]

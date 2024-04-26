@@ -8,6 +8,7 @@ extends GridMap
 @onready var env = %WorldEnvironment.environment
 @onready var cleared = %Cleared
 @onready var tspin_label = %Tspin
+@onready var score_label = %Score
 
 var cleared_lines = {
 	1 : "One",
@@ -18,9 +19,7 @@ var cleared_lines = {
 
 var grid_3x3_corners = [Vector2i(0, 0), Vector2i(2, 0), Vector2i(2, 2), Vector2i(0, 2)]
 
-var moving_left = false
-var moving_right = false
-var soft_dropping = false
+var moving_dir = [false, false, false]
 
 #grid consts
 const ROWS := 20
@@ -60,6 +59,8 @@ var cube_id : int = 0
 var piece_color : int
 var current_shown_pieces = []
 var next_piece_count := 5
+var bag 
+var score : int
 
 #movement variables
 var current_dcd = Settings.dcd
@@ -70,7 +71,7 @@ const STARTER_GRAV = 30.0
 var active_gravity : float = STARTER_GRAV
 const ACCEL := 0.01
 
-var bag 
+
 
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
@@ -93,46 +94,47 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
+	
 	if Input.is_action_just_pressed("pause"):
 		PauseMenu.handle_pause()
 
 	if !lost and !paused:
-		
+		current_dcd -= 1
 		if Input.is_action_just_pressed("left"):
 			move_piece(directions[0])
-			moving_left = true
-			moving_right = false
+			moving_dir[0] = true
+			moving_dir[1] = false
 			
 		if Input.is_action_just_pressed("right"):
 			move_piece(directions[1])
-			moving_left = false
-			moving_right = true
+			moving_dir[0] = false
+			moving_dir[1] = true
 		
 		if Input.is_action_just_released("left"):
 			if Input.is_action_pressed("right"):
 				move_piece(directions[1])
-				moving_right = true
-			moving_left = false
+				moving_dir[1] = true
+			moving_dir[0] = false
 		
 		if Input.is_action_just_released("right"):
 			if Input.is_action_pressed("left"):
 				move_piece(directions[0])
-				moving_left = true
-			moving_right = false
+				moving_dir[0] = true
+			moving_dir[1] = false
 		
 		# Handle DAS for left movement
-		if moving_left:
+		if moving_dir[0]:
 			dir_timers[0] += 1
-			if dir_timers[0] > Settings.das and current_dcd > 0:
+			if dir_timers[0] > Settings.das and current_dcd < 0:
 				if dir_timers[0] % Settings.arr == 0:
 					move_piece(directions[0])
 		else:
 			dir_timers[0] = 0
 
 		# Handle DAS for right movement
-		if moving_right:
+		if moving_dir[1]:
 			dir_timers[1] += 1
-			if dir_timers[1] > Settings.das and current_dcd > 0:
+			if dir_timers[1] > Settings.das and current_dcd < 0:
 				if dir_timers[1] % Settings.arr == 0:
 					move_piece(directions[1])
 		else:
@@ -140,11 +142,16 @@ func _physics_process(_delta):
 		
 
 		if Input.is_action_just_pressed("soft"):
-			soft_dropping = true
+			moving_dir[2] = true
 			change_gravity(active_gravity / float(Settings.sdf))
+			if Settings.sonic:
+				while can_move(directions[2]):
+					move_piece(directions[2])
+				
+			
 			
 		if Input.is_action_just_released("soft"):
-			soft_dropping = false
+			moving_dir[2] = false
 			change_gravity(active_gravity * float(Settings.sdf))
 			
 			
@@ -161,7 +168,7 @@ func _physics_process(_delta):
 				temp_timer = 0
 				hard_drop()
 				
-		current_dcd -= 1
+		
 
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
@@ -538,7 +545,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-			if soft_dropping:
+			if moving_dir[2]:
 				change_gravity(ACCEL / float(Settings.sdf), true)
 			else:
 				change_gravity(ACCEL, true)
@@ -594,7 +601,7 @@ func change_gravity(value : float, increase_mode := false):
 	
 #modifies the handling from the settings
 func _on_pause_menu_modify_handling(setting, value):
-	soft_dropping = false
+	moving_dir[2] = false
 	set(setting, value)
 
 #handles pausing the actual game

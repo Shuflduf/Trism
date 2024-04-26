@@ -8,7 +8,6 @@ signal transitioned_out()
 
 @onready var margin_container: MarginContainer = $MarginContainer
 
-
 func transition_in() -> void:
 	animation_player.play("in")
 
@@ -25,7 +24,7 @@ func transition_to(scene: String) -> void:
 	var new_scene = load(scene).instantiate()
 	var root: Window = get_tree().get_root()
 
-	root.get_child(root.get_child_count() - 1).free()
+	root.get_child(root.get_child_count() - 1).queue_free()
 	root.add_child(new_scene)
 
 	transition_out()
