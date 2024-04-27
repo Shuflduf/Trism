@@ -60,7 +60,8 @@ var piece_color : int
 var current_shown_pieces = []
 var next_piece_count := 5
 var bag 
-var score : int
+var score := 0
+var lines_cleared := 0
 
 #movement variables
 var current_dcd = Settings.dcd
@@ -70,8 +71,6 @@ var grav_counter : int
 const STARTER_GRAV = 30.0
 var active_gravity : float = STARTER_GRAV
 const ACCEL := 0.01
-
-
 
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
@@ -192,7 +191,7 @@ func new_game():
 	animation_player.play("countdown")
 	await animation_player.animation_finished
 	lost = false
-	
+	lines_cleared = 0
 	held_piece = []
 	create_piece()
 	
@@ -529,6 +528,8 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 	for row in cleared_rows_indices:
 		for col in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(col, row, 0), -1)
+		lines_cleared += 1
+		score_label.text = str(lines_cleared)
 
 	# Move pieces down
 	for row in range(cleared_rows_indices[0] + 1, 11):
@@ -549,7 +550,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				change_gravity(ACCEL / float(Settings.sdf), true)
 			else:
 				change_gravity(ACCEL, true)
-			
+
 			animation_player.stop()
 			if tspin_valid == "standard":
 				tspin_label.text = "T SPUN"
