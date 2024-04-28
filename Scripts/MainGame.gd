@@ -39,15 +39,13 @@ var temp_timer := 0
 const MAX_DROP_TIME = 120
 const TEMP_DROP_TIME = 40
 
-var tspin_valid : String
-
-var piece_type
+var tspin_valid : String # valid, mini, false
+var piece_type : Array
 var next_pieces_tween : Tween
 var next_pieces : Array
-var next_piece_color
 var rotation_index : int = 0
 var active_piece : Array
-var current_loc
+var current_loc : Vector3i
 var ghost_positions : Array
 
 var held_piece := []
@@ -68,7 +66,7 @@ var current_dcd = Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers = [0, 0]
 var grav_counter : int
-const STARTER_GRAV = 30.0
+const STARTER_GRAV = float(60)
 var active_gravity : float = STARTER_GRAV
 const ACCEL := 0.01
 
@@ -192,6 +190,7 @@ func new_game():
 	await animation_player.animation_finished
 	lost = false
 	lines_cleared = 0
+	score_label.text = "0"
 	held_piece = []
 	create_piece()
 	

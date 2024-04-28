@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=13 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
+[ext_resource type="Shader" path="res://Shaders/fullblack.gdshader" id="5_4lll0"]
 [ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
+[ext_resource type="Script" path="res://Scripts/link_image_button.gd" id="6_mafd0"]
+[ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
+[ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2janm"]
 shader = ExtResource("2_cgjbf")
@@ -18,6 +22,12 @@ shader_parameter/mask_width = 0.03
 shader_parameter/shadow_width = 0.09
 shader_parameter/zigzag_frequency = -3.0
 shader_parameter/zigzag_amplitude = -0.03
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wqqkb"]
+shader = ExtResource("5_4lll0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkdwc"]
+shader = ExtResource("5_4lll0")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -58,6 +68,7 @@ size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 text = "Tetrism"
 label_settings = ExtResource("2_j3nmr")
 horizontal_alignment = 1
@@ -65,6 +76,7 @@ uppercase = true
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("2_h4vkp")
 theme_override_font_sizes/font_size = 96
 text = "PLAY"
@@ -88,14 +100,44 @@ grow_vertical = 0
 size_flags_vertical = 8
 metadata/_edit_group_ = true
 
-[node name="TextureButton" type="TextureButton" parent="Links"]
+[node name="Discord" type="TextureButton" parent="Links"]
+material = SubResource("ShaderMaterial_wqqkb")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("5_iyphx")
 ignore_texture_size = true
 stretch_mode = 5
+script = ExtResource("6_mafd0")
+url = "http://cow.com"
+
+[node name="Itchio" type="TextureButton" parent="Links"]
+material = SubResource("ShaderMaterial_tkdwc")
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8_fegfb")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("6_mafd0")
+url = "https://shuflduf.itch.io/tetrism"
+
+[node name="Github" type="TextureButton" parent="Links"]
+material = SubResource("ShaderMaterial_tkdwc")
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("9_gvkc2")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("6_mafd0")
+url = "https://github.com/Shuflduf/Tetrism"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
