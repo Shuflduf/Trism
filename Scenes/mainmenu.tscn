@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=7 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
+[ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2janm"]
 shader = ExtResource("2_cgjbf")
@@ -76,21 +77,25 @@ text = "OPTIONS"
 
 [node name="Links" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.0173611
-anchor_top = 0.969136
-anchor_right = 0.0173611
-anchor_bottom = 0.969136
-offset_top = -23.0
-offset_right = 536.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = -30.0
 grow_vertical = 0
 size_flags_vertical = 8
-metadata/_edit_use_anchors_ = true
+metadata/_edit_group_ = true
 
-[node name="LinkButton" type="LinkButton" parent="Links"]
+[node name="TextureButton" type="TextureButton" parent="Links"]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-text = "DISCORD"
-uri = "http://cow.com"
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture_normal = ExtResource("5_iyphx")
+ignore_texture_size = true
+stretch_mode = 5
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
