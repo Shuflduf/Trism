@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tetrism"
-config/version="0.1.6"
+config/version="0.1.7"
 run/main_scene="res://Scenes/mainmenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Assets/tetrism_logo.png"
