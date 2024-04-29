@@ -68,12 +68,14 @@ func _on_main_menu_pressed():
 	await SceneManager.transitioned_out
 	can_pause = true
 	
-
 func unpause_game():
 	visible = false
 
 func _on_rtx_toggled(toggled_on):
 	Settings.rtx_on = toggled_on
+	
+func _on_cinematic_toggled(toggled_on):
+	Settings.cinematic_mode = toggled_on
 
 #region handling stuff
 func _on_arr_slider_value_changed(value):
@@ -111,6 +113,9 @@ func _on_sdf_line_edit_value_changed(value):
 
 func _on_sonic_toggled(toggled_on):
 	Settings.sonic = toggled_on
+
+
+
 
 
 

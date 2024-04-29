@@ -40,6 +40,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +79,6 @@ theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 
 [node name="Settings" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,6 +95,13 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 40
 text = "RTX"
+
+[node name="Cinematic" type="CheckButton" parent="Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_font_sizes/font_size = 40
+text = "CINEMATIC"
 
 [node name="Label" type="Label" parent="Settings/VBoxContainer"]
 layout_mode = 2
@@ -656,6 +663,7 @@ script = ExtResource("9_tjw1b")
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/OpenSettings" to="." method="_on_open_settings_pressed"]
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
+[connection signal="toggled" from="Settings/VBoxContainer/Cinematic" to="." method="_on_cinematic_toggled"]
 [connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
 [connection signal="value_changed" from="Settings/VBoxContainer/DAS/DASSlider" to="." method="_on_das_slider_value_changed"]

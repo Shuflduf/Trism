@@ -8,6 +8,12 @@ var rtx_on := false:
 		settings_changed.emit()
 	get:
 		return rtx_on
+var cinematic_mode := false:
+	set(value):
+		cinematic_mode = value
+		settings_changed.emit()
+	get:
+		return cinematic_mode
 
 # handling settings
 var arr := 2

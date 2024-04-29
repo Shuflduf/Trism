@@ -9,6 +9,7 @@ extends GridMap
 @onready var cleared = %Cleared
 @onready var tspin_label = %Tspin
 @onready var score_label = %Score
+@onready var camera = %Camera3D
 
 var cleared_lines = {
 	1 : "One",
@@ -16,6 +17,9 @@ var cleared_lines = {
 	3 : "Three",
 	4 : "Four",
 }
+
+const camera_positions = [Vector3(0, 1, 35), Vector3(0, -31, 13)]
+const camera_rotations = [Vector3.ZERO, Vector3(60, 0, 0)]
 
 var grid_3x3_corners = [Vector2i(0, 0), Vector2i(2, 0), Vector2i(2, 2), Vector2i(0, 2)]
 
@@ -74,6 +78,7 @@ const ACCEL := 0.01
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 	return Vector3i(vec2.x, -vec2.y, 0)
 
+#initilize
 func _init():
 	PauseMenu.pause_state.connect(func(pause_state):
 		_on_pause_menu_pause_state(pause_state))
@@ -82,6 +87,7 @@ func _init():
 		
 #handles initial game run
 func _ready():
+	set_cinematic_camera()
 	animation_player.play("RESET")
 	animation_player.assigned_animation = "countdown"
 	lost = true
@@ -165,8 +171,6 @@ func _physics_process(_delta):
 				temp_timer = 0
 				hard_drop()
 				
-		
-
 		# Other controls
 		if Input.is_action_just_pressed("hard"):
 			hard_drop()
@@ -587,7 +591,7 @@ func game_lost():
 
 #toggles rtx 🕶️
 func _on_settings_changed():
-	#print(Settings.rtx_on)
+	set_cinematic_camera()
 	env.sdfgi_enabled = Settings.rtx_on
 
 #handles everything related to changing the gravity
@@ -621,3 +625,7 @@ func is_free_below():
 			return
 		else:
 			counting = false
+
+func set_cinematic_camera():
+	camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
+	camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
