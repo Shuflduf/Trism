@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bm5u2sn4wmeel"]
 
-[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_dd0bb"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]

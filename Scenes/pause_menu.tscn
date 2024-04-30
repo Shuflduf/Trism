@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
 [ext_resource type="LabelSettings" uid="uid://ceef1murwut4i" path="res://Assets/Fonts/Font Styles/Medium.tres" id="3_aq7cx"]
-[ext_resource type="Script" path="res://Scripts/Controls.gd" id="4_w80sp"]
+[ext_resource type="Script" path="res://Scripts/controls.gd" id="4_w80sp"]
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://b8ki582y8fda5" path="res://Assets/Fonts/Font Styles/Info.tres" id="6_6ih8y"]
-[ext_resource type="Script" path="res://Scripts/CustomControls.gd" id="8_0namw"]
+[ext_resource type="Script" path="res://Scripts/custom_controls.gd" id="8_0namw"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="8_q8d13"]
 [ext_resource type="Script" path="res://Scripts/input_button.gd" id="9_tjw1b"]
 

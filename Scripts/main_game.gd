@@ -379,7 +379,7 @@ func detect_tspin(kick):
 			if !is_free(i):
 				return "standard"
 				
-	elif kick == 3:
+	elif kick == 4:
 		for i in on_back:
 			if is_free(i):
 				return "false"
@@ -580,13 +580,11 @@ func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
 #clears the board
 func clear_board():
 	for y in range(-10, 20):
-		@warning_ignore("integer_division", "integer_division")
 		for x in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(x, y, 0), -1)
 
 #detects if you lost the game
 func detect_lost():
-	@warning_ignore("integer_division")
 	for x in range(-COLS/2.0 , COLS/2.0 ):
 		if !is_free(Vector3i(x, 11, 0), true):
 			game_lost()
@@ -646,9 +644,16 @@ func update_level():
 
 #updates the score for line clears
 func handle_score(lines_cleared_count):
+	var counted = false
 	if tspin_valid == "standard":
 		score += score_table.standard_tspin[lines_cleared_count]
-		print(score)
+		counted = true
+	if tspin_valid == "mini":
+		score += score_table.mini_tspin[lines_cleared_count]
+		counted = true
+	if !counted and lines_cleared_count > 0:
+		score += score_table.basic[lines_cleared_count]
+	score_label.text = str(score)
 		
 #changes the value of cleared label and tspin label
 func update_lines_cleared_tspin_labels(lines : int, tspin : String):
