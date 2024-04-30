@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=18 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
 [ext_resource type="Script" path="res://Scripts/MainGame.gd" id="3_1fno7"]
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
+[ext_resource type="Script" path="res://Scripts/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
 
@@ -19,6 +20,9 @@ sky = SubResource("Sky_kgqvc")
 tonemap_mode = 2
 glow_enabled = true
 volumetric_fog_density = 0.01
+
+[sub_resource type="Resource" id="Resource_1hjvy"]
+script = ExtResource("5_7nou4")
 
 [sub_resource type="Animation" id="Animation_uarsw"]
 length = 0.001
@@ -325,6 +329,7 @@ data = {
 }
 script = ExtResource("3_1fno7")
 active_table = ExtResource("4_a6tp2")
+score_table = SubResource("Resource_1hjvy")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="NextPieces" type="GridMap" parent="GridMap"]
@@ -357,15 +362,39 @@ font_size = 200
 outline_size = 60
 uppercase = true
 
+[node name="LinesCleared" type="Label3D" parent="UI"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -24, 0)
+pixel_size = 0.03
+shaded = true
+text = "24 lines"
+font = ExtResource("5_pje1w")
+font_size = 50
+outline_size = 15
+horizontal_alignment = 2
+uppercase = true
+
+[node name="Level" type="Label3D" parent="UI"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -24, 0)
+pixel_size = 0.03
+shaded = true
+text = "Level 10 "
+font = ExtResource("5_pje1w")
+font_size = 50
+outline_size = 15
+horizontal_alignment = 0
+uppercase = true
+
 [node name="Score" type="Label3D" parent="UI"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -24, 0)
 pixel_size = 0.03
 shaded = true
-text = "0"
+text = "23895623"
 font = ExtResource("5_pje1w")
-font_size = 100
-outline_size = 30
+font_size = 80
+outline_size = 20
 uppercase = true
 
 [node name="Cleared" type="Label3D" parent="UI"]

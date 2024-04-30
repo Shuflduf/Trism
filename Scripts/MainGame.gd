@@ -1,6 +1,7 @@
 extends GridMap
 
 @export var active_table : SRS
+@export var score_table : ScoreTable
 
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
@@ -8,14 +9,22 @@ extends GridMap
 @onready var env = %WorldEnvironment.environment
 @onready var cleared = %Cleared
 @onready var tspin_label = %Tspin
-@onready var score_label = %Score
 @onready var camera = %Camera3D
+
+@onready var score_label = %Score
+@onready var level_label = %Level
+@onready var lines_cleared_label = %LinesCleared
 
 var cleared_lines = {
 	1 : "One",
 	2 : "Two",
 	3 : "Three",
 	4 : "Four",
+}
+
+var tspins_text = {
+	"mini" : "MINI T SPUN",
+	"standard" : "T SPUN",
 }
 
 const camera_positions = [Vector3(0, 1, 35), Vector3(0, -31, 13)]
@@ -43,7 +52,8 @@ var temp_timer := 0
 const MAX_DROP_TIME = 120
 const TEMP_DROP_TIME = 40
 
-var tspin_valid : String # valid, mini, false
+var lines_just_cleared := 0
+var tspin_valid := "false" # standard, mini, false
 var piece_type : Array
 var next_pieces_tween : Tween
 var next_pieces : Array
@@ -64,6 +74,7 @@ var next_piece_count := 5
 var bag 
 var score := 0
 var lines_cleared := 0
+var level := 1
 
 #movement variables
 var current_dcd = Settings.dcd
@@ -189,12 +200,14 @@ func new_game():
 	shuffle_bag()
 	show_next_pieces(next_pieces)
 	change_gravity(STARTER_GRAV)
+	level = 0
+	level_label.text = "level " + str(level) 
+	lines_cleared = 0
+	lines_cleared_label.text = str(lines_cleared) + " lines"
 	gameover.hide()
 	animation_player.play("countdown")
 	await animation_player.animation_finished
 	lost = false
-	lines_cleared = 0
-	score_label.text = "0"
 	held_piece = []
 	create_piece()
 	
@@ -275,7 +288,10 @@ func create_piece():
 		draw_piece(active_piece, SPAWN)
 		show_held_piece(held_piece, held_piece_color)
 		draw_top()
+		handle_score(lines_just_cleared)
+		update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
+		lines_just_cleared = 0
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
@@ -511,7 +527,6 @@ func check_rows():
 	for row in range(-ROWS, 10):
 		var is_row_full = true
 		
-		@warning_ignore("integer_division", "integer_division")
 		for col in range(-COLS/2.0, COLS/2.0):
 			if is_free(Vector3i(col, row, 0)):
 				is_row_full = false
@@ -526,13 +541,15 @@ func check_rows():
 #clears rows and moves pieces above it down
 func move_down_rows(cleared_rows_indices: Array) -> void:
 	cleared_rows_indices.sort()
-
+	lines_just_cleared = cleared_rows_indices.size()
+	
 	# Clear the rows
 	for row in cleared_rows_indices:
 		for col in range(-COLS/2.0, COLS/2.0):
 			set_cell_item(Vector3i(col, row, 0), -1)
 		lines_cleared += 1
-		score_label.text = str(lines_cleared)
+		lines_cleared_label.text = str(lines_cleared) + " lines"
+		update_level()
 
 	# Move pieces down
 	for row in range(cleared_rows_indices[0] + 1, 11):
@@ -553,16 +570,6 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				change_gravity(ACCEL / float(Settings.sdf), true)
 			else:
 				change_gravity(ACCEL, true)
-
-			animation_player.stop()
-			if tspin_valid == "standard":
-				tspin_label.text = "T SPUN"
-			elif tspin_valid == "mini":
-				tspin_label.text = "MINI T SPUN"
-			elif tspin_valid == "false":
-				tspin_label.text = ""
-			cleared.text = cleared_lines[rows_to_move_down]
-			animation_player.play("lines_cleared")
 			
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
@@ -626,6 +633,30 @@ func is_free_below():
 		else:
 			counting = false
 
+#toggles cinematic camera for some reason
 func set_cinematic_camera():
 	camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
 	camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
+
+#update current level
+func update_level():
+	if lines_cleared % 10 == 0:
+		level += 1
+		level_label.text = "level " + str(level) 
+
+#updates the score for line clears
+func handle_score(lines_cleared_count):
+	if tspin_valid == "standard":
+		score += score_table.standard_tspin[lines_cleared_count]
+		print(score)
+		
+#changes the value of cleared label and tspin label
+func update_lines_cleared_tspin_labels(lines : int, tspin : String):
+	animation_player.stop()
+	tspin_label.text = ""
+	cleared.text = ""
+	if lines != 0:
+		cleared.text = cleared_lines[lines]
+	if tspin in tspins_text:
+		tspin_label.text = tspins_text[tspin]
+	animation_player.play("lines_cleared")
