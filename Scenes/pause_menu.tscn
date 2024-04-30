@@ -40,7 +40,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,6 +78,7 @@ theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 
 [node name="Settings" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
