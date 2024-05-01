@@ -33,6 +33,7 @@ const camera_rotations = [Vector3.ZERO, Vector3(60, 0, 0)]
 var grid_3x3_corners = [Vector2i(0, 0), Vector2i(2, 0), Vector2i(2, 2), Vector2i(0, 2)]
 
 var moving_dir = [false, false, false]
+var soft_dropping := false
 
 #grid consts
 const ROWS := 20
@@ -83,6 +84,7 @@ var dir_timers = [0, 0]
 var grav_counter : int
 const STARTER_GRAV = float(60)
 var active_gravity : float = STARTER_GRAV
+var actual_gravity : float = active_gravity
 const ACCEL := 0.01
 
 #helper function that converts 2d values to 3d
@@ -154,20 +156,16 @@ func _physics_process(_delta):
 		else:
 			dir_timers[1] = 0
 		
-
 		if Input.is_action_just_pressed("soft"):
-			moving_dir[2] = true
-			change_gravity(active_gravity / float(Settings.sdf))
+			soft_dropping = true
+			change_gravity(active_gravity)
 			if Settings.sonic:
 				while can_move(directions[2]):
 					move_piece(directions[2])
-				
-			
 			
 		if Input.is_action_just_released("soft"):
-			moving_dir[2] = false
-			change_gravity(active_gravity * float(Settings.sdf))
-			
+			soft_dropping = false
+			change_gravity(active_gravity)
 			
 		grav_counter += 1
 		if grav_counter > active_gravity:
@@ -566,10 +564,11 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-			if moving_dir[2]:
-				change_gravity(ACCEL / float(Settings.sdf), true)
-			else:
-				change_gravity(ACCEL, true)
+			change_gravity(ACCEL, true)
+			#if moving_dir[2]:
+				#change_gravity(ACCEL / float(Settings.sdf), true)
+			#else:
+				#change_gravity(ACCEL, true)
 			
 #how did i get 3d buttons to work
 func _on_button_input_event(_camera, event, _position, _normal, _shape_idx):
@@ -601,16 +600,19 @@ func _on_settings_changed():
 
 #handles everything related to changing the gravity
 func change_gravity(value : float, increase_mode := false):
+	if soft_dropping:
+		actual_gravity = active_gravity
+	print(active_gravity)
 	if increase_mode:
-		active_gravity -= value
+		active_gravity -= (value if !soft_dropping else value / Settings.sdf)
 	else: 
-		active_gravity = value
+		active_gravity = (value if !soft_dropping else value / Settings.sdf)
 	
-	active_gravity = clamp(active_gravity,0.1,INF)
+	active_gravity = clamp(active_gravity, 0.1, STARTER_GRAV)
 	
 #modifies the handling from the settings
 func _on_pause_menu_modify_handling(setting, value):
-	moving_dir[2] = false
+	soft_dropping = false
 	set(setting, value)
 
 #handles pausing the actual game
