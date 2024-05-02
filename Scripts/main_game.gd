@@ -602,6 +602,7 @@ func _on_settings_changed():
 func change_gravity(value : float, increase_mode := false):
 	if soft_dropping:
 		actual_gravity = active_gravity
+		active_gravity = actual_gravity / Settings.sdf
 	print(active_gravity)
 	if increase_mode:
 		active_gravity -= (value if !soft_dropping else value / Settings.sdf)
