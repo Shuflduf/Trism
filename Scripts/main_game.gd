@@ -4,6 +4,8 @@ extends GridMap
 signal piece_placed
 signal game_start
 
+signal update_score(lines, tspin)
+
 @export var active_table : SRS
 @export var score_table : ScoreTable
 
@@ -14,7 +16,7 @@ signal game_start
 @onready var tspin_label = %Tspin
 @onready var camera = %Camera3D
 
-@onready var score_label = %Score
+#@onready var score_label = %Score
 @onready var level_label = %Level
 @onready var lines_cleared_label = %LinesCleared
 
@@ -209,14 +211,8 @@ func new_game():
 	clear_board()
 	draw_top()
 
-
 	game_start.emit()
-	
-	#piece_placed.emit()
-	
-	#show_next_pieces(next_pieces.next_pieces)
-	#next_pieces_drawer.draw(next_pieces.next, active_table)
-	
+
 	gravity = STARTER_GRAV
 	level = 0
 	level_label.text = "level " + str(level) 
@@ -253,7 +249,10 @@ func create_piece():
 		draw_piece(active_piece, SPAWN)
 		show_held_piece(held_piece, held_piece_color)
 		draw_top()
-		handle_score(lines_just_cleared)
+		
+		#handle_score(lines_just_cleared)
+		
+		update_score.emit(lines_just_cleared, tspin_valid)
 		update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
 		lines_just_cleared = 0
@@ -604,18 +603,6 @@ func update_level():
 		level += 1
 		level_label.text = "level " + str(level) 
 
-#updates the score for line clears
-func handle_score(lines_cleared_count):
-	var counted = false
-	if tspin_valid == "standard":
-		score += score_table.standard_tspin[lines_cleared_count]
-		counted = true
-	if tspin_valid == "mini":
-		score += score_table.mini_tspin[lines_cleared_count]
-		counted = true
-	if !counted and lines_cleared_count > 0:
-		score += score_table.basic[lines_cleared_count]
-	score_label.text = str(score)
 		
 #changes the value of cleared label and tspin label
 func update_lines_cleared_tspin_labels(lines : int, tspin : String):
