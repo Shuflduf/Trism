@@ -83,8 +83,11 @@ const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers = [0, 0]
 var grav_counter : int
 const STARTER_GRAV = float(60)
-var active_gravity : float = STARTER_GRAV
-var actual_gravity : float = active_gravity
+var gravity : float = STARTER_GRAV:
+	set(value):
+		gravity = value
+	get:
+		return gravity if !soft_dropping else gravity / 6
 const ACCEL := 0.01
 
 #helper function that converts 2d values to 3d
@@ -158,17 +161,17 @@ func _physics_process(_delta):
 		
 		if Input.is_action_just_pressed("soft"):
 			soft_dropping = true
-			change_gravity(active_gravity)
+			#change_gravity(active_gravity)
 			if Settings.sonic:
 				while can_move(directions[2]):
 					move_piece(directions[2])
 			
 		if Input.is_action_just_released("soft"):
 			soft_dropping = false
-			change_gravity(active_gravity)
+			#change_gravity(active_gravity)
 			
 		grav_counter += 1
-		if grav_counter > active_gravity:
+		if grav_counter > gravity:
 			move_piece(directions[2])
 			grav_counter = 0
 			
@@ -190,6 +193,9 @@ func _physics_process(_delta):
 		if Input.is_action_just_pressed("rot_right"):
 			rotate_piece("right")
 
+#func _unhandled_key_input(event: InputEvent) -> void:
+	#
+
 #handles everything when starting a new game
 func new_game():
 	clear_held_piece()
@@ -197,7 +203,7 @@ func new_game():
 	draw_top()
 	shuffle_bag()
 	show_next_pieces(next_pieces)
-	change_gravity(STARTER_GRAV)
+	#change_gravity(STARTER_GRAV)
 	level = 0
 	level_label.text = "level " + str(level) 
 	lines_cleared = 0
@@ -564,7 +570,8 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-			change_gravity(ACCEL, true)
+			#change_gravity(ACCEL, true)
+			gravity += ACCEL
 			#if moving_dir[2]:
 				#change_gravity(ACCEL / float(Settings.sdf), true)
 			#else:
@@ -599,17 +606,17 @@ func _on_settings_changed():
 	env.sdfgi_enabled = Settings.rtx_on
 
 #handles everything related to changing the gravity
-func change_gravity(value : float, increase_mode := false):
-	if soft_dropping:
-		actual_gravity = active_gravity
-		active_gravity = actual_gravity / Settings.sdf
-	print(active_gravity)
-	if increase_mode:
-		active_gravity -= (value if !soft_dropping else value / Settings.sdf)
-	else: 
-		active_gravity = (value if !soft_dropping else value / Settings.sdf)
-	
-	active_gravity = clamp(active_gravity, 0.1, STARTER_GRAV)
+#func change_gravity(value : float, increase_mode := false):
+	#if soft_dropping:
+		#actual_gravity = active_gravity
+		#active_gravity = actual_gravity / Settings.sdf
+	#print(active_gravity)
+	#if increase_mode:
+		#active_gravity -= (value if !soft_dropping else value / Settings.sdf)
+	#else: 
+		#active_gravity = (value if !soft_dropping else value / Settings.sdf)
+	#
+	#active_gravity = clamp(active_gravity, 0.1, STARTER_GRAV)
 	
 #modifies the handling from the settings
 func _on_pause_menu_modify_handling(setting, value):
