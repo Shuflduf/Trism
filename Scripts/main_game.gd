@@ -87,7 +87,7 @@ var gravity : float = STARTER_GRAV:
 	set(value):
 		gravity = value
 	get:
-		return gravity if !soft_dropping else gravity / 6
+		return gravity if !soft_dropping else (gravity / 3) / Settings.sdf
 const ACCEL := 0.01
 
 #helper function that converts 2d values to 3d
@@ -296,6 +296,10 @@ func create_piece():
 		update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
 		lines_just_cleared = 0
+		if Input.is_action_pressed("soft"):
+			if Settings.sonic:
+				while can_move(directions[2]):
+					move_piece(directions[2])
 
 #clears the drawn piece to avoid ghosting
 func clear_piece():
