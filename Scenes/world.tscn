@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=20 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -6,7 +6,9 @@
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="Script" path="res://Scripts/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
+[ext_resource type="Script" path="res://Scripts/next_pieces.gd" id="6_1cvjh"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
+[ext_resource type="Script" path="res://Scripts/draw_next_pieces_3d.gd" id="7_apvju"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -321,7 +323,7 @@ environment = SubResource("Environment_eml8j")
 transform = Transform3D(0.866027, -0.43301, 0.249997, 5.68659e-08, 0.499998, 0.866026, -0.499997, -0.750003, 0.433012, 0, 0, 0)
 shadow_enabled = true
 
-[node name="GridMap" type="GridMap" parent="."]
+[node name="Game" type="GridMap" parent="."]
 mesh_library = ExtResource("2_ahqo1")
 cell_center_z = false
 data = {
@@ -332,9 +334,12 @@ active_table = ExtResource("4_a6tp2")
 score_table = SubResource("Resource_1hjvy")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="NextPieces" type="GridMap" parent="GridMap"]
+[node name="NextPieces" type="Node" parent="Game"]
+script = ExtResource("6_1cvjh")
+
+[node name="NextPieces3DDrawer" type="GridMap" parent="Game"]
 mesh_library = ExtResource("2_ahqo1")
-cell_center_z = false
+script = ExtResource("7_apvju")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
@@ -505,4 +510,4 @@ font = ExtResource("6_2n4b1")
 font_size = 682
 outline_size = 70
 
-[connection signal="input_event" from="UI/Gameover/Button" to="GridMap" method="_on_button_input_event"]
+[connection signal="input_event" from="UI/Gameover/Button" to="Game" method="_on_button_input_event"]

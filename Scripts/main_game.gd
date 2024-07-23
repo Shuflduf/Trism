@@ -1,5 +1,7 @@
 extends GridMap
 
+signal piece_placed
+
 @export var active_table : SRS
 @export var score_table : ScoreTable
 
@@ -10,6 +12,9 @@ extends GridMap
 @onready var cleared = %Cleared
 @onready var tspin_label = %Tspin
 @onready var camera = %Camera3D
+
+@onready var next_pieces: NextPieces = $NextPieces
+#@onready var next_pieces_drawer: NextPieces3DDrawer = $NextPieces3DDrawer
 
 @onready var score_label = %Score
 @onready var level_label = %Level
@@ -56,8 +61,8 @@ const TEMP_DROP_TIME = 40
 var lines_just_cleared := 0
 var tspin_valid := "false" # standard, mini, false
 var piece_type : Array
-var next_pieces_tween : Tween
-var next_pieces : Array
+
+
 var rotation_index : int = 0
 var active_piece : Array
 var current_loc : Vector3i
@@ -70,9 +75,9 @@ var current_held_piece : Array
 #grid vars
 var cube_id : int = 0
 var piece_color : int
-var current_shown_pieces = []
-var next_piece_count := 5
-var bag 
+
+
+
 var score := 0
 var lines_cleared := 0
 var level := 1
@@ -118,14 +123,6 @@ func _physics_process(_delta):
 		return
 	current_dcd -= 1
 	
-	
-		
-	
-	
-	
-	
-	
-	
 	# Handle DAS for left movement
 	if moving_dir[0]:
 		dir_timers[0] += 1
@@ -144,15 +141,9 @@ func _physics_process(_delta):
 	else:
 		dir_timers[1] = 0
 	
-	if Input.is_action_just_pressed("soft"):
-		soft_dropping = true
-		#change_gravity(active_gravity)
-		if Settings.sonic:
-			while can_move(directions[2]):
-				move_piece(directions[2])
+	
 		
-	if Input.is_action_just_released("soft"):
-		soft_dropping = false
+	
 		#change_gravity(active_gravity)
 		
 	grav_counter += 1
@@ -168,15 +159,7 @@ func _physics_process(_delta):
 			temp_timer = 0
 			hard_drop()
 			
-	# Other controls
-	if Input.is_action_just_pressed("hard"):
-		hard_drop()
-	if Input.is_action_just_pressed("hold"):
-		hold_piece()
-	if Input.is_action_just_pressed("rot_left"):
-		rotate_piece("left")
-	if Input.is_action_just_pressed("rot_right"):
-		rotate_piece("right")
+	
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
@@ -203,15 +186,36 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			move_piece(directions[0])
 			moving_dir[0] = true
 		moving_dir[1] = false
-
+	
+	elif event.is_action_pressed("soft"):
+		soft_dropping = true
+		#change_gravity(active_gravity)
+		if Settings.sonic:
+			while can_move(directions[2]):
+				move_piece(directions[2])
+	
+	elif event.is_action_released("soft"):
+		soft_dropping = false
+	
+	# Other controls
+	if event.is_action_pressed("hard"):
+		hard_drop()
+	elif event.is_action_pressed("hold"):
+		hold_piece()
+	elif event.is_action_pressed("rot_left"):
+		rotate_piece("left")
+	elif event.is_action_pressed("rot_right"):
+		rotate_piece("right")
+	
 #handles everything when starting a new game
 func new_game():
 	clear_held_piece()
 	clear_board()
 	draw_top()
-	shuffle_bag()
-	show_next_pieces(next_pieces)
-	#change_gravity(STARTER_GRAV)
+	#shuffle_bag()
+	next_pieces.shuffle_bag() #FIXME
+	#nshow_next_pieces(next_pieces.next_pieces)
+	#next_pieces_drawer.draw(next_pieces.next, active_table)
 	gravity = STARTER_GRAV
 	level = 0
 	level_label.text = "level " + str(level) 
@@ -224,62 +228,7 @@ func new_game():
 	held_piece = []
 	create_piece()
 	
-#handles the bag and chooses a piece from it
-func pick_piece():
-	var piece
-	if not bag.is_empty():
-		bag.shuffle()
-		piece = bag.pop_front()
-	else:
-		bag = active_table.shapes.duplicate()
-		bag.shuffle()
-		piece = bag.pop_front()
-	return piece
 
-#shuffles the bag
-func shuffle_bag():
-	bag = active_table.shapes.duplicate()
-	next_pieces = []
-	for i in next_piece_count:
-		next_pieces.append(pick_piece())
-
-#handles next pieces
-func next_piece():
-	next_pieces.pop_front()
-	next_pieces.append(pick_piece())
-	show_next_pieces(next_pieces)
-
-#clears and draws the next piece
-func show_next_pieces(pieces: Array):
-	var vertical_offset = 0
-	for piece in pieces:
-		for pos in piece[0]:
-			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 6 - vertical_offset, 0)
-			current_shown_pieces.append(cell_position)
-			next_pieces_grid.set_cell_item(cell_position, active_table.shapes.find(piece))
-		vertical_offset += 4
-		
-	for i in range(0,3):
-		for cell in current_shown_pieces[i]:
-			next_pieces_grid.set_cell_item(cell, -1)
-			
-	if next_pieces_tween:
-		next_pieces_tween.kill()
-		next_pieces_grid.position.y = 4
-	next_pieces_tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	next_pieces_tween.tween_property(next_pieces_grid, "position", Vector3(0, 4, 0), 1)
-	
-	for i in current_shown_pieces:
-		next_pieces_grid.set_cell_item(i, -1)
-	
-	next_pieces_grid.position.y = 0
-	
-	for piece in pieces:
-		for pos in piece[0]:
-			var cell_position = convert_vec2_vec3(pos) + Vector3i(8, 26 - vertical_offset, 0)
-			current_shown_pieces.append(cell_position)
-			next_pieces_grid.set_cell_item(cell_position, active_table.shapes.find(piece))
-		vertical_offset += 4
 
 #handles new piece creation
 func create_piece():
@@ -293,9 +242,10 @@ func create_piece():
 		current_dcd = Settings.dcd
 		can_hold = true
 		
-		piece_type = next_pieces[0]
+		piece_placed.emit()
+		piece_type = next_pieces.next[0]
 		piece_color = active_table.shapes.find(piece_type)
-		next_piece()
+		next_pieces.next_piece()
 	
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, SPAWN)
@@ -617,19 +567,6 @@ func game_lost():
 func _on_settings_changed():
 	set_cinematic_camera()
 	env.sdfgi_enabled = Settings.rtx_on
-
-#handles everything related to changing the gravity
-#func change_gravity(value : float, increase_mode := false):
-	#if soft_dropping:
-		#actual_gravity = active_gravity
-		#active_gravity = actual_gravity / Settings.sdf
-	#print(active_gravity)
-	#if increase_mode:
-		#active_gravity -= (value if !soft_dropping else value / Settings.sdf)
-	#else: 
-		#active_gravity = (value if !soft_dropping else value / Settings.sdf)
-	#
-	#active_gravity = clamp(active_gravity, 0.1, STARTER_GRAV)
 	
 #modifies the handling from the settings
 func _on_pause_menu_modify_handling(setting, value):
