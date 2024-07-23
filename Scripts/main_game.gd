@@ -1,20 +1,17 @@
 extends GridMap
 
 signal piece_placed
+signal game_start
 
 @export var active_table : SRS
 @export var score_table : ScoreTable
 
 @onready var gameover = $"../UI/Gameover"
 @onready var animation_player = %AnimationPlayer
-@onready var next_pieces_grid = $NextPieces
 @onready var env = %WorldEnvironment.environment
 @onready var cleared = %Cleared
 @onready var tspin_label = %Tspin
 @onready var camera = %Camera3D
-
-@onready var next_pieces: NextPieces = $NextPieces
-#@onready var next_pieces_drawer: NextPieces3DDrawer = $NextPieces3DDrawer
 
 @onready var score_label = %Score
 @onready var level_label = %Level
@@ -75,8 +72,6 @@ var current_held_piece : Array
 #grid vars
 var cube_id : int = 0
 var piece_color : int
-
-
 
 var score := 0
 var lines_cleared := 0
@@ -213,8 +208,11 @@ func new_game():
 	clear_board()
 	draw_top()
 	#shuffle_bag()
-	next_pieces.shuffle_bag() #FIXME
-	#nshow_next_pieces(next_pieces.next_pieces)
+	#next_pieces.shuffle_bag() #FIXME
+	
+	piece_placed.emit()
+	
+	#show_next_pieces(next_pieces.next_pieces)
 	#next_pieces_drawer.draw(next_pieces.next, active_table)
 	gravity = STARTER_GRAV
 	level = 0
@@ -242,10 +240,13 @@ func create_piece():
 		current_dcd = Settings.dcd
 		can_hold = true
 		
+		
+		piece_type = active_table.shapes.pick_random()
 		piece_placed.emit()
-		piece_type = next_pieces.next[0]
+		#piece_type = next_pieces.next_piece()
+		
 		piece_color = active_table.shapes.find(piece_type)
-		next_pieces.next_piece()
+		
 	
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, SPAWN)

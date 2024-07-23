@@ -4,6 +4,9 @@
 
 [resource]
 font = ExtResource("1_wmbh2")
-font_size = 100
-outline_size = 20
+font_size = 175
+outline_size = 45
 outline_color = Color(0, 0, 0, 1)
+shadow_size = 56
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)

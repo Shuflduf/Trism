@@ -8,6 +8,10 @@ var current_shown_pieces = []
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 	return Vector3i(vec2.x, -vec2.y, 0)
+#
+#func _ready() -> void:
+	#get_parent().piece_placed.connect(func():
+		#draw(get_parent().next_pieces.next, get_parent().active_table))
 
 func draw(pieces: Array, table):
 	print(pieces)

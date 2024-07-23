@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="Script" path="res://Scripts/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
-[ext_resource type="Script" path="res://Scripts/next_pieces.gd" id="6_1cvjh"]
+[ext_resource type="Script" path="res://Scripts/seven_bag.gd" id="6_1cvjh"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
 [ext_resource type="Script" path="res://Scripts/draw_next_pieces_3d.gd" id="7_apvju"]
 
@@ -334,7 +334,7 @@ active_table = ExtResource("4_a6tp2")
 score_table = SubResource("Resource_1hjvy")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="NextPieces" type="Node" parent="Game"]
+[node name="SevenBag" type="Node" parent="Game"]
 script = ExtResource("6_1cvjh")
 
 [node name="NextPieces3DDrawer" type="GridMap" parent="Game"]
