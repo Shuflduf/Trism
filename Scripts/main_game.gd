@@ -113,88 +113,96 @@ func _ready():
 	
 #handles what happens every frame
 func _physics_process(_delta):
-	
-	if Input.is_action_just_pressed("pause"):
-		PauseMenu.handle_pause()
 
-	if !lost and !paused:
-		current_dcd -= 1
-		if Input.is_action_just_pressed("left"):
+	if lost or paused:
+		return
+	current_dcd -= 1
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	# Handle DAS for left movement
+	if moving_dir[0]:
+		dir_timers[0] += 1
+		if dir_timers[0] > Settings.das and current_dcd < 0:
+			if dir_timers[0] % Settings.arr == 0:
+				move_piece(directions[0])
+	else:
+		dir_timers[0] = 0
+
+	# Handle DAS for right movement
+	if moving_dir[1]:
+		dir_timers[1] += 1
+		if dir_timers[1] > Settings.das and current_dcd < 0:
+			if dir_timers[1] % Settings.arr == 0:
+				move_piece(directions[1])
+	else:
+		dir_timers[1] = 0
+	
+	if Input.is_action_just_pressed("soft"):
+		soft_dropping = true
+		#change_gravity(active_gravity)
+		if Settings.sonic:
+			while can_move(directions[2]):
+				move_piece(directions[2])
+		
+	if Input.is_action_just_released("soft"):
+		soft_dropping = false
+		#change_gravity(active_gravity)
+		
+	grav_counter += 1
+	if grav_counter > gravity:
+		move_piece(directions[2])
+		grav_counter = 0
+		
+	if counting:
+		drop_timer += 1
+		temp_timer += 1
+		if temp_timer > TEMP_DROP_TIME or drop_timer > MAX_DROP_TIME:
+			drop_timer = 0
+			temp_timer = 0
+			hard_drop()
+			
+	# Other controls
+	if Input.is_action_just_pressed("hard"):
+		hard_drop()
+	if Input.is_action_just_pressed("hold"):
+		hold_piece()
+	if Input.is_action_just_pressed("rot_left"):
+		rotate_piece("left")
+	if Input.is_action_just_pressed("rot_right"):
+		rotate_piece("right")
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		PauseMenu.handle_pause()
+	
+	elif event.is_action_pressed("left"):
+		move_piece(directions[0])
+		moving_dir[0] = true
+		moving_dir[1] = false
+	
+	elif Input.is_action_pressed("right"):
+		move_piece(directions[1])
+		moving_dir[0] = false
+		moving_dir[1] = true
+	
+	elif event.is_action_released("left"):
+		if Input.is_action_pressed("right"):
+			move_piece(directions[1])
+			moving_dir[1] = true
+		moving_dir[0] = false
+	
+	elif event.is_action_released("right"):
+		if Input.is_action_pressed("left"):
 			move_piece(directions[0])
 			moving_dir[0] = true
-			moving_dir[1] = false
-			
-		if Input.is_action_just_pressed("right"):
-			move_piece(directions[1])
-			moving_dir[0] = false
-			moving_dir[1] = true
-		
-		if Input.is_action_just_released("left"):
-			if Input.is_action_pressed("right"):
-				move_piece(directions[1])
-				moving_dir[1] = true
-			moving_dir[0] = false
-		
-		if Input.is_action_just_released("right"):
-			if Input.is_action_pressed("left"):
-				move_piece(directions[0])
-				moving_dir[0] = true
-			moving_dir[1] = false
-		
-		# Handle DAS for left movement
-		if moving_dir[0]:
-			dir_timers[0] += 1
-			if dir_timers[0] > Settings.das and current_dcd < 0:
-				if dir_timers[0] % Settings.arr == 0:
-					move_piece(directions[0])
-		else:
-			dir_timers[0] = 0
-
-		# Handle DAS for right movement
-		if moving_dir[1]:
-			dir_timers[1] += 1
-			if dir_timers[1] > Settings.das and current_dcd < 0:
-				if dir_timers[1] % Settings.arr == 0:
-					move_piece(directions[1])
-		else:
-			dir_timers[1] = 0
-		
-		if Input.is_action_just_pressed("soft"):
-			soft_dropping = true
-			#change_gravity(active_gravity)
-			if Settings.sonic:
-				while can_move(directions[2]):
-					move_piece(directions[2])
-			
-		if Input.is_action_just_released("soft"):
-			soft_dropping = false
-			#change_gravity(active_gravity)
-			
-		grav_counter += 1
-		if grav_counter > gravity:
-			move_piece(directions[2])
-			grav_counter = 0
-			
-		if counting:
-			drop_timer += 1
-			temp_timer += 1
-			if temp_timer > TEMP_DROP_TIME or drop_timer > MAX_DROP_TIME:
-				drop_timer = 0
-				temp_timer = 0
-				hard_drop()
-				
-		# Other controls
-		if Input.is_action_just_pressed("hard"):
-			hard_drop()
-		if Input.is_action_just_pressed("hold"):
-			hold_piece()
-		if Input.is_action_just_pressed("rot_left"):
-			rotate_piece("left")
-		if Input.is_action_just_pressed("rot_right"):
-			rotate_piece("right")
-
-#func _unhandled_key_input(event: InputEvent) -> void:
-	#
+		moving_dir[1] = false
 
 #handles everything when starting a new game
 func new_game():
