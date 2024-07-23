@@ -212,6 +212,7 @@ func new_game():
 	shuffle_bag()
 	show_next_pieces(next_pieces)
 	#change_gravity(STARTER_GRAV)
+	gravity = STARTER_GRAV
 	level = 0
 	level_label.text = "level " + str(level) 
 	lines_cleared = 0
