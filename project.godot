@@ -23,6 +23,10 @@ PauseMenu="*res://Scenes/pause_menu.tscn"
 Settings="*res://Scripts/UI/settings.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg")

@@ -14,10 +14,10 @@ uniform float zigzag_amplitude = 0.05; // Amplitude of the zigzag pattern
 void fragment() {
     // Calculate the zigzag pattern based on the current UV.y coordinate
     float zigzag = sin(UV.y * zigzag_frequency) * zigzag_amplitude + (1.0 - mask_width);
-    
+
     // Calculate the distance to the edge of the mask for the drop shadow effect
     float edgeDistance = smoothstep(0.0, shadow_width, zigzag - UV.x); // Adjust 0.02 to control the width of the shadow
-    
+
     // Check if the current fragment is within the zigzag masked area on the right side
     if (UV.x > zigzag) {
         // Apply a custom effect or color for the masked area

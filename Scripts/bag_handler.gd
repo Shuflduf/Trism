@@ -8,21 +8,21 @@ signal set_piece
 var next: Array
 var bag: Array
 
-func next_piece():
-	var n = next.pop_front()
+func next_piece() -> Array:
+	var n: Array = next.pop_front()
 	next.append(pick_piece())
 	set_piece.emit()
 	return n
-	
-func pick_piece():
-	pass
 
-func shuffle_bag():
-	pass
+func pick_piece() -> Array:
+	return []
+
+func shuffle_bag() -> void:
+	return
 
 func _ready() -> void:
-	get_parent().piece_placed.connect(func():
+	get_parent().piece_placed.connect(func() -> void:
 		get_parent().piece_type = next_piece())
-		
-	get_parent().game_start.connect(func():
+
+	get_parent().game_start.connect(func() -> void:
 		shuffle_bag())

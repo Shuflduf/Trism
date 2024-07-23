@@ -21,12 +21,12 @@ var das := 10
 var dcd : int
 var sdf := 6
 
-var sonic = false
+var sonic := false
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	SceneManager.transitioned_out.connect(func():
+func _ready() -> void:
+	SceneManager.transitioned_out.connect(func() -> void:
 		settings_changed.emit())
 
 

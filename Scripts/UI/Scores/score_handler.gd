@@ -6,17 +6,19 @@ extends Node
 @export var label: Node
 @export var score_table: ScoreTable
 
+## TODO also make soft dropping and hard dropping
+
 var score: int
 
 func _ready() -> void:
-	get_parent().update_score.connect(func(lines, tspin):
+	get_parent().update_score.connect(func(lines: int, tspin: String) -> void:
 		handle_score(lines, tspin))
-	
-	get_parent().game_start.connect(func():
+
+	get_parent().game_start.connect(func() -> void:
 		score = 0)
 
-func handle_score(lines_cleared_count, tspin_valid: String):
-	var counted = false
+func handle_score(lines_cleared_count: int, tspin_valid: String) -> void:
+	var counted := false
 	if tspin_valid == "standard":
 		score += score_table.standard_tspin[lines_cleared_count]
 		counted = true

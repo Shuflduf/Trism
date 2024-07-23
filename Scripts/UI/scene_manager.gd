@@ -4,7 +4,7 @@ extends CanvasLayer
 signal transitioned_in()
 signal transitioned_out()
 
-@onready var animation_player = $AnimationPlayer
+@onready var animation_player := $AnimationPlayer
 
 @onready var margin_container: MarginContainer = $MarginContainer
 
@@ -21,7 +21,7 @@ func transition_to(scene: String) -> void:
 	transition_in()
 	await transitioned_in
 
-	var new_scene = load(scene).instantiate()
+	var new_scene: Node = load(scene).instantiate()
 	var root: Window = get_tree().get_root()
 
 	root.get_child(root.get_child_count() - 1).queue_free()
