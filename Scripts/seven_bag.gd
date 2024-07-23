@@ -18,7 +18,7 @@ func pick_piece():
 
 #shuffles the bag
 func shuffle_bag():
-	bag = active_table.shapes.duplicate()
+	#bag = active_table.shapes.duplicate()
 	next = []
 	for i in next_piece_count:
 		next.append(pick_piece())
