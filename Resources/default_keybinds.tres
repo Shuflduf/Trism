@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerKeybindResource" load_steps=2 format=3 uid="uid://bvk42xy6rkbdr"]
 
-[ext_resource type="Script" path="res://Scripts/player_keybind_resource.gd" id="1_wej3m"]
+[ext_resource type="Script" path="res://Scripts/Data/player_keybind_resource.gd" id="1_wej3m"]
 
 [resource]
 script = ExtResource("1_wej3m")

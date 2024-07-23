@@ -4,7 +4,7 @@
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
 [ext_resource type="Script" path="res://Scripts/main_game.gd" id="3_1fno7"]
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
-[ext_resource type="Script" path="res://Scripts/score_table.gd" id="5_7nou4"]
+[ext_resource type="Script" path="res://Scripts/Data/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="Script" path="res://Scripts/seven_bag.gd" id="6_1cvjh"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
@@ -339,6 +339,7 @@ script = ExtResource("6_1cvjh")
 
 [node name="NextPieces3DDrawer" type="GridMap" parent="Game" node_paths=PackedStringArray("bag")]
 mesh_library = ExtResource("2_ahqo1")
+cell_center_z = false
 script = ExtResource("7_apvju")
 bag = NodePath("../SevenBag")
 

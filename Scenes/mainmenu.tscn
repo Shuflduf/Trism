@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://bm5u2sn4wmeel"]
 
-[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_dd0bb"]
+[ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
 [ext_resource type="Shader" path="res://Shaders/fullblack.gdshader" id="5_4lll0"]
 [ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
-[ext_resource type="Script" path="res://Scripts/link_image_button.gd" id="6_mafd0"]
+[ext_resource type="Script" path="res://Scripts/UI/link_image_button.gd" id="6_mafd0"]
 [ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
 [ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
 

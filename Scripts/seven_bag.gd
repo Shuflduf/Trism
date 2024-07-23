@@ -4,8 +4,6 @@ extends BagHandler
 
 @onready var active_table = get_parent().active_table
 
-
-
 func pick_piece():
 	var piece
 	if not bag.is_empty():

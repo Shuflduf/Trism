@@ -20,7 +20,7 @@ config/icon="res://Assets/tetrism_logo.png"
 
 SceneManager="*res://Scenes/scene_manager.tscn"
 PauseMenu="*res://Scenes/pause_menu.tscn"
-Settings="*res://Scripts/settings.gd"
+Settings="*res://Scripts/UI/settings.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [editor_plugins]

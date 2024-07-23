@@ -18,6 +18,7 @@ func _input(event):
 	if looking_for_input and event is InputEventKey:
 		var keycode = OS.get_keycode_string(event.key_label)
 		looking_for_input = false
+		print(keycode)
 		if str(keycode) in arrows:
 			text = keycode + " Arrow"
 		else:

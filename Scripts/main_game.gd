@@ -207,13 +207,14 @@ func new_game():
 	clear_held_piece()
 	clear_board()
 	draw_top()
-	#shuffle_bag()
-	#next_pieces.shuffle_bag() #FIXME
+
+
 	game_start.emit()
-	piece_placed.emit()
+	#piece_placed.emit()
 	
 	#show_next_pieces(next_pieces.next_pieces)
 	#next_pieces_drawer.draw(next_pieces.next, active_table)
+	
 	gravity = STARTER_GRAV
 	level = 0
 	level_label.text = "level " + str(level) 
@@ -226,8 +227,7 @@ func new_game():
 	held_piece = []
 	create_piece()
 	
-
-
+	
 #handles new piece creation
 func create_piece():
 	counting = false
@@ -243,7 +243,6 @@ func create_piece():
 		
 		piece_type = active_table.shapes.pick_random()
 		piece_placed.emit()
-		#piece_type = next_pieces.next_piece()
 		
 		piece_color = active_table.shapes.find(piece_type)
 		
