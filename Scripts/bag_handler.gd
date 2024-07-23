@@ -23,5 +23,6 @@ func shuffle_bag():
 func _ready() -> void:
 	get_parent().piece_placed.connect(func():
 		get_parent().piece_type = next_piece())
+		
 	get_parent().game_start.connect(func():
 		shuffle_bag())

@@ -1,3 +1,4 @@
+class_name Tetris3D
 extends GridMap
 
 signal piece_placed
@@ -209,7 +210,7 @@ func new_game():
 	draw_top()
 
 
-	game_start.emit()
+	#game_start.emit()
 	#piece_placed.emit()
 	
 	#show_next_pieces(next_pieces.next_pieces)
