@@ -9,10 +9,10 @@ var next: Array
 var bag: Array
 
 func next_piece():
-	next.pop_front()
+	var n = next.pop_front()
 	next.append(pick_piece())
 	set_piece.emit()
-	return next[0]
+	return n
 	
 func pick_piece():
 	pass
