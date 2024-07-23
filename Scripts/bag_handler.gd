@@ -14,6 +14,11 @@ func next_piece():
 func pick_piece():
 	pass
 
+func shuffle_bag():
+	pass
+
 func _ready() -> void:
 	get_parent().piece_placed.connect(func():
 		get_parent().piece_type = next_piece())
+	get_parent().game_start.connect(func():
+		shuffle_bag())

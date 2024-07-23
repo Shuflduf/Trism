@@ -1,6 +1,8 @@
 class_name NextPieces3DDrawer
 extends GridMap
 
+@export var bag: BagHandler
+
 var next_pieces_tween : Tween
 
 var current_shown_pieces = []
@@ -9,12 +11,12 @@ var current_shown_pieces = []
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 	return Vector3i(vec2.x, -vec2.y, 0)
 #
-#func _ready() -> void:
-	#get_parent().piece_placed.connect(func():
-		#draw(get_parent().next_pieces.next, get_parent().active_table))
+func _ready() -> void:
+	get_parent().piece_placed.connect(func():
+		print(bag.next.size())
+		draw(bag.next, get_parent().active_table))
 
 func draw(pieces: Array, table):
-	print(pieces)
 	var vertical_offset = 0
 	for piece in pieces:
 		for pos in piece[0]:

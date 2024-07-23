@@ -209,7 +209,7 @@ func new_game():
 	draw_top()
 	#shuffle_bag()
 	#next_pieces.shuffle_bag() #FIXME
-	
+	game_start.emit()
 	piece_placed.emit()
 	
 	#show_next_pieces(next_pieces.next_pieces)
