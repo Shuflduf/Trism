@@ -41,13 +41,13 @@ var soft_dropping := false
 #grid consts
 const ROWS := 20
 const COLS := 10
-@export var SPAWN := Vector2i(-2, 13)
+@export var SPAWN := Vector2i(4, 0)
 const TRANSPARENT_PIECES = [-1, 8]
 
 #game state vars
 var lost := false
 var paused := false
-var can_hold := true
+#var can_hold := true
 
 #game piece vars
 var counting := false
@@ -62,16 +62,15 @@ var piece_type : Array
 
 
 var rotation_index : int = 0
-var active_piece : Array[Vector2i]
+var active_piece : Array
 var current_loc : Vector2i
 var ghost_positions : Array
 
-var held_piece := []
-var held_piece_color: int
-var current_held_piece : Array
+#var held_piece := []
+#var held_piece_color: int
+#var current_held_piece : Array
 
 #grid vars
-var cube_id : int = 0
 var piece_color : int
 
 #movement variables
@@ -94,11 +93,11 @@ func setup_board() -> void:
 		for col in COLS:
 			game[row][col] = -1
 
-	debug_game_arr()
 
 func debug_game_arr() -> void:
 	for row in game:
 		print(row)
+	print("  ------  ")
 
 #initilize
 func _init() -> void:
@@ -192,8 +191,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	# Other controls
 	if event.is_action_pressed("hard"):
 		hard_drop()
-	elif event.is_action_pressed("hold"):
-		hold_piece()
+	#elif event.is_action_pressed("hold"):
+		#hold_piece()
 	elif event.is_action_pressed("rot_left"):
 		rotate_piece("left")
 	elif event.is_action_pressed("rot_right"):
@@ -217,8 +216,8 @@ func new_game() -> void:
 
 
 
-	held_piece = []
-	#create_piece()
+	#held_piece = []
+	create_piece()
 
 
 #handles new piece creation
@@ -231,7 +230,7 @@ func create_piece() -> void:
 
 	if !lost:
 		current_dcd = Settings.dcd
-		can_hold = true
+		#can_hold = true
 
 
 		piece_type = active_table.shapes.pick_random()
@@ -241,7 +240,7 @@ func create_piece() -> void:
 
 
 		active_piece = piece_type[rotation_index]
-		#draw_piece(active_piece, SPAWN)
+		draw_piece(active_piece, SPAWN)
 		#show_held_piece(held_piece, held_piece_color)
 		#draw_top()
 
@@ -262,11 +261,13 @@ func create_piece() -> void:
 		#set_cell_item(convert_vec2_vec3(i) + current_loc, -1)
 
 #draws the piece
-#func draw_piece(piece: Array, pos: Vector3i) -> void:
+func draw_piece(piece: Array, pos: Vector2i) -> void:
 	#draw_top()
 	#handle_ghost()
-	#for i: Vector2i in piece:
+	for i: Vector2i in piece:
+		game[i.y + pos.y][i.x + pos.x] = piece_color
 		#set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
+	debug_game_arr()
 
 #rotates the piece
 func rotate_piece(dir: String) -> void:
@@ -437,30 +438,30 @@ func draw_ghost(dist: int) -> void:
 	#ghost_positions = []
 
 #handles everything related to holding pieces
-func hold_piece() -> void:
-	if can_hold:
-		held_piece_color = piece_color
-		#clear_held_piece()
-		if held_piece == []:
-			held_piece = piece_type
-			#clear_piece()
-			create_piece()
-		else:
-			#clear_piece()
-
-			var temp_piece := piece_type
-			piece_type = held_piece
-			held_piece = temp_piece
-			current_loc = SPAWN
-			rotation_index = 0
-
-			active_piece = piece_type[rotation_index]
-			piece_color = active_table.shapes.find(piece_type)
-
-			#draw_piece(active_piece, current_loc)
-
-		#show_held_piece(held_piece, 8)
-		can_hold = false
+#func hold_piece() -> void:
+	#if can_hold:
+		#held_piece_color = piece_color
+		##clear_held_piece()
+		#if held_piece == []:
+			#held_piece = piece_type
+			##clear_piece()
+			#create_piece()
+		#else:
+			##clear_piece()
+#
+			#var temp_piece := piece_type
+			#piece_type = held_piece
+			#held_piece = temp_piece
+			#current_loc = SPAWN
+			#rotation_index = 0
+#
+			#active_piece = piece_type[rotation_index]
+			#piece_color = active_table.shapes.find(piece_type)
+#
+			##draw_piece(active_piece, current_loc)
+#
+		##show_held_piece(held_piece, 8)
+		#can_hold = false
 	#else:
 		#show_held_piece(held_piece, 8)
 
