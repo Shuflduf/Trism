@@ -92,7 +92,13 @@ func setup_board() -> void:
 
 	for row in ROWS:
 		for col in COLS:
-			game[row][col] = Vector2i.ZERO
+			game[row][col] = -1
+
+	debug_game_arr()
+
+func debug_game_arr() -> void:
+	for row in game:
+		print(row)
 
 #initilize
 func _init() -> void:
@@ -199,7 +205,6 @@ func new_game() -> void:
 	#clear_board()
 	#draw_top()
 	setup_board()
-	print(game)
 	game_start.emit()
 
 	#gravity = STARTER_GRAV
