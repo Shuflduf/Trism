@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=24 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -6,12 +6,13 @@
 [ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="Script" path="res://Scripts/Data/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
-[ext_resource type="Script" path="res://Scripts/seven_bag.gd" id="6_1cvjh"]
+[ext_resource type="Script" path="res://Scripts/Components/seven_bag.gd" id="6_1cvjh"]
+[ext_resource type="Script" path="res://Scripts/Components/game_board_3d.gd" id="6_1dn88"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="6_2n4b1"]
-[ext_resource type="Script" path="res://Scripts/UI/Scores/score_handler.gd" id="7_2sjim"]
-[ext_resource type="Script" path="res://Scripts/draw_next_pieces_3d.gd" id="7_apvju"]
-[ext_resource type="Script" path="res://Scripts/UI/Scores/level_handler.gd" id="9_em7xu"]
-[ext_resource type="Script" path="res://Scripts/gravity_handler.gd" id="10_rg1cx"]
+[ext_resource type="Script" path="res://Scripts/Components/score_handler.gd" id="7_2sjim"]
+[ext_resource type="Script" path="res://Scripts/Components/draw_next_3d.gd" id="7_apvju"]
+[ext_resource type="Script" path="res://Scripts/Components/level_handler.gd" id="9_em7xu"]
+[ext_resource type="Script" path="res://Scripts/Components/gravity_handler.gd" id="10_rg1cx"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -339,7 +340,10 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 [node name="SevenBag" type="Node" parent="Game"]
 script = ExtResource("6_1cvjh")
 
-[node name="NextPieces3DDrawer" type="GridMap" parent="Game" node_paths=PackedStringArray("bag")]
+[node name="GameBoard3D" type="GridMap" parent="Game"]
+script = ExtResource("6_1dn88")
+
+[node name="NextPieces3D" type="GridMap" parent="Game" node_paths=PackedStringArray("bag")]
 mesh_library = ExtResource("2_ahqo1")
 cell_center_z = false
 script = ExtResource("7_apvju")
@@ -527,11 +531,5 @@ text = "GO!"
 font = ExtResource("6_2n4b1")
 font_size = 682
 outline_size = 70
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Panel" type="Panel" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [connection signal="input_event" from="UI/Gameover/Button" to="Game" method="_on_button_input_event"]

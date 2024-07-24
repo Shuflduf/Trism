@@ -1,6 +1,6 @@
 @icon("res://Assets/Editor/component3d.png")
 
-class_name NextPieces3DDrawer
+class_name NextPieces3D
 extends GridMap
 
 @export var bag: BagHandler
