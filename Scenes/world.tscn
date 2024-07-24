@@ -528,4 +528,10 @@ font = ExtResource("6_2n4b1")
 font_size = 682
 outline_size = 70
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [connection signal="input_event" from="UI/Gameover/Button" to="Game" method="_on_button_input_event"]

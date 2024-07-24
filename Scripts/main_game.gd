@@ -1,3 +1,5 @@
+@icon("res://Assets/Editor/tetris3d.png")
+
 class_name Tetris3D
 extends GridMap
 
