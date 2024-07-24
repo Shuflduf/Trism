@@ -1,5 +1,5 @@
 class_name GravityHandler
-extends Node
+extends BaseComponent
 
 @export var levels: LevelHandler
 

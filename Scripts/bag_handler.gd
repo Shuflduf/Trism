@@ -1,5 +1,5 @@
 class_name BagHandler
-extends Node
+extends BaseComponent
 
 signal set_piece
 

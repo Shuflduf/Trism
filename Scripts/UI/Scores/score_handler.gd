@@ -1,6 +1,6 @@
 class_name ScoreHandler
 ## Handles everything related to the score
-extends Node
+extends BaseComponent
 
 ## Set to either [Label] or [Label3D]
 @export var label: Node

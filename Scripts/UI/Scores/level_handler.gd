@@ -1,5 +1,5 @@
 class_name LevelHandler
-extends Node
+extends BaseComponent
 
 signal updated_values
 
