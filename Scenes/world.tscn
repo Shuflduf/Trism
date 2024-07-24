@@ -1,9 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
-[ext_resource type="Script" path="res://Scripts/main_game.gd" id="3_1fno7"]
-[ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
+[ext_resource type="Script" path="res://Scripts/base_game.gd" id="5_1ulw6"]
 [ext_resource type="Script" path="res://Scripts/Data/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
 [ext_resource type="Script" path="res://Scripts/Components/seven_bag.gd" id="6_1cvjh"]
@@ -327,39 +326,32 @@ environment = SubResource("Environment_eml8j")
 transform = Transform3D(0.866027, -0.433011, 0.249997, 5.68659e-08, 0.499998, 0.866027, -0.499997, -0.750002, 0.433012, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Game" type="GridMap" parent="."]
-mesh_library = ExtResource("2_ahqo1")
-cell_center_z = false
-data = {
-"cells": PackedInt32Array(720890, 0, 7, 655365, 0, 7, 589829, 0, 7, 524293, 0, 7, 458757, 0, 7, 393221, 0, 7, 327685, 0, 7, 262149, 0, 7, 196613, 0, 7, 131077, 0, 7, 65541, 0, 7, 5, 0, 7, -65531, 0, 7, -131067, 0, 7, -196603, 0, 7, -262139, 0, 7, -327675, 0, 7, -393211, 0, 7, -458747, 0, 7, -524283, 0, 7, -589819, 0, 7, -655355, 0, 7, -720891, 0, 7, -720892, 0, 7, -720893, 0, 7, -720894, 0, 7, -720895, 0, 7, -720896, 0, 7, -655361, 0, 7, -655362, 0, 7, -655363, 0, 7, -655364, 0, 7, -655365, 0, 7, -655366, 0, 7, -589830, 0, 7, -524294, 0, 7, -458758, 0, 7, -393222, 0, 7, -327686, 0, 7, -262150, 0, 7, -196614, 0, 7, -131078, 0, 7, -65542, 0, 7, -6, 0, 7, 65530, 0, 7, 131066, 0, 7, 196602, 0, 7, 262138, 0, 7, 393210, 0, 7, 458746, 0, 7, 524282, 0, 7, 589818, 0, 7, 655354, 0, 7, 327674, 0, 7, 720901, 0, 7, 786437, 0, 7, 851973, 0, 7, 917509, 0, 7, 983045, 0, 7, 1048581, 0, 7, 1114117, 0, 7, 786426, 0, 7, 851962, 0, 7, 917498, 0, 7, 983034, 0, 7, 1048570, 0, 7, 1114106, 0, 7, 1179642, 0, 7, 720891, 0, 8, 720892, 0, 8, 720893, 0, 8, 720894, 0, 8, 720895, 0, 8, 655360, 0, 8, 655361, 0, 8, 655362, 0, 8, 655363, 0, 8, 655364, 0, 8)
-}
-script = ExtResource("3_1fno7")
-active_table = ExtResource("4_a6tp2")
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+[node name="MainGame" type="Node3D" parent="."]
+script = ExtResource("5_1ulw6")
 
-[node name="SevenBag" type="Node" parent="Game"]
+[node name="SevenBag" type="Node" parent="MainGame"]
 script = ExtResource("6_1cvjh")
 
-[node name="GameBoard3D" type="GridMap" parent="Game"]
+[node name="GameBoard3D" type="GridMap" parent="MainGame"]
 script = ExtResource("6_1dn88")
 
-[node name="NextPieces3D" type="GridMap" parent="Game" node_paths=PackedStringArray("bag")]
+[node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag")]
 mesh_library = ExtResource("2_ahqo1")
 cell_center_z = false
 script = ExtResource("7_apvju")
 bag = NodePath("../SevenBag")
 
-[node name="ScoreHandler" type="Node" parent="Game" node_paths=PackedStringArray("label")]
+[node name="ScoreHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("label")]
 script = ExtResource("7_2sjim")
 label = NodePath("../../UI/Score")
 score_table = SubResource("Resource_trsve")
 
-[node name="LevelHandler" type="Node" parent="Game" node_paths=PackedStringArray("level_label", "lines_label")]
+[node name="LevelHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("level_label", "lines_label")]
 script = ExtResource("9_em7xu")
 level_label = NodePath("../../UI/Level")
 lines_label = NodePath("../../UI/Lines")
 
-[node name="GravityHandler" type="Node" parent="Game" node_paths=PackedStringArray("levels")]
+[node name="GravityHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("levels")]
 script = ExtResource("10_rg1cx")
 levels = NodePath("../LevelHandler")
 
@@ -531,5 +523,3 @@ text = "GO!"
 font = ExtResource("6_2n4b1")
 font_size = 682
 outline_size = 70
-
-[connection signal="input_event" from="UI/Gameover/Button" to="Game" method="_on_button_input_event"]
