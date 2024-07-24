@@ -64,7 +64,7 @@ var piece_type : Array
 var rotation_index : int = 0
 var active_piece : Array
 var current_loc : Vector2i
-var ghost_positions : Array
+#var ghost_positions : Array
 
 #var held_piece := []
 #var held_piece_color: int
@@ -81,13 +81,14 @@ var dir_timers := [0, 0]
 
 ## THE BIG BOI
 
-var game: Array[Array]
+var game: Array[Array] # game[row][col]
 
 
 func setup_board() -> void:
 	game.resize(ROWS)
 	for row in game:
 		row.resize(COLS)
+
 
 	for row in ROWS:
 		for col in COLS:
@@ -240,11 +241,10 @@ func create_piece() -> void:
 
 
 		active_piece = piece_type[rotation_index]
-		draw_piece(active_piece, SPAWN)
+		draw_piece(active_piece, current_loc)
 		#show_held_piece(held_piece, held_piece_color)
 		#draw_top()
 
-		#handle_score(lines_just_cleared)
 
 		update_score.emit(lines_just_cleared, tspin_valid)
 		update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
@@ -256,9 +256,9 @@ func create_piece() -> void:
 					move_piece(directions[2])
 
 #clears the drawn piece to avoid ghosting
-#func clear_piece() -> void:
-	#for i: Vector2i in active_piece:
-		#set_cell_item(convert_vec2_vec3(i) + current_loc, -1)
+func clear_piece() -> void:
+	for i: Vector2i in active_piece:
+		game[i.y + current_loc.y][i.x + current_loc.x] = -1
 
 #draws the piece
 func draw_piece(piece: Array, pos: Vector2i) -> void:
@@ -278,8 +278,9 @@ func rotate_piece(dir: String) -> void:
 			"right":
 				temp_rotation_index = (rotation_index + 1) % 4
 
-	var srs_kick_table : Array = active_table.get(("n" if piece_type != active_table.i else "i")\
-	 + str(rotation_index) + str(temp_rotation_index))
+	var srs_kick_table : Array = active_table.get(\
+			("n" if piece_type != active_table.i else "i")\
+	 		+ str(rotation_index) + str(temp_rotation_index))
 	var temp_kick_table := srs_kick_table.duplicate()
 	temp_kick_table.push_front(Vector2i(0,0))
 
@@ -364,12 +365,14 @@ func detect_tspin(kick: int) -> String:
 #moves the piece in a specified direction
 func move_piece(dir: Vector2i) -> void:
 	if can_move(dir):
-		#clear_piece()
-		current_loc += dir
-		#draw_piece(active_piece, current_loc)
-		is_free_below()
-		temp_timer = 0
-		tspin_valid = "false"
+		pass
+	clear_piece()
+	current_loc += dir
+	#print(current_loc)
+	draw_piece(active_piece, current_loc)
+	is_free_below()
+	temp_timer = 0
+	tspin_valid = "false"
 
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:
@@ -406,28 +409,28 @@ func hard_drop() -> void:
 	#draw_ghost(dist)
 
 #finds how far the ghost piece has to move down
-func find_ghost_positions() -> int:
-	ghost_positions = []
-	var min_drop_distance := 9999
-
-	for i: Vector2i in active_piece:
-		var drop_distance := 0
-		var ghost_pos := i + current_loc
-
-		while is_free(ghost_pos + Vector2i(0, -1), true):
-			ghost_pos += Vector2i(0, -1)
-			drop_distance += 1
-
-		if drop_distance < min_drop_distance:
-			min_drop_distance = drop_distance
-
-	return min_drop_distance
-
-#draws the ghost piece
-func draw_ghost(dist: int) -> void:
-	for i: Vector2i in active_piece:
-		var ghost_pos := i + current_loc + Vector2i(0, -dist)
-		ghost_positions.append(ghost_pos)
+#func find_ghost_positions() -> int:
+	#ghost_positions = []
+	#var min_drop_distance := 9999
+#
+	#for i: Vector2i in active_piece:
+		#var drop_distance := 0
+		#var ghost_pos := i + current_loc
+#
+		#while is_free(ghost_pos + Vector2i(0, -1), true):
+			#ghost_pos += Vector2i(0, -1)
+			#drop_distance += 1
+#
+		#if drop_distance < min_drop_distance:
+			#min_drop_distance = drop_distance
+#
+	#return min_drop_distance
+#
+##draws the ghost piece
+#func draw_ghost(dist: int) -> void:
+	#for i: Vector2i in active_piece:
+		#var ghost_pos := i + current_loc + Vector2i(0, -dist)
+		#ghost_positions.append(ghost_pos)
 		#set_cell_item(ghost_pos, 8)
 
 #clears the current ghost piece before drawing a new one, to avoid "ghosting"
