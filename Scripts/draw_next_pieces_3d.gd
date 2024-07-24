@@ -1,3 +1,5 @@
+@icon("res://Assets/Editor/component3d.png")
+
 class_name NextPieces3DDrawer
 extends GridMap
 

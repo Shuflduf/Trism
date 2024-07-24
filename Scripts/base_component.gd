@@ -1,4 +1,4 @@
-@icon("res://Assets/Editor/component_icon.png")
+@icon("res://Assets/Editor/component.png")
 
 class_name BaseComponent
 extends Node
