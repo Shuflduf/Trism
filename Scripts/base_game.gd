@@ -85,7 +85,14 @@ var dir_timers := [0, 0]
 var game: Array[Array]
 
 
+func setup_board() -> void:
+	game.resize(ROWS)
+	for row in game:
+		row.resize(COLS)
 
+	for row in ROWS:
+		for col in COLS:
+			game[row][col] = Vector2i.ZERO
 
 #initilize
 func _init() -> void:
@@ -191,7 +198,8 @@ func new_game() -> void:
 	#clear_held_piece()
 	#clear_board()
 	#draw_top()
-
+	setup_board()
+	print(game)
 	game_start.emit()
 
 	#gravity = STARTER_GRAV
@@ -200,8 +208,12 @@ func new_game() -> void:
 	animation_player.play("countdown")
 	await animation_player.animation_finished
 	lost = false
+
+
+
+
 	held_piece = []
-	create_piece()
+	#create_piece()
 
 
 #handles new piece creation
@@ -520,12 +532,12 @@ func check_rows() -> void:
 
 
 #how did i get 3d buttons to work
-func _on_button_input_event\
-		(_c: Node, event: InputEvent, _position: Vector3, \
-		_normal: Vector3, _shape_idx: int) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
-			new_game()
+#func _on_button_input_event\
+		#(_c: Node, event: InputEvent, _position: Vector3, \
+		#_normal: Vector3, _shape_idx: int) -> void:
+	#if event is InputEventMouseButton:
+		#if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
+			#new_game()
 
 #clears the board
 func clear_board() -> void:

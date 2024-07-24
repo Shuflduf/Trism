@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=24 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
+[ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="Script" path="res://Scripts/base_game.gd" id="5_1ulw6"]
 [ext_resource type="Script" path="res://Scripts/Data/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="5_pje1w"]
@@ -328,6 +329,7 @@ shadow_enabled = true
 
 [node name="MainGame" type="Node3D" parent="."]
 script = ExtResource("5_1ulw6")
+active_table = ExtResource("4_a6tp2")
 
 [node name="SevenBag" type="Node" parent="MainGame"]
 script = ExtResource("6_1cvjh")
