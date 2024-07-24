@@ -15,10 +15,19 @@ var gravity: float = 1.0:
 
 func _ready() -> void:
 	levels.updated_values.connect(func() -> void:
-		pass)
+		update_gravity())
 
 func _process(delta: float) -> void:
 	grav_counter += delta
 	if grav_counter > gravity:
 		get_parent().move_piece(get_parent().directions[2])
 		grav_counter = 0
+
+func update_gravity() -> void:
+	gravity = calculate_gravity_curve(levels.level)
+
+func calculate_gravity_curve(level: int) -> float:
+	var g := (0.8 - ((level - 1) * 0.007)) ** (level - 1)
+	print(g)
+
+	return g
