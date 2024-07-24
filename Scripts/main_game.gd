@@ -7,7 +7,6 @@ signal game_start
 signal update_score(lines: int, tspin: String)
 
 @export var active_table : SRS
-@export var score_table : ScoreTable
 
 @onready var gameover := $"../UI/Gameover"
 @onready var animation_player := %AnimationPlayer
@@ -16,9 +15,6 @@ signal update_score(lines: int, tspin: String)
 @onready var tspin_label := %Tspin
 @onready var camera := %Camera3D
 
-#@onready var score_label = %Score
-#@onready var level_label = %Level
-#@onready var lines_cleared_label = %LinesCleared
 
 var cleared_lines := {
 	1 : "One",
@@ -76,21 +72,14 @@ var current_held_piece : Array
 var cube_id : int = 0
 var piece_color : int
 
-var lines_cleared := 0
-var level := 1
-
 #movement variables
 var current_dcd := Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers := [0, 0]
-var grav_counter : int
-const STARTER_GRAV = float(60)
-var gravity : float = STARTER_GRAV:
-	set(value):
-		gravity = value
-	get:
-		return gravity if !soft_dropping else (gravity / 3) / Settings.sdf
-const ACCEL := 0.01
+
+
+
+
 
 #helper function that converts 2d values to 3d
 func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
@@ -138,10 +127,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		dir_timers[1] = 0
 
-	grav_counter += 1
-	if grav_counter > gravity:
-		move_piece(directions[2])
-		grav_counter = 0
+
 
 	if counting:
 		drop_timer += 1
@@ -206,11 +192,8 @@ func new_game() -> void:
 
 	game_start.emit()
 
-	gravity = STARTER_GRAV
-	#level = 0
-	#level_label.text = "level " + str(level)
-	#lines_cleared = 0
-	#lines_cleared_label.text = str(lines_cleared) + " lines"
+	#gravity = STARTER_GRAV
+
 	gameover.hide()
 	animation_player.play("countdown")
 	await animation_player.animation_finished
@@ -529,12 +512,9 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 				if !is_free(Vector3i(col, row, 0)):
 					set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
 					set_cell_item(Vector3i(col, row, 0), -1)
-			#change_gravity(ACCEL, true)
-			gravity += ACCEL
-			#if moving_dir[2]:
-				#change_gravity(ACCEL / float(Settings.sdf), true)
-			#else:
-				#change_gravity(ACCEL, true)
+
+			#gravity += ACCEL
+
 
 #how did i get 3d buttons to work
 func _on_button_input_event\

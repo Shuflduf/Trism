@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=23 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/Scores/score_handler.gd" id="7_2sjim"]
 [ext_resource type="Script" path="res://Scripts/draw_next_pieces_3d.gd" id="7_apvju"]
 [ext_resource type="Script" path="res://Scripts/UI/Scores/level_handler.gd" id="9_em7xu"]
+[ext_resource type="Script" path="res://Scripts/gravity_handler.gd" id="10_rg1cx"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -353,6 +354,10 @@ score_table = SubResource("Resource_trsve")
 script = ExtResource("9_em7xu")
 level_label = NodePath("../../UI/Level")
 lines_label = NodePath("../../UI/Lines")
+
+[node name="GravityHandler" type="Node" parent="Game" node_paths=PackedStringArray("levels")]
+script = ExtResource("10_rg1cx")
+levels = NodePath("../LevelHandler")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true

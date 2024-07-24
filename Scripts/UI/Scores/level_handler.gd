@@ -1,6 +1,8 @@
 class_name LevelHandler
 extends Node
 
+signal updated_values
+
 @export var level_label: Node
 @export var lines_label: Node
 
@@ -20,5 +22,9 @@ func _ready() -> void:
 func update_values() -> void:
 	level = floor(lines_cleared / 10.0)
 
-	level_label.text = "level " + str(level)
-	lines_label.text = str(lines_cleared) + " level"
+	updated_values.emit()
+
+	if level_label != null:
+		level_label.text = "level " + str(level)
+	if lines_label != null:
+		lines_label.text = str(lines_cleared) + " level"
