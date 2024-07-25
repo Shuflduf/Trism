@@ -593,13 +593,12 @@ func _on_pause_menu_pause_state(pause_state: bool) -> void:
 
 #checks if the moving down is valid, used for lock delay
 func is_free_below() -> void:
-	pass
-	#for i: Vector2i in active_piece:
-		#if !is_free(i + Vector2i(0, 1) + current_loc, true):
-			#counting = true
-			#return
-		#else:
-			#counting = false
+	for i: Vector2i in active_piece:
+		if !is_free(i + Vector2i(0, 1) + current_loc, true):
+			counting = true
+			return
+		else:
+			counting = false
 
 #toggles cinematic camera for some reason
 func set_cinematic_camera() -> void:
