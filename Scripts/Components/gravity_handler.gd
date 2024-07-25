@@ -28,6 +28,5 @@ func update_gravity() -> void:
 
 func calculate_gravity_curve(level: int) -> float:
 	var g := (0.8 - ((level - 1) * 0.007)) ** (level - 1)
-	print(g)
 
 	return g
