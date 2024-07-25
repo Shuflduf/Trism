@@ -5,6 +5,7 @@ extends Node
 
 signal piece_placed
 signal game_start
+signal update_board
 
 signal update_score(lines: int, tspin: String)
 
@@ -81,7 +82,7 @@ var dir_timers := [0, 0]
 
 ## THE BIG BOI
 
-var game: Array[Array] # game[row][col]
+var game: Array[Array] # game[row][col] when accessing, do y then x
 
 
 func setup_board() -> void:
@@ -97,7 +98,8 @@ func setup_board() -> void:
 
 func debug_game_arr() -> void:
 
-	#return
+	@warning_ignore("unreachable_code")
+	return
 
 	for row in game:
 		print(row)
@@ -213,7 +215,7 @@ func new_game() -> void:
 	#gravity = STARTER_GRAV
 
 	gameover.hide()
-	animation_player.play("countdown")
+	animation_player.play("countdown", -1, 5)
 	await animation_player.animation_finished
 	lost = false
 
@@ -270,7 +272,8 @@ func draw_piece(piece: Array, pos: Vector2i) -> void:
 	for i: Vector2i in piece:
 		game[i.y + pos.y][i.x + pos.x] = piece_color
 		#set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
-	debug_game_arr()
+	#debug_game_arr()
+	update_board.emit()
 
 #rotates the piece
 func rotate_piece(dir: String) -> void:
@@ -395,7 +398,7 @@ func is_free(pos: Vector2i, exclude_active_piece: bool = false) -> bool:
 	#for i: int in TRANSPARENT_PIECES:
 		#if get_cell_item(pos) == i: TODO
 	#print(pos)
-	if pos.y > game.size() - 1 or pos.x > game[0].size() - 1 or pos.x < 0:
+	if pos.y >= game.size() or pos.x >= game[0].size() or pos.x < 0:
 		return false
 
 	if game[pos.y][pos.x] == -1:
@@ -500,49 +503,52 @@ func check_rows() -> void:
 
 	var rows_to_clear := []
 
-	for row in range(-ROWS, 10):
-		var is_row_full := true
+	for row in game.size():
 
-		for col in range(-COLS/2.0, COLS/2.0):
-			if is_free(Vector2i(col, row)):
-				is_row_full = false
-				break
+		for col in game[0].size():
+			var k := true
+			if is_free(Vector2i(row, col)):
+				k = false
 
-		if is_row_full and row != -11:
-			rows_to_clear.append(row)
+		#if is_row_full and row != -11:
+			if k:
+				rows_to_clear.append(row)
 
-	#if rows_to_clear.size() > 0:
-		#move_down_rows(rows_to_clear)
+	if rows_to_clear.size() > 0:
+		print(rows_to_clear)
+		move_down_rows(rows_to_clear)
 
 #clears rows and moves pieces above it down
-#func move_down_rows(cleared_rows_indices: Array) -> void:
-	#cleared_rows_indices.sort()
-	#lines_just_cleared = cleared_rows_indices.size()
-#
-	## Clear the rows
-	#for row: int in cleared_rows_indices:
-		#for col in range(-COLS/2.0, COLS/2.0):
-			#pass
-			##set_cell_item(Vector3i(col, row, 0), -1)
-		##lines_cleared += 1
-		##lines_cleared_label.text = str(lines_cleared) + " lines"
-		##update_level()
-#
-	## Move pieces down
-	#for row in range(cleared_rows_indices[0] + 1, 11):
-		#var rows_to_move_down := 0
-		#for cleared_row: int in cleared_rows_indices:
-			#if row > cleared_row:
-				#rows_to_move_down += 1
-			#else:
-				#break
-#
-		#if rows_to_move_down > 0:
-			#for col in range(-COLS/2.0, COLS/2.0):
-				#var item_col: int = get_cell_item(Vector3i(col, row, 0))
-				#if !is_free(Vector3i(col, row, 0)):
+func move_down_rows(cleared_rows_indices: Array) -> void:
+	cleared_rows_indices.sort()
+	lines_just_cleared = cleared_rows_indices.size()
+
+	# Clear the rows
+	for row: int in cleared_rows_indices:
+		for col in game[0].size():
+			game[row][col] = -1
+			#set_cell_item(Vector3i(col, row, 0), -1)
+		#lines_cleared += 1
+		#lines_cleared_label.text = str(lines_cleared) + " lines"
+		#update_level()
+
+	# Move pieces down
+	#print(range(cleared_rows_indices[0] + 1, game.size()))
+	for row in range(cleared_rows_indices[0] + 1, game.size()):
+		var rows_to_move_down := 0
+		for cleared_row: int in cleared_rows_indices:
+			if row > cleared_row:
+				rows_to_move_down += 1
+			else:
+				break
+
+		if rows_to_move_down > 0:
+			for col in game[0].size():
+				var item_col: int = game[row][col]
+				if !is_free(Vector2i(row, col)):
 					#set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
-					#set_cell_item(Vector3i(col, row, 0), -1)
+					game[row - rows_to_move_down][col] = item_col
+					game[row][col] = -1
 
 			#gravity += ACCEL
 
