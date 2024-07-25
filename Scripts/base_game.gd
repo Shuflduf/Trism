@@ -40,7 +40,7 @@ var moving_dir := [false, false, false]
 var soft_dropping := false
 
 #grid consts
-const ROWS := 20
+const ROWS := 22
 const COLS := 10
 @export var SPAWN := Vector2i(4, 0)
 #const TRANSPARENT_PIECES = [-1]
@@ -512,19 +512,24 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 	cleared_rows_indices.sort()
 	lines_just_cleared = cleared_rows_indices.size()
 
-	## Clear the rows
-	#for row: int in cleared_rows_indices:
-		#for col in game[0].size():
-			#game[row][col] = -1
+	for i in cleared_rows_indices.size():
+		game.pop_at(cleared_rows_indices[i])
+		var a: Array[int] = []
+		for c in COLS:
+			a.append(-1)
+		game.push_front(a)
+	update_board.emit()
 
-	# Move pieces down
-	#var t := range(cleared_rows_indices[0], game.size() + 1)
-	#print(t)
-	for row: int in cleared_rows_indices:
-		for col: int in game[0].size():
-			game[row][col] = game[row - 1][col]
-			game[row - 1][col] = -1
-	check_rows()
+
+	#for row in game.size():
+		#for col in game[0].size():
+			#var item_col: int = game[col][row]
+			#if !is_free(Vector2i(row, col)):
+				#game[row + rows_to_move_down][col] = item_col
+				#game[row][col] = -1
+			#change_gravity(ACCEL, true)
+			#gravity += ACCEL
+
 
 
 
@@ -590,12 +595,12 @@ func set_cinematic_camera() -> void:
 
 
 #changes the value of cleared label and tspin label
-func update_lines_cleared_tspin_labels(lines : int, tspin : String) -> void:
-	animation_player.stop()
-	tspin_label.text = ""
-	cleared.text = ""
-	if lines != 0:
-		cleared.text = cleared_lines[lines]
-	if tspin in tspins_text:
-		tspin_label.text = tspins_text[tspin]
-	animation_player.play("lines_cleared")
+#func update_lines_cleared_tspin_labels(lines : int, tspin : String) -> void:
+	#animation_player.stop()
+	#tspin_label.text = ""
+	#cleared.text = ""
+	#if lines != 0:
+		#cleared.text = cleared_lines[lines]
+	#if tspin in tspins_text:
+		#tspin_label.text = tspins_text[tspin]
+	#animation_player.play("lines_cleared")
