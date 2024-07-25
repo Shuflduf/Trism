@@ -507,76 +507,26 @@ func check_rows() -> void:
 	if rows_to_clear.size() > 0:
 		move_down_rows(rows_to_clear)
 
-#clears rows and moves pieces above it down
-#func move_down_rows(cleared_rows_indices: Array) -> void:
-	#cleared_rows_indices.sort()
-	#lines_just_cleared = cleared_rows_indices.size()
-#
-	## Clear the rows
-	#for row: int in cleared_rows_indices:
-		#for col in game[0].size():
-			#game[row][col] = -1
-			##set_cell_item(Vector3i(col, row, 0), -1)
-		##lines_cleared += 1
-		##lines_cleared_label.text = str(lines_cleared) + " lines"
-		##update_level()
-#
-	## Move pieces down
-	##print(range(cleared_rows_indices[0] + 1, game.size()))
-	##for row in range(cleared_rows_indices[0] + 1, game.size()):
-	#for row: int in cleared_rows_indices:
-		#var rows_to_move_down := 0
-		#for cleared_row: int in cleared_rows_indices:
-			#if row > cleared_row:
-				#rows_to_move_down += 1
-			#else:
-				#break
-#
-		#if rows_to_move_down > 0:
-			#for col in game[0].size():
-				#var item_col: int = game[row][col]
-				#if !is_free(Vector2i(row, col)):
-					##set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_col)
-#
-					#game[row + rows_to_move_down][col] = item_col
-					#game[row][col] = -1
-			#update_board.emit()
-			#gravity += ACCEL
 
 func move_down_rows(cleared_rows_indices: Array) -> void:
 	cleared_rows_indices.sort()
 	lines_just_cleared = cleared_rows_indices.size()
 
 	## Clear the rows
-	for row: int in cleared_rows_indices:
-		for col in game[0].size():
-			game[row][col] = -1
-		#lines_cleared += 1
+	#for row: int in cleared_rows_indices:
+		#for col in game[0].size():
+			#game[row][col] = -1
 
 	# Move pieces down
-	for row in game.size():
-		var rows_to_move_down := 0
-		for cleared_row: int in cleared_rows_indices:
-			if row > cleared_row:
-				rows_to_move_down += 1
-			else:
-				break
+	#var t := range(cleared_rows_indices[0], game.size() + 1)
+	#print(t)
+	for row: int in cleared_rows_indices:
+		for col: int in game[0].size():
+			game[row][col] = game[row - 1][col]
+			game[row - 1][col] = -1
+	check_rows()
 
-		if rows_to_move_down > 0:
-			for col in game[0].size():
-				var item_colour: int = game[row][col]
-				if !is_free(Vector2i(col, row)):
-					print(rows_to_move_down)
-					game[row + rows_to_move_down][col] = item_colour
-					game[row][col] = -1
-					#set_cell_item(Vector3i(col, row - rows_to_move_down, 0), item_colour)
-					#set_cell_item(Vector3i(col, row, 0), -1)
-			#change_gravity(ACCEL, true)
-			#gravity += ACCEL
-			#if moving_dir[2]:
-				#change_gravity(ACCEL / float(Settings.sdf), true)
-			#else:
-				#change_gravity(ACCEL, true)
+
 
 #how did i get 3d buttons to work
 #func _on_button_input_event\
