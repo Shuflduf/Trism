@@ -548,9 +548,9 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 	lines_just_cleared = cleared_rows_indices.size()
 
 	## Clear the rows
-	#for row: int in cleared_rows_indices:
-		#for col in game[0].size():
-			#game[row][col] = -1
+	for row: int in cleared_rows_indices:
+		for col in game[0].size():
+			game[row][col] = -1
 		#lines_cleared += 1
 
 	# Move pieces down
