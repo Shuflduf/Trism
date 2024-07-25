@@ -98,9 +98,10 @@ func setup_board() -> void:
 
 func debug_game_arr() -> void:
 
-	@warning_ignore("unreachable_code")
 	return
 
+
+	@warning_ignore("unreachable_code")
 	for row in game:
 		print(row)
 	print("  ------  ")
@@ -251,8 +252,8 @@ func create_piece() -> void:
 		#draw_top()
 
 
-		update_score.emit(lines_just_cleared, tspin_valid)
-		update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
+		#update_score.emit(lines_just_cleared, tspin_valid)
+		#update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
 		lines_just_cleared = 0
 		if Input.is_action_pressed("soft"):
@@ -505,17 +506,16 @@ func check_rows() -> void:
 
 	for row in game.size():
 
+		var k := true
 		for col in game[0].size():
-			var k := true
-			if is_free(Vector2i(row, col)):
+			if game[row][col] == -1:
 				k = false
 
 		#if is_row_full and row != -11:
-			if k:
-				rows_to_clear.append(row)
+		if k:
+			rows_to_clear.append(row)
 
 	if rows_to_clear.size() > 0:
-		print(rows_to_clear)
 		move_down_rows(rows_to_clear)
 
 #clears rows and moves pieces above it down

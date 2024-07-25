@@ -12,6 +12,8 @@ func _ready() -> void:
 		draw())
 
 func draw() -> void:
+
 	for row: int in get_parent().game.size():
+		print("draw")
 		for col: int in get_parent().game[0].size():
 			set_cell_item(Vector3i(col, row, 0), get_parent().game[row][col])
