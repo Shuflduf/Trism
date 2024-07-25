@@ -337,7 +337,7 @@ script = ExtResource("6_1cvjh")
 [node name="GameBoard3D" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("6_1dn88")
-offset = Vector3i(-5, 8, 0)
+offset = Vector3i(-5, 10, 0)
 
 [node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag")]
 mesh_library = ExtResource("2_ahqo1")
