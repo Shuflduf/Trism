@@ -197,10 +197,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		hard_drop()
 	#elif event.is_action_pressed("hold"):
 		#hold_piece()
-	#elif event.is_action_pressed("rot_left"):
-		#rotate_piece("left")
-	#elif event.is_action_pressed("rot_right"):
-		#rotate_piece("right")
+	elif event.is_action_pressed("rot_left"):
+		rotate_piece("left")
+	elif event.is_action_pressed("rot_right"):
+		rotate_piece("right")
 
 #handles everything when starting a new game
 func new_game() -> void:
@@ -273,97 +273,97 @@ func draw_piece(piece: Array, pos: Vector2i) -> void:
 	debug_game_arr()
 
 #rotates the piece
-#func rotate_piece(dir: String) -> void:
-	#var temp_rotation_index: int
-	#match dir:
-		#"left":
-			#temp_rotation_index = (rotation_index + 3) % 4
-		#"right":
-			#temp_rotation_index = (rotation_index + 1) % 4
-#
-	#var srs_kick_table : Array = active_table.get(\
-			#("n" if piece_type != active_table.i else "i")\
-	 		#+ str(rotation_index) + str(temp_rotation_index))
-	#var temp_kick_table := srs_kick_table.duplicate()
-	#temp_kick_table.push_front(Vector2i(0,0))
-#
-	#for i in range(temp_kick_table.size()):
-		#var offset: Vector2i = temp_kick_table[i]
-		#if can_rotate(temp_rotation_index, offset):
-			#temp_timer = 0
-			##clear_piece() TODO
-			#rotation_index = temp_rotation_index
-#
-			#active_piece = piece_type[rotation_index]
-			#current_loc.x += offset.x
-			#current_loc.y += offset.y
-			##draw_piece(active_piece, current_loc) TODO
-			#current_dcd = Settings.dcd
+func rotate_piece(dir: String) -> void:
+	var temp_rotation_index: int
+	match dir:
+		"left":
+			temp_rotation_index = (rotation_index + 3) % 4
+		"right":
+			temp_rotation_index = (rotation_index + 1) % 4
+
+	var srs_kick_table : Array = active_table.get(\
+			("n" if piece_type != active_table.i else "i")\
+	 		+ str(rotation_index) + str(temp_rotation_index))
+	var temp_kick_table := srs_kick_table.duplicate()
+	temp_kick_table.push_front(Vector2i(0,0))
+
+	for i in range(temp_kick_table.size()):
+		var offset: Vector2i = temp_kick_table[i]
+		if can_rotate(temp_rotation_index, offset):
+			temp_timer = 0
+			clear_piece()
+			rotation_index = temp_rotation_index
+
+			active_piece = piece_type[rotation_index]
+			current_loc.x += offset.x
+			current_loc.y += offset.y
+			draw_piece(active_piece, current_loc)
+			current_dcd = Settings.dcd
 
 
-		# Check if the offset is the first or the last in the list
-			#if piece_type == active_table.t:
-				#match detect_tspin(i):
-					#"standard":
-						#tspin_valid = "standard"
-					#"mini":
-						#tspin_valid = "mini"
-					#_:
-						#tspin_valid = "false"
-			#break
+		 # Check if the offset is the first or the last in the list
+			if piece_type == active_table.t:
+				match detect_tspin(i):
+					"standard":
+						tspin_valid = "standard"
+					"mini":
+						tspin_valid = "mini"
+					_:
+						tspin_valid = "false"
+			break
 
-#checks if the piece can perform a valid rotation
-#func can_rotate(temp_rot_idx: int, offset: Vector2i) -> bool:
-	#for block_position: Vector2i in piece_type[temp_rot_idx]: # Check each block in the piece
-		#var next_pos := block_position + current_loc
-		#next_pos.x += offset.x
-		#next_pos.y += offset.y
-		#if not is_free(next_pos, true): # If any position is not free
-			#return false
-#
-	#return true
+# checks if the piece can perform a valid rotation
+func can_rotate(temp_rot_idx: int, offset: Vector2i) -> bool:
+	for block_position: Vector2i in piece_type[temp_rot_idx]: # Check each block in the piece
+		var next_pos := block_position + current_loc
+		next_pos.x += offset.x
+		next_pos.y += offset.y
+		if not is_free(next_pos, true): # If any position is not free
+			return false
+
+	return true
 
 #hmmmm
-#func detect_tspin(kick: int) -> String:
-	#var current_3x3 := []
-	#for j: Vector2i in grid_3x3_corners:
-		#var grid_space := j + current_loc
-		#current_3x3.append(grid_space)
-#
-	#var on_front := []
-	#for i in range(2):
-		#on_front.append(current_3x3[(rotation_index + i) % 4])
-#
-#
-	#var on_back := []
-	#for i in range(2):
-		#on_back.append(current_3x3[(rotation_index + i + 2) % 4])
-#
-	#if kick == 0:
-		#for i: Vector2i in on_front:
-			#if is_free(i):
-				#return "false"
-		#for i: Vector2i in on_back:
-			#if !is_free(i):
-				#return "standard"
-#
-	#elif kick == 4:
-		#for i: Vector2i in on_back:
-			#if is_free(i):
-				#return "false"
-		#for i: Vector2i in on_front:
-			#if !is_free(i):
-				#return "standard"
-#
-	#else:
-		#for i: Vector2i in on_back:
-			#if is_free(i):
-				#return "false"
-		#for i: Vector2i in on_front:
-			#if !is_free(i):
-				#return "mini"
-#
-	#return "false"
+func detect_tspin(kick: int) -> String:
+	var current_3x3 := []
+	for j: Vector2i in grid_3x3_corners:
+		var grid_space := j + current_loc
+		current_3x3.append(grid_space)
+
+	var on_front := []
+	for i in range(2):
+		on_front.append(current_3x3[(rotation_index + i) % 4])
+
+
+	var on_back := []
+	for i in range(2):
+		on_back.append(current_3x3[(rotation_index + i + 2) % 4])
+
+	if kick == 0:
+		for i: Vector2i in on_front:
+			if is_free(i):
+				return "false"
+		for i: Vector2i in on_back:
+			if !is_free(i):
+				return "standard"
+
+	elif kick == 4:
+		for i: Vector2i in on_back:
+			if is_free(i):
+				return "false"
+		for i: Vector2i in on_front:
+			if !is_free(i):
+				return "standard"
+
+	else:
+		for i: Vector2i in on_back:
+			if is_free(i):
+				return "false"
+		for i: Vector2i in on_front:
+			if !is_free(i):
+				return "mini"
+
+	return "false"
 
 #moves the piece in a specified direction
 func move_piece(dir: Vector2i) -> void:
