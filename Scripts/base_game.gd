@@ -176,7 +176,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("soft"):
 		soft_dropping = true
-		#change_gravity(active_gravity)
 		if Settings.sonic:
 			while can_move(directions[2]):
 				move_piece(directions[2])
@@ -241,7 +240,7 @@ func create_piece() -> void:
 		#draw_top()
 
 
-		#update_score.emit(lines_just_cleared, tspin_valid)
+		update_score.emit(lines_just_cleared, tspin_valid)
 		#update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
 		lines_just_cleared = 0
@@ -519,16 +518,6 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 			a.append(-1)
 		game.push_front(a)
 	update_board.emit()
-
-
-	#for row in game.size():
-		#for col in game[0].size():
-			#var item_col: int = game[col][row]
-			#if !is_free(Vector2i(row, col)):
-				#game[row + rows_to_move_down][col] = item_col
-				#game[row][col] = -1
-			#change_gravity(ACCEL, true)
-			#gravity += ACCEL
 
 
 
