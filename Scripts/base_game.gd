@@ -401,7 +401,6 @@ func hard_drop() -> void:
 		move_piece(directions[2])
 	create_piece()
 
-#all the ghost piece functions bundled together since i didnt feel like writing them everywhere
 #func handle_ghost() -> void:
 	#clear_ghost()
 	#var dist := find_ghost_positions()
