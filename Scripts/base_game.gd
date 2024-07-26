@@ -43,7 +43,7 @@ var soft_dropping := false
 #grid consts
 const ROWS := 22
 const COLS := 10
-@export var SPAWN := Vector2i(4, 0)
+@export var SPAWN := Vector2i(3, 1)
 #const TRANSPARENT_PIECES = [-1]
 
 #game state vars

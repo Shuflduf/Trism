@@ -25,8 +25,8 @@ func ghost() -> void:
 	var min_drop_distance := 99
 
 	for i: Vector2i in parent.active_piece:
-		var drop_distance := 0
-		var ghost_pos := i + parent.current_loc
+		var drop_distance := 1
+		var ghost_pos := i + parent.current_loc + Vector2i(0, 1)
 
 		while parent.is_free(ghost_pos + Vector2i(0, -1), true):
 			ghost_pos += Vector2i(0, 1)
@@ -40,7 +40,16 @@ func ghost() -> void:
 
 func draw_ghost(dist: int) -> void:
 	clear()
+
+	var current_piece_locs: Array
+
 	for i: Vector2i in parent.active_piece:
-		var ghost_pos := (i + parent.current_loc) + Vector2i(0, dist - 2)
+		current_piece_locs.append(i + parent.current_loc)
+
+	for i: Vector2i in current_piece_locs:
+		var ghost_pos := i + Vector2i(0, dist - 2)
+
+		if ghost_pos in current_piece_locs:
+			continue
 
 		set_cell_item(convert_vec2_vec3(ghost_pos) + offset, 8)
