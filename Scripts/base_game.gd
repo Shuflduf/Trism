@@ -152,6 +152,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		PauseMenu.handle_pause()
 
+	if lost or paused:
+		return
+
 	elif event.is_action_pressed("left"):
 		move_piece(directions[0])
 		moving_dir[0] = true
@@ -230,6 +233,7 @@ func create_piece() -> void:
 
 		piece_type = active_table.shapes.pick_random()
 		piece_placed.emit()
+		update_board.emit()
 
 		piece_color = active_table.shapes.find(piece_type)
 

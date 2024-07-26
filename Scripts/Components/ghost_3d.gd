@@ -18,29 +18,29 @@ func _ready() -> void:
 	if game_board:
 		offset = game_board.offset
 	get_parent().update_board.connect(func() -> void:
-		draw_ghost(ghost()))
+		ghost())
 
-func ghost() -> int:
+func ghost() -> void:
 	#ghost_positions = []
-	var min_drop_distance := 9999
+	var min_drop_distance := 99
 
 	for i: Vector2i in parent.active_piece:
 		var drop_distance := 0
 		var ghost_pos := i + parent.current_loc
 
 		while parent.is_free(ghost_pos + Vector2i(0, -1), true):
-			ghost_pos += Vector2i(0, -1)
+			ghost_pos += Vector2i(0, 1)
 			drop_distance += 1
 
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
 
-	return min_drop_distance
+	#print(min_drop_distance)
+	draw_ghost(min_drop_distance)
 
 func draw_ghost(dist: int) -> void:
 	clear()
 	for i: Vector2i in parent.active_piece:
-		var ghost_pos := i + parent.current_loc + Vector2i(0, -dist)
-		#ghost_pos *= Vector2i(1, -1)
-		#ghost_positions.append(ghost_pos)
+		var ghost_pos := (i + parent.current_loc) + Vector2i(0, dist - 2)
+
 		set_cell_item(convert_vec2_vec3(ghost_pos) + offset, 8)
