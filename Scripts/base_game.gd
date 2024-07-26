@@ -6,6 +6,7 @@ extends Node
 signal piece_placed
 signal game_start
 signal update_board
+signal piece_moved
 
 signal update_score(lines: int, tspin: String)
 
@@ -233,7 +234,8 @@ func create_piece() -> void:
 
 		piece_type = active_table.shapes.pick_random()
 		piece_placed.emit()
-		update_board.emit()
+		#update_board.emit()
+
 
 		piece_color = active_table.shapes.find(piece_type)
 
@@ -245,6 +247,7 @@ func create_piece() -> void:
 
 
 		update_score.emit(lines_just_cleared, tspin_valid)
+		#piece_moved.emit()
 		#update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
 		tspin_valid = "false"
 		lines_just_cleared = 0
@@ -267,6 +270,7 @@ func draw_piece(piece: Array, pos: Vector2i) -> void:
 		#set_cell_item(convert_vec2_vec3(i) + pos, piece_color)
 	#debug_game_arr()
 	update_board.emit()
+	piece_moved.emit()
 
 #rotates the piece
 func rotate_piece(dir: String) -> void:
@@ -291,8 +295,8 @@ func rotate_piece(dir: String) -> void:
 			rotation_index = temp_rotation_index
 
 			active_piece = piece_type[rotation_index]
-			current_loc.x += offset.x
-			current_loc.y += offset.y
+
+			current_loc += offset
 			draw_piece(active_piece, current_loc)
 			current_dcd = Settings.dcd
 
@@ -371,6 +375,7 @@ func move_piece(dir: Vector2i) -> void:
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = "false"
+		#piece_moved.emit()
 
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:

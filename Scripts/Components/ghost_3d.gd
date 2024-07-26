@@ -17,7 +17,7 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 func _ready() -> void:
 	if game_board:
 		offset = game_board.offset
-	get_parent().update_board.connect(func() -> void:
+	get_parent().piece_moved.connect(func() -> void:
 		ghost())
 
 func ghost() -> void:
@@ -35,7 +35,7 @@ func ghost() -> void:
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
 
-	#print(min_drop_distance)
+	print(min_drop_distance)
 	draw_ghost(min_drop_distance)
 
 func draw_ghost(dist: int) -> void:

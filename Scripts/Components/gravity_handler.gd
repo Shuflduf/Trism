@@ -16,6 +16,8 @@ var gravity: float = 1.0:
 func _ready() -> void:
 	levels.updated_values.connect(func() -> void:
 		update_gravity())
+	get_parent().piece_placed.connect(func() -> void:
+		grav_counter = 0)
 
 func _process(delta: float) -> void:
 	grav_counter += delta
