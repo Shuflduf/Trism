@@ -3,7 +3,7 @@ extends BaseComponent
 
 signal set_piece
 
-@export var next_piece_count := 5
+@export_range(1, 6, 1) var next_piece_count := 5
 
 var next: Array
 var bag: Array

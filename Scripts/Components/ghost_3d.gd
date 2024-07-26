@@ -41,7 +41,7 @@ func ghost() -> void:
 func draw_ghost(dist: int) -> void:
 	clear()
 
-	var current_piece_locs: Array
+	var current_piece_locs: Array[Vector2i] = []
 
 	for i: Vector2i in parent.active_piece:
 		current_piece_locs.append(i + parent.current_loc)

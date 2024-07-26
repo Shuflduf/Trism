@@ -22,12 +22,10 @@ func _ready() -> void:
 
 
 func draw(pieces: Array, table: KickTable) -> void:
-	var vertical_offset := 0
-	for piece: Array in pieces:
-		for pos: Vector2i in piece[0]:
-			var cell_position := convert_vec2_vec3(pos) + Vector3i(8, 6 - vertical_offset, 0)
-			set_cell_item(cell_position, table.shapes.find(piece))
-		vertical_offset += 4
+
+	var vertical_offset := pieces.size() * 4
+	#for piece: Array in pieces:
+		#vertical_offset += 4
 
 	clear()
 
@@ -41,6 +39,16 @@ func draw(pieces: Array, table: KickTable) -> void:
 
 	for piece: Array in pieces:
 		for pos: Vector2i in piece[0]:
-			var cell_position := convert_vec2_vec3(pos) + Vector3i(8, 26 - vertical_offset, 0)
+
+			"""
+			4 : 21
+			5 : 25
+			6 : 29
+			"""
+
+
+			var cell_position := convert_vec2_vec3(pos) + \
+					Vector3i(8, ((bag.next_piece_count * 4) + 5) - vertical_offset, 0)
+
 			set_cell_item(cell_position, table.shapes.find(piece))
 		vertical_offset += 4

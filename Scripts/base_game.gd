@@ -68,9 +68,7 @@ var active_piece : Array
 var current_loc : Vector2i
 #var ghost_positions : Array
 
-#var held_piece := []
-#var held_piece_color: int
-#var current_held_piece : Array
+
 
 #grid vars
 var piece_color : int
@@ -190,8 +188,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	# Other controls
 	if event.is_action_pressed("hard"):
 		hard_drop()
-	#elif event.is_action_pressed("hold"):
-		#hold_piece()
+
 	elif event.is_action_pressed("rot_left"):
 		rotate_piece("left")
 	elif event.is_action_pressed("rot_right"):

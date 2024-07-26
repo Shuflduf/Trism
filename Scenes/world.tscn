@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=26 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://Scripts/Components/draw_next_3d.gd" id="7_apvju"]
 [ext_resource type="Script" path="res://Scripts/Components/level_handler.gd" id="9_em7xu"]
 [ext_resource type="Script" path="res://Scripts/Components/gravity_handler.gd" id="10_rg1cx"]
+[ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -363,6 +364,9 @@ lines_label = NodePath("../../UI/Lines")
 [node name="GravityHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("levels")]
 script = ExtResource("10_rg1cx")
 levels = NodePath("../LevelHandler")
+
+[node name="HoldPiece" type="Node" parent="MainGame"]
+script = ExtResource("13_qfxsn")
 
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
