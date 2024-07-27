@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=28 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://Scripts/Components/gravity_handler.gd" id="10_rg1cx"]
 [ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 [ext_resource type="Script" path="res://Scripts/Components/hold_piece_3d.gd" id="14_tai0s"]
+[ext_resource type="Script" path="res://Scripts/Components/state_handler.gd" id="15_m1svw"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -355,6 +356,12 @@ script = ExtResource("14_tai0s")
 base = NodePath("../HoldPiece")
 offset = Vector3i(-12, 7, 0)
 
+[node name="HoldPiece3D2" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base")]
+mesh_library = ExtResource("2_ahqo1")
+script = ExtResource("14_tai0s")
+base = NodePath("../HoldPiece")
+offset = Vector3i(-12, 7, 0)
+
 [node name="SevenBag" type="Node" parent="MainGame"]
 script = ExtResource("6_1cvjh")
 
@@ -375,10 +382,13 @@ levels = NodePath("../LevelHandler")
 [node name="HoldPiece" type="Node" parent="MainGame"]
 script = ExtResource("13_qfxsn")
 
+[node name="GameStateHandler" type="Node" parent="MainGame"]
+script = ExtResource("15_m1svw")
+
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
 data = {
-"cells": PackedInt32Array(5, 0, 7, -65531, 0, 7, -131067, 0, 7, -196603, 0, 7, -262139, 0, 7, -327675, 0, 7, -393211, 0, 7, -458747, 0, 7, -524283, 0, 7, -589819, 0, 7, -655355, 0, 7, -655356, 0, 7, -655357, 0, 7, -655358, 0, 7, -655359, 0, 7, -655360, 0, 7, -589825, 0, 7, -589826, 0, 7, -589827, 0, 7, -589828, 0, 7, -589829, 0, 7, -589830, 0, 7, -524294, 0, 7, -458758, 0, 7, -393222, 0, 7, -327686, 0, 7, -262150, 0, 7, -196614, 0, 7, -131078, 0, 7, -65542, 0, 7, -6, 0, 7, 65530, 0, 7, 131066, 0, 7, 196602, 0, 7, 262138, 0, 7, 327674, 0, 7, 458746, 0, 7, 524282, 0, 7, 589818, 0, 7, 655354, 0, 7, 65541, 0, 7, 131077, 0, 7, 196613, 0, 7, 262149, 0, 7, 327685, 0, 7, 393221, 0, 7, 458757, 0, 7, 524293, 0, 7, 589829, 0, 7, 655365, 0, 7, 720901, 0, 7, 786437, 0, 7, 851973, 0, 7, 917509, 0, 7, 983045, 0, 7, 786426, 0, 7, 720890, 0, 7, 851962, 0, 7, 917498, 0, 7, 983034, 0, 7, 1048570, 0, 7, 393210, 0, 7)
+"cells": PackedInt32Array(5, 0, 7, -65531, 0, 7, -131067, 0, 7, -196603, 0, 7, -262139, 0, 7, -327675, 0, 7, -393211, 0, 7, -458747, 0, 7, -524283, 0, 7, -589819, 0, 7, -655355, 0, 7, -655356, 0, 7, -655357, 0, 7, -655358, 0, 7, -655359, 0, 7, -655360, 0, 7, -589825, 0, 7, -589826, 0, 7, -589827, 0, 7, -589828, 0, 7, -589829, 0, 7, -589830, 0, 7, -524294, 0, 7, -458758, 0, 7, -393222, 0, 7, -327686, 0, 7, -262150, 0, 7, -196614, 0, 7, -131078, 0, 7, -65542, 0, 7, -6, 0, 7, 65530, 0, 7, 131066, 0, 7, 196602, 0, 7, 262138, 0, 7, 327674, 0, 7, 458746, 0, 7, 524282, 0, 7, 589818, 0, 7, 655354, 0, 7, 65541, 0, 7, 131077, 0, 7, 196613, 0, 7, 262149, 0, 7, 327685, 0, 7, 393221, 0, 7, 458757, 0, 7, 524293, 0, 7, 589829, 0, 7, 655365, 0, 7, 720901, 0, 7, 786437, 0, 7, 851973, 0, 7, 917509, 0, 7, 983045, 0, 7, 786426, 0, 7, 720890, 0, 7, 851962, 0, 7, 917498, 0, 7, 983034, 0, 7, 1048570, 0, 7, 393210, 0, 7, 655364, 0, 8, 655363, 0, 8, 655362, 0, 8, 655361, 0, 8, 655360, 0, 8, 720895, 0, 8, 720894, 0, 8, 720893, 0, 8, 720892, 0, 8, 720891, 0, 8)
 }
 
 [node name="Camera3D" type="Camera3D" parent="."]

@@ -222,30 +222,22 @@ func create_piece() -> void:
 	check_rows()
 	current_loc = SPAWN
 	rotation_index = 0
-	#detect_lost()
 
 	if !lost:
 		current_dcd = Settings.dcd
-		#can_hold = true
-
 
 		piece_type = active_table.shapes.pick_random()
 		piece_placed.emit()
-		#update_board.emit()
-
+		if lost:
+			return
 
 		piece_color = active_table.shapes.find(piece_type)
 
-
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, current_loc)
-		#show_held_piece(held_piece, held_piece_color)
-		#draw_top()
-
 
 		update_score.emit(lines_just_cleared, tspin_valid)
-		#piece_moved.emit()
-		#update_lines_cleared_tspin_labels(lines_just_cleared, tspin_valid)
+
 		tspin_valid = "false"
 		lines_just_cleared = 0
 		if Input.is_action_pressed("soft"):
@@ -367,12 +359,11 @@ func move_piece(dir: Vector2i) -> void:
 	if can_move(dir):
 		clear_piece()
 		current_loc += dir
-		#print(current_loc)
+
 		draw_piece(active_piece, current_loc)
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = "false"
-		#piece_moved.emit()
 
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:
