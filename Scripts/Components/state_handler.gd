@@ -18,8 +18,7 @@ func _ready() -> void:
 			if event is InputEventMouseButton:
 				if event.button_mask == MOUSE_BUTTON_LEFT:
 					if event.pressed:
-						parent.new_game()
-						parent.lost = false)
+						parent.new_game())
 
 func check_death() -> void:
 	for i: int in parent.game[2]:

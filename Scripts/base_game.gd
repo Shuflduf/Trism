@@ -203,17 +203,13 @@ func new_game() -> void:
 	update_board.emit()
 	game_start.emit()
 
-	#gravity = STARTER_GRAV
 
 	gameover.hide()
-	animation_player.play("countdown", -1, 5)
+	animation_player.play("countdown", -1, 3)
 	await animation_player.animation_finished
 	lost = false
 
 
-
-
-	#held_piece = []
 	create_piece()
 
 

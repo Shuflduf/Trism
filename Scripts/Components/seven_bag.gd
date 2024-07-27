@@ -1,8 +1,9 @@
 class_name SevenBag
 extends BagHandler
 
-
 @onready var active_table: KickTable = get_parent().active_table
+
+
 
 func pick_piece() -> Array:
 	var piece: Array

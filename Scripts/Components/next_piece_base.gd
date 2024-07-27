@@ -9,6 +9,22 @@ var held_piece_color: int
 var can_hold := true
 var just_held := false
 
+func _ready() -> void:
+	parent.piece_placed.connect(func() -> void:
+		if !just_held:
+			can_hold = true
+			update.emit()
+		else:
+			just_held = false
+
+		)
+
+	parent.game_start.connect(func() -> void:
+		held_piece = []
+		can_hold = true
+		just_held = false
+		update.emit())
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("hold"):
 		hold_piece()
@@ -47,12 +63,4 @@ func hold_piece() -> void:
 		update.emit()
 
 
-func _ready() -> void:
-	parent.piece_placed.connect(func() -> void:
-		if !just_held:
-			can_hold = true
-			if !held_piece.is_empty():
-				update.emit()
-		else:
-			just_held = false
-		)
+

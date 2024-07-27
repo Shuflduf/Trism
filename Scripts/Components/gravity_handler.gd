@@ -1,10 +1,10 @@
 class_name GravityHandler
 extends BaseComponent
 
-@export var levels: LevelHandler
 
-@export var acceleration := 0.01
-@export var starter_gravity := 60.0
+
+@export var levels: LevelHandler
+@export var starter_gravity := 1.0
 
 var grav_counter: float
 var gravity: float = 1.0:
@@ -16,8 +16,12 @@ var gravity: float = 1.0:
 func _ready() -> void:
 	levels.updated_values.connect(func() -> void:
 		update_gravity())
+
 	get_parent().piece_placed.connect(func() -> void:
 		grav_counter = 0)
+
+	get_parent().game_start.connect(func() -> void:
+		gravity = starter_gravity)
 
 func _process(delta: float) -> void:
 	if parent.lost or parent.paused:
@@ -31,7 +35,6 @@ func _process(delta: float) -> void:
 func update_gravity() -> void:
 	gravity = calculate_gravity_curve(levels.level)
 
+## The official gravity scaling system for guideline Tetris
 func calculate_gravity_curve(level: int) -> float:
-	var g := (0.8 - ((level - 1) * 0.007)) ** (level - 1)
-
-	return g
+	return (0.8 - ((level - 1) * 0.007)) ** (level - 1)

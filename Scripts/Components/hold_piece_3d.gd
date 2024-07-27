@@ -16,5 +16,7 @@ func _ready() -> void:
 
 func draw() -> void:
 	clear()
+	if base.held_piece.is_empty():
+		return
 	for i: Vector2i in base.held_piece[0]:
 		set_cell_item(convert_vec2_vec3(i) + offset, base.held_piece_color if base.can_hold else 8)
