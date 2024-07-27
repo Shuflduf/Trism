@@ -50,6 +50,8 @@ func _ready() -> void:
 	parent.piece_placed.connect(func() -> void:
 		if !just_held:
 			can_hold = true
+			if !parent.active_piece.is_empty():
+				update.emit()
 		else:
 			just_held = false
 			)
