@@ -200,6 +200,7 @@ func new_game() -> void:
 	#clear_board()
 	#draw_top()
 	setup_board()
+	update_board.emit()
 	game_start.emit()
 
 	#gravity = STARTER_GRAV

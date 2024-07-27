@@ -9,15 +9,17 @@ func _ready() -> void:
 		check_death())
 
 	death_screen.find_child("Button").input_event.connect(\
-		func(camera:Node, \
+			func(_camera:Node, \
 				event:InputEvent, \
-				position:Vector3, \
-				normal:Vector3, \
-				shape_idx:int) -> void:
-			if !event is InputEventMouseButton:
+				_position:Vector3, \
+				_normal:Vector3, \
+				_shape_idx:int) -> void:
+
+			if event is InputEventMouseButton:
 				if event.button_mask == MOUSE_BUTTON_LEFT:
-					parent.new_game()
-					parent.lost = false)
+					if event.pressed:
+						parent.new_game()
+						parent.lost = false)
 
 func check_death() -> void:
 	for i: int in parent.game[2]:
