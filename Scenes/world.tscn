@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=30 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 [ext_resource type="Script" path="res://Scripts/Components/hold_piece_3d.gd" id="14_tai0s"]
 [ext_resource type="Script" path="res://Scripts/Components/state_handler.gd" id="15_m1svw"]
+[ext_resource type="Texture2D" uid="uid://c0di5477uh3n3" path="res://Assets/button_texture.png" id="17_s7jsq"]
+[ext_resource type="Script" path="res://Scripts/UI/scroll_3d_texture.gd" id="18_q4ukc"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -37,8 +39,13 @@ script = ExtResource("5_7nou4")
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
 size = Vector3(21, 6, 3)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fapqn"]
-albedo_color = Color(0.00392157, 0.00392157, 0.00392157, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yx7r2"]
+shading_mode = 0
+albedo_texture = ExtResource("17_s7jsq")
+uv1_scale = Vector3(-0.105, -0.105, -0.105)
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 2
 
 [sub_resource type="Animation" id="Animation_uarsw"]
 length = 0.001
@@ -394,7 +401,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 35)
 
 [node name="Gameover" type="Node3D" parent="UI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
-visible = false
 
 [node name="YouLose" type="Label3D" parent="UI/Gameover"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 4)
@@ -422,7 +428,8 @@ shape = SubResource("BoxShape3D_lvr7f")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="UI/Gameover/Button"]
 size = Vector3(21, 6, 3)
-material = SubResource("StandardMaterial3D_fapqn")
+material = SubResource("StandardMaterial3D_yx7r2")
+script = ExtResource("18_q4ukc")
 
 [node name="Next" type="Label3D" parent="UI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 22, 0)
