@@ -10,7 +10,7 @@ var can_hold := true
 var just_held := false
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("hold"):
+	if event.is_action_pressed("hold") and not parent.lost:
 		hold_piece()
 
 func hold_piece() -> void:

@@ -356,12 +356,6 @@ script = ExtResource("14_tai0s")
 base = NodePath("../HoldPiece")
 offset = Vector3i(-12, 7, 0)
 
-[node name="HoldPiece3D2" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base")]
-mesh_library = ExtResource("2_ahqo1")
-script = ExtResource("14_tai0s")
-base = NodePath("../HoldPiece")
-offset = Vector3i(-12, 7, 0)
-
 [node name="SevenBag" type="Node" parent="MainGame"]
 script = ExtResource("6_1cvjh")
 
