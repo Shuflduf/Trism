@@ -10,10 +10,13 @@ var can_hold := true
 var just_held := false
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("hold") and not parent.lost:
+	if event.is_action_pressed("hold"):
 		hold_piece()
 
 func hold_piece() -> void:
+	if parent.lost or parent.paused:
+		return
+
 	if can_hold:
 		held_piece_color = parent.piece_color
 

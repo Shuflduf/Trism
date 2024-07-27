@@ -20,6 +20,9 @@ func _ready() -> void:
 		grav_counter = 0)
 
 func _process(delta: float) -> void:
+	if parent.lost or parent.paused:
+		return
+
 	grav_counter += delta
 	if grav_counter > gravity:
 		get_parent().move_piece(get_parent().directions[2])
