@@ -13,11 +13,3 @@ func pick_piece() -> Array:
 		piece = pick_piece()
 	return piece
 
-#shuffles the bag
-func shuffle_bag() -> void:
-	bag.clear()
-	next.clear()
-	for i in next_piece_count:
-		next.append(pick_piece())
-
-

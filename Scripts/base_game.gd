@@ -3,8 +3,9 @@
 class_name BaseGame
 extends Node
 
-signal piece_placed
 signal game_start
+signal piece_placed
+
 signal update_board
 signal piece_moved
 
@@ -196,12 +197,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 #handles everything when starting a new game
 func new_game() -> void:
-	#clear_held_piece()
-	#clear_board()
-	#draw_top()
 	setup_board()
 	update_board.emit()
 	game_start.emit()
+
 
 
 	gameover.hide()

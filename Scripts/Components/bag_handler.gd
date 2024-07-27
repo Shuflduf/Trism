@@ -11,18 +11,22 @@ var bag: Array
 func next_piece() -> Array:
 	var n: Array = next.pop_front()
 	next.append(pick_piece())
-	set_piece.emit()
 	return n
 
 func pick_piece() -> Array:
 	return []
 
 func shuffle_bag() -> void:
-	return
+	bag.clear()
+	next.clear()
+	for i in next_piece_count:
+		next.append(pick_piece())
 
 func _ready() -> void:
 	get_parent().piece_placed.connect(func() -> void:
-		get_parent().piece_type = next_piece())
+		get_parent().piece_type = next_piece()
+		set_piece.emit())
 
 	get_parent().game_start.connect(func() -> void:
-		shuffle_bag())
+		shuffle_bag()
+		set_piece.emit())

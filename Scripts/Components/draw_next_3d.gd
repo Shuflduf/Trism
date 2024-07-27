@@ -24,9 +24,6 @@ func _ready() -> void:
 func draw(pieces: Array, table: KickTable) -> void:
 
 	var vertical_offset := pieces.size() * 4
-	#for piece: Array in pieces:
-		#vertical_offset += 4
-
 	clear()
 
 	if next_pieces_tween:
