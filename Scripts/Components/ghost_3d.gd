@@ -35,7 +35,6 @@ func ghost() -> void:
 		if drop_distance < min_drop_distance:
 			min_drop_distance = drop_distance
 
-	print(min_drop_distance)
 	draw_ghost(min_drop_distance)
 
 func draw_ghost(dist: int) -> void:

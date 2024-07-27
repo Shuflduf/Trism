@@ -3,9 +3,10 @@
 class_name HoldPiece
 extends BaseComponent
 
+signal update
+
 var held_piece := []
 var held_piece_color: int
-var current_held_piece : Array
 
 var can_hold := true
 var just_held := false
@@ -24,6 +25,7 @@ func hold_piece() -> void:
 			just_held = true
 			parent.create_piece()
 
+
 		else:
 			var temp_piece := parent.piece_type
 			parent.piece_type = held_piece
@@ -40,9 +42,8 @@ func hold_piece() -> void:
 
 			parent.draw_piece(parent.active_piece, parent.current_loc)
 
-
 		can_hold = false
-
+		update.emit()
 
 
 func _ready() -> void:
