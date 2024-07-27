@@ -92,15 +92,19 @@ layout_mode = 2
 [node name="RTX" type="CheckButton" parent="Settings/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Temporarily disabled as of v2.0.0"
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 40
+disabled = true
 text = "RTX"
 
 [node name="Cinematic" type="CheckButton" parent="Settings/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Temporarily disabled as of v2.0.0"
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 40
+disabled = true
 text = "CINEMATIC"
 
 [node name="Label" type="Label" parent="Settings/VBoxContainer"]

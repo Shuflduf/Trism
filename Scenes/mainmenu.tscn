@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=14 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" path="res://Shaders/fullblack.gdshader" id="5_4lll0"]
 [ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
 [ext_resource type="Script" path="res://Scripts/UI/link_image_button.gd" id="6_mafd0"]
+[ext_resource type="Texture2D" uid="uid://dg7aqphbfbkln" path="res://Assets/Icons/shufldufnotextbackround.png" id="6_ry3vr"]
 [ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
 [ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
 
@@ -100,12 +101,26 @@ grow_vertical = 0
 size_flags_vertical = 8
 metadata/_edit_group_ = true
 
+[node name="Shuflduf" type="TextureButton" parent="Links"]
+material = SubResource("ShaderMaterial_wqqkb")
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("6_ry3vr")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("6_mafd0")
+url = "http://shuflduf.xyz"
+
 [node name="Discord" type="TextureButton" parent="Links"]
 material = SubResource("ShaderMaterial_wqqkb")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+tooltip_text = "This game doesn't have discord server yet, but my discord is 'shuflduf', and this button will link you to: "
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("5_iyphx")
 ignore_texture_size = true
@@ -124,7 +139,7 @@ texture_normal = ExtResource("8_fegfb")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("6_mafd0")
-url = "https://shuflduf.itch.io/tetrism"
+url = "https://shuflduf.itch.io/trism"
 
 [node name="Github" type="TextureButton" parent="Links"]
 material = SubResource("ShaderMaterial_tkdwc")
@@ -137,7 +152,7 @@ texture_normal = ExtResource("9_gvkc2")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("6_mafd0")
-url = "https://github.com/Shuflduf/Tetrism"
+url = "https://github.com/Shuflduf/Trism"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]

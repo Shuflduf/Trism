@@ -7,10 +7,11 @@ func _on_button_pressed() -> void:
 	SceneManager.transition_to(next_scene)
 
 func _input(event: InputEvent) -> void:
-	match event.get_class():
-		"InputEventKey":
-			if Input.is_action_just_pressed("pause"):
-				PauseMenu.handle_pause()
+	if !event is InputEventKey:
+		return
+
+	if event.is_action_pressed("pause"):
+		PauseMenu.handle_pause()
 
 func _on_options_pressed() -> void:
 	PauseMenu.handle_pause(true)
