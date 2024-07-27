@@ -126,7 +126,6 @@ texture_normal = ExtResource("5_iyphx")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("6_mafd0")
-url = "http://cow.com"
 
 [node name="Itchio" type="TextureButton" parent="Links"]
 material = SubResource("ShaderMaterial_tkdwc")
