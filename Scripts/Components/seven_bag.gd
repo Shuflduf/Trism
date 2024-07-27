@@ -3,8 +3,6 @@ extends BagHandler
 
 @onready var active_table: KickTable = get_parent().active_table
 
-
-
 func pick_piece() -> Array:
 	var piece: Array
 	if not bag.is_empty():
@@ -17,7 +15,8 @@ func pick_piece() -> Array:
 
 #shuffles the bag
 func shuffle_bag() -> void:
-	next = []
+	bag.clear()
+	next.clear()
 	for i in next_piece_count:
 		next.append(pick_piece())
 
