@@ -49,7 +49,7 @@ const COLS := 10
 #game state vars
 var lost := false
 var paused := false
-#var can_hold := true
+
 
 #game piece vars
 var counting := false
@@ -407,70 +407,6 @@ func hard_drop() -> void:
 		move_piece(directions[2])
 	create_piece()
 
-#func handle_ghost() -> void:
-	#clear_ghost()
-	#var dist := find_ghost_positions()
-	#draw_ghost(dist)
-
-#finds how far the ghost piece has to move down
-#func find_ghost_positions() -> int:
-	#ghost_positions = []
-	#var min_drop_distance := 9999
-#
-	#for i: Vector2i in active_piece:
-		#var drop_distance := 0
-		#var ghost_pos := i + current_loc
-#
-		#while is_free(ghost_pos + Vector2i(0, -1), true):
-			#ghost_pos += Vector2i(0, -1)
-			#drop_distance += 1
-#
-		#if drop_distance < min_drop_distance:
-			#min_drop_distance = drop_distance
-#
-	#return min_drop_distance
-#
-##draws the ghost piece
-#func draw_ghost(dist: int) -> void:
-	#for i: Vector2i in active_piece:
-		#var ghost_pos := i + current_loc + Vector2i(0, -dist)
-		#ghost_positions.append(ghost_pos)
-		#set_cell_item(ghost_pos, 8)
-
-#clears the current ghost piece before drawing a new one, to avoid "ghosting"
-#func clear_ghost() -> void:
-	#for i: Vector3i in ghost_positions:
-		#if get_cell_item(i) == 8:
-			#set_cell_item(i, -1)
-	#ghost_positions = []
-
-#handles everything related to holding pieces
-#func hold_piece() -> void:
-	#if can_hold:
-		#held_piece_color = piece_color
-		##clear_held_piece()
-		#if held_piece == []:
-			#held_piece = piece_type
-			##clear_piece()
-			#create_piece()
-		#else:
-			##clear_piece()
-#
-			#var temp_piece := piece_type
-			#piece_type = held_piece
-			#held_piece = temp_piece
-			#current_loc = SPAWN
-			#rotation_index = 0
-#
-			#active_piece = piece_type[rotation_index]
-			#piece_color = active_table.shapes.find(piece_type)
-#
-			##draw_piece(active_piece, current_loc)
-#
-		##show_held_piece(held_piece, 8)
-		#can_hold = false
-	#else:
-		#show_held_piece(held_piece, 8)
 
 #shows the active held piece
 #func show_held_piece(piece: Array, color: int) -> void:

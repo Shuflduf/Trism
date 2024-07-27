@@ -40,13 +40,6 @@ func draw(pieces: Array, table: KickTable) -> void:
 	for piece: Array in pieces:
 		for pos: Vector2i in piece[0]:
 
-			"""
-			4 : 21
-			5 : 25
-			6 : 29
-			"""
-
-
 			var cell_position := convert_vec2_vec3(pos) + \
 					Vector3i(8, ((bag.next_piece_count * 4) + 5) - vertical_offset, 0)
 
