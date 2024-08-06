@@ -9,5 +9,9 @@ func _ready() -> void:
 func _on_lines_cleared(lines: Array[int]) -> void:
 	var new_particles := particles.instantiate()
 	new_particles.position.y = -lines.max()
+	new_particles.finished.connect(
+			func() -> void:
+				new_particles.queue_free())
 	add_child(new_particles)
+	new_particles.restart()
 

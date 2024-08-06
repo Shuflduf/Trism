@@ -44,8 +44,10 @@ size = Vector2(1, 1)
 orientation = 2
 
 [node name="LineClearParticles3D" type="GPUParticles3D"]
+emitting = false
 amount = 64
 lifetime = 0.6
+one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_hd87r")
 draw_pass_1 = SubResource("PlaneMesh_oyrug")
