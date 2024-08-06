@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=32 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 [ext_resource type="Script" path="res://Scripts/Components/hold_piece_3d.gd" id="14_tai0s"]
 [ext_resource type="Script" path="res://Scripts/Components/state_handler.gd" id="15_m1svw"]
+[ext_resource type="PackedScene" uid="uid://bb0xwqqsf54s2" path="res://Scenes/line_clear_particles_3d.tscn" id="16_mvh03"]
+[ext_resource type="Script" path="res://Scripts/Components/line_clear_particle_handler.gd" id="16_u6h37"]
 [ext_resource type="Texture2D" uid="uid://c0di5477uh3n3" path="res://Assets/button_texture.png" id="17_s7jsq"]
 [ext_resource type="Script" path="res://Scripts/UI/scroll_3d_texture.gd" id="18_q4ukc"]
 
@@ -35,46 +37,6 @@ volumetric_fog_density = 0.01
 
 [sub_resource type="Resource" id="Resource_trsve"]
 script = ExtResource("5_7nou4")
-
-[sub_resource type="Curve" id="Curve_ptdju"]
-max_value = 100.0
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.109005, 0), 0.0, 0.0, 0, 0, Vector2(1, 19.7802), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_5i8rj"]
-curve = SubResource("Curve_ptdju")
-
-[sub_resource type="Curve" id="Curve_nxjnl"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.905213, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_541cu"]
-curve = SubResource("Curve_nxjnl")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hd87r"]
-lifetime_randomness = 1.0
-particle_flag_rotate_y = true
-emission_shape = 3
-emission_box_extents = Vector3(10, 0, 1)
-angle_min = -302.5
-angle_max = 411.4
-direction = Vector3(0, 1, 0)
-flatness = 1.0
-initial_velocity_min = 5.0
-initial_velocity_max = 10.0
-gravity = Vector3(0, 4, 0)
-damping_min = 1.0
-damping_max = 2.521
-damping_curve = SubResource("CurveTexture_5i8rj")
-scale_curve = SubResource("CurveTexture_541cu")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i38na"]
-cull_mode = 2
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_oyrug"]
-material = SubResource("StandardMaterial3D_i38na")
-size = Vector2(1, 1)
-orientation = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lvr7f"]
 size = Vector3(21, 6, 3)
@@ -433,12 +395,9 @@ data = {
 "cells": PackedInt32Array(5, 0, 7, -65531, 0, 7, -131067, 0, 7, -196603, 0, 7, -262139, 0, 7, -327675, 0, 7, -393211, 0, 7, -458747, 0, 7, -524283, 0, 7, -589819, 0, 7, -655355, 0, 7, -655356, 0, 7, -655357, 0, 7, -655358, 0, 7, -655359, 0, 7, -655360, 0, 7, -589825, 0, 7, -589826, 0, 7, -589827, 0, 7, -589828, 0, 7, -589829, 0, 7, -589830, 0, 7, -524294, 0, 7, -458758, 0, 7, -393222, 0, 7, -327686, 0, 7, -262150, 0, 7, -196614, 0, 7, -131078, 0, 7, -65542, 0, 7, -6, 0, 7, 65530, 0, 7, 131066, 0, 7, 196602, 0, 7, 262138, 0, 7, 327674, 0, 7, 458746, 0, 7, 524282, 0, 7, 589818, 0, 7, 655354, 0, 7, 65541, 0, 7, 131077, 0, 7, 196613, 0, 7, 262149, 0, 7, 327685, 0, 7, 393221, 0, 7, 458757, 0, 7, 524293, 0, 7, 589829, 0, 7, 655365, 0, 7, 720901, 0, 7, 786437, 0, 7, 851973, 0, 7, 917509, 0, 7, 983045, 0, 7, 786426, 0, 7, 720890, 0, 7, 851962, 0, 7, 917498, 0, 7, 983034, 0, 7, 1048570, 0, 7, 393210, 0, 7, 655364, 0, 8, 655363, 0, 8, 655362, 0, 8, 655361, 0, 8, 655360, 0, 8, 720895, 0, 8, 720894, 0, 8, 720893, 0, 8, 720892, 0, 8, 720891, 0, 8)
 }
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="MainGame"]
-amount = 64
-lifetime = 0.6
-explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_hd87r")
-draw_pass_1 = SubResource("PlaneMesh_oyrug")
+[node name="ParticleHandler" type="Node" parent="MainGame"]
+script = ExtResource("16_u6h37")
+particles = ExtResource("16_mvh03")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
