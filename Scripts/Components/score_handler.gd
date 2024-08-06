@@ -15,7 +15,8 @@ func _ready() -> void:
 		handle_score(lines, tspin))
 
 	get_parent().game_start.connect(func() -> void:
-		score = 0)
+		score = 0
+		label.text = str(score))
 
 func handle_score(lines_cleared_count: int, tspin_valid: String) -> void:
 	var counted := false
