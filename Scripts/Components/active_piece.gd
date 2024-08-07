@@ -36,7 +36,7 @@ enum TSpin {
 	MINI
 }
 
-var tspin_valid := TSpin
+var tspin_valid : TSpin
 
 func _ready() -> void:
 	parent.game_start.connect(start)

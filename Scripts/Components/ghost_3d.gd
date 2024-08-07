@@ -20,7 +20,7 @@ func ghost() -> void:
 	#ghost_positions = []
 	var min_drop_distance := 99
 
-	for i: Vector2i in parent.active_piece:
+	for i: Vector2i in active_piece.active_piece_type:
 		var drop_distance := 1
 		var ghost_pos: Vector2i = i + active_piece.current_loc + Vector2i(0, 1)
 
@@ -38,7 +38,7 @@ func draw_ghost(dist: int) -> void:
 
 	var current_piece_locs: Array[Vector2i] = []
 
-	for i: Vector2i in parent.active_piece:
+	for i: Vector2i in active_piece.active_piece_type:
 		current_piece_locs.append(i + parent.current_loc)
 
 	for i: Vector2i in current_piece_locs:

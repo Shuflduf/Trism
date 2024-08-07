@@ -1,8 +1,6 @@
 class_name GravityHandler
 extends BaseComponent
 
-
-
 @export var levels: LevelHandler
 @export var starter_gravity := 1.0
 
@@ -29,7 +27,7 @@ func _process(delta: float) -> void:
 
 	grav_counter += delta
 	if grav_counter > gravity:
-		active_piece.move_piece(get_parent().directions[2])
+		active_piece.move_piece(active_piece.directions[2])
 		grav_counter = 0
 
 func update_gravity() -> void:
