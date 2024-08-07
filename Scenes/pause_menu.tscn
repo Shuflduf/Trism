@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=15 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
 [ext_resource type="Theme" uid="uid://4bv1mxp5rkqk" path="res://Resources/button_ui.tres" id="3_0b88x"]
 [ext_resource type="LabelSettings" uid="uid://ceef1murwut4i" path="res://Assets/Fonts/Font Styles/Medium.tres" id="3_aq7cx"]
+[ext_resource type="Script" path="res://Scripts/UI/bouncy_button.gd" id="4_rrhu0"]
 [ext_resource type="Script" path="res://Scripts/controls.gd" id="4_w80sp"]
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
@@ -71,6 +72,7 @@ size_flags_horizontal = 4
 theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 36
 text = "Settings"
+script = ExtResource("4_rrhu0")
 
 [node name="MainMenu" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(217.165, 0)
@@ -79,6 +81,7 @@ size_flags_horizontal = 4
 theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 36
 text = "Main Menu"
+script = ExtResource("4_rrhu0")
 
 [node name="Settings" type="CenterContainer" parent="."]
 visible = false
@@ -94,21 +97,25 @@ layout_mode = 2
 
 [node name="RTX" type="CheckButton" parent="Settings/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(186.645, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 tooltip_text = "Temporarily disabled as of v2.0.0"
-theme_override_fonts/font = ExtResource("1_epsu2")
+theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 40
 disabled = true
-text = "RTX"
+text = " RTX"
 
 [node name="Cinematic" type="CheckButton" parent="Settings/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(306.76, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 tooltip_text = "Temporarily disabled as of v2.0.0"
-theme_override_fonts/font = ExtResource("1_epsu2")
+theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 40
 disabled = true
-text = "CINEMATIC"
+text = " CINEMATIC"
 
 [node name="Label" type="Label" parent="Settings/VBoxContainer"]
 layout_mode = 2
@@ -243,11 +250,14 @@ theme_override_font_sizes/font_size = 30
 text = "Sonic"
 
 [node name="SwitchToControls" type="Button" parent="Settings/VBoxContainer"]
+custom_minimum_size = Vector2(311.845, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+theme = ExtResource("3_0b88x")
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 30
 text = "Customize Controls"
+script = ExtResource("4_rrhu0")
 
 [node name="Controls" type="MarginContainer" parent="."]
 visible = false

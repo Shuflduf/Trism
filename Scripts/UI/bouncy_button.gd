@@ -1,11 +1,9 @@
+@tool
+class_name BouncyButton
 extends Button
 
+const THEME := preload("res://Resources/button_ui.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	theme = THEME

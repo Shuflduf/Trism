@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=20 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/link_image_button.gd" id="6_mafd0"]
 [ext_resource type="Theme" uid="uid://4bv1mxp5rkqk" path="res://Resources/button_ui.tres" id="6_pg2b1"]
 [ext_resource type="Texture2D" uid="uid://dg7aqphbfbkln" path="res://Assets/Icons/shufldufnotextbackround.png" id="6_ry3vr"]
+[ext_resource type="Script" path="res://Scripts/UI/bouncy_button.gd" id="7_b5vka"]
 [ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
 [ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
 
@@ -109,6 +110,7 @@ focus_mode = 0
 theme = ExtResource("6_pg2b1")
 theme_override_font_sizes/font_size = 96
 text = "PLAY"
+script = ExtResource("7_b5vka")
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
@@ -119,7 +121,8 @@ focus_mode = 0
 theme = ExtResource("6_pg2b1")
 theme_override_fonts/font = ExtResource("2_h4vkp")
 theme_override_font_sizes/font_size = 50
-text = "OPTIONS"
+text = "Settings"
+script = ExtResource("7_b5vka")
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 1
