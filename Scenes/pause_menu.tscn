@@ -42,6 +42,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -70,6 +71,7 @@ custom_minimum_size = Vector2(201.705, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("3_0b88x")
+theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 36
 text = "Settings"
 script = ExtResource("4_rrhu0")
@@ -84,7 +86,6 @@ text = "Main Menu"
 script = ExtResource("4_rrhu0")
 
 [node name="Settings" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,6 +102,7 @@ custom_minimum_size = Vector2(186.645, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Temporarily disabled as of v2.0.0"
+focus_mode = 0
 theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 40
 disabled = true
@@ -112,6 +114,7 @@ custom_minimum_size = Vector2(306.76, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Temporarily disabled as of v2.0.0"
+focus_mode = 0
 theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 40
 disabled = true
@@ -130,6 +133,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Settings/VBoxContainer/ARR"]
 layout_mode = 2
+size_flags_horizontal = 0
 text = "ARR"
 label_settings = ExtResource("5_icmgu")
 
@@ -138,6 +142,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("3_0b88x")
 min_value = 1.0
 max_value = 5.0
 value = 2.0
@@ -146,6 +152,8 @@ rounded = true
 [node name="ARRLineEdit" type="SpinBox" parent="Settings/VBoxContainer/ARR"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("3_0b88x")
 max_value = 5.0
 value = 2.0
 rounded = true
@@ -167,6 +175,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("3_0b88x")
 min_value = 1.0
 max_value = 20.0
 value = 10.0
@@ -175,6 +185,7 @@ rounded = true
 [node name="DASLineEdit" type="SpinBox" parent="Settings/VBoxContainer/DAS"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("3_0b88x")
 min_value = 1.0
 max_value = 20.0
 value = 10.0
@@ -199,6 +210,8 @@ custom_minimum_size = Vector2(191.845, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("3_0b88x")
 max_value = 20.0
 value = 1.0
 rounded = true
@@ -207,6 +220,7 @@ rounded = true
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("3_0b88x")
 max_value = 20.0
 value = 1.0
 rounded = true
@@ -228,6 +242,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("3_0b88x")
 min_value = 5.0
 max_value = 30.0
 value = 6.0
@@ -236,6 +252,7 @@ rounded = true
 [node name="SDFLineEdit" type="SpinBox" parent="Settings/VBoxContainer/SDF"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("3_0b88x")
 min_value = 5.0
 max_value = 30.0
 value = 6.0
@@ -243,18 +260,22 @@ rounded = true
 suffix = "F"
 
 [node name="Sonic" type="CheckButton" parent="Settings/VBoxContainer"]
+custom_minimum_size = Vector2(186.385, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
+theme = ExtResource("3_0b88x")
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 30
-text = "Sonic"
+text = " Sonic"
 
 [node name="SwitchToControls" type="Button" parent="Settings/VBoxContainer"]
 custom_minimum_size = Vector2(311.845, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 theme = ExtResource("3_0b88x")
-theme_override_fonts/font = ExtResource("1_epsu2")
+theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 30
 text = "Customize Controls"
 script = ExtResource("4_rrhu0")
@@ -279,9 +300,11 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
+current_tab = 1
 tab_focus_mode = 0
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -408,7 +431,6 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="Arrow Keys" type="MarginContainer" parent="Controls/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
