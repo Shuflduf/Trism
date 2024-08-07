@@ -9,7 +9,7 @@ signal piece_placed
 signal update_board
 signal piece_moved
 
-signal lines_cleared(lines: Array[int])
+signal lines_cleared(lines: Array[int], piece_color: int)
 signal update_score(lines: int, tspin: String)
 
 @export var active_table : SRS
@@ -434,7 +434,7 @@ func check_rows() -> void:
 
 	if rows_to_clear.size() > 0:
 		move_down_rows(rows_to_clear)
-		lines_cleared.emit(rows_to_clear)
+		lines_cleared.emit(rows_to_clear, piece_color)
 
 
 func move_down_rows(cleared_rows_indices: Array) -> void:

@@ -389,17 +389,11 @@ script = ExtResource("13_qfxsn")
 script = ExtResource("15_m1svw")
 death_screen = NodePath("../../UI/Gameover")
 
-[node name="ParticleHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("board")]
+[node name="ParticleHandler" type="Node" parent="MainGame"]
 script = ExtResource("16_u6h37")
 particles = ExtResource("16_mvh03")
-board = NodePath("../GameBoard3D")
-offset = Vector3(0, 0, 2)
-
-[node name="GridMap" type="GridMap" parent="MainGame/ParticleHandler"]
 mesh_library = ExtResource("2_ahqo1")
-
-[node name="Node3D" type="Node3D" parent="MainGame/ParticleHandler"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0)
+offset = Vector3(0, 24, 1)
 
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
