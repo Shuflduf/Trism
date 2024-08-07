@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://Shaders/diamond_sweep.gdshader" id="1_a6aj7"]
 [ext_resource type="Script" path="res://Scripts/UI/scene_manager.gd" id="1_dnrid"]
-[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="2_h426g"]
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="2_h426g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ugclb"]
 shader = ExtResource("1_a6aj7")

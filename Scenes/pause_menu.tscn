@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_dkwbe"]
-[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="1_epsu2"]
 [ext_resource type="Theme" uid="uid://4bv1mxp5rkqk" path="res://Resources/button_ui.tres" id="3_0b88x"]
 [ext_resource type="LabelSettings" uid="uid://ceef1murwut4i" path="res://Assets/Fonts/Font Styles/Medium.tres" id="3_aq7cx"]
 [ext_resource type="Script" path="res://Scripts/UI/bouncy_button.gd" id="4_rrhu0"]
@@ -10,7 +10,7 @@
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://b8ki582y8fda5" path="res://Assets/Fonts/Font Styles/Info.tres" id="6_6ih8y"]
 [ext_resource type="Script" path="res://Scripts/custom_controls.gd" id="8_0namw"]
-[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="8_q8d13"]
+[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/config.ttf" id="8_q8d13"]
 [ext_resource type="Script" path="res://Scripts/UI/input_button.gd" id="9_tjw1b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rdqyn"]

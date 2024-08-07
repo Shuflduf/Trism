@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://4bv1mxp5rkqk"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://4bv1mxp5rkqk"]
 
-[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="1_7jbud"]
+[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/config.ttf" id="1_7jbud"]
+[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="1_qmjuw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r74j1"]
 bg_color = Color(0.28, 0.28, 0.28, 1)
@@ -64,7 +65,7 @@ shadow_offset = Vector2(4, 4)
 
 [resource]
 default_font = ExtResource("1_7jbud")
-Button/fonts/font = ExtResource("1_7jbud")
+Button/fonts/font = ExtResource("1_qmjuw")
 Button/styles/disabled = SubResource("StyleBoxFlat_r74j1")
 Button/styles/hover = SubResource("StyleBoxFlat_xpo28")
 Button/styles/normal = SubResource("StyleBoxFlat_0csmp")

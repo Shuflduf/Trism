@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
-[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
+[ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/config.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
 [ext_resource type="Shader" path="res://Shaders/simple_scroll.gdshader" id="2_vg4gn"]
 [ext_resource type="Texture2D" uid="uid://dxefevr0eqhtk" path="res://Assets/thing.png" id="3_jrei6"]

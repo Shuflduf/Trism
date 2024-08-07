@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://cejipfrgvlr25"
-path="res://.godot/imported/cb.ttf-7443eedad170ece32673d43e709a90c6.fontdata"
+path="res://.godot/imported/main.ttf-5f01e17b48215438a86adad48881a866.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/cb.ttf"
-dest_files=["res://.godot/imported/cb.ttf-7443eedad170ece32673d43e709a90c6.fontdata"]
+source_file="res://Assets/Fonts/main.ttf"
+dest_files=["res://.godot/imported/main.ttf-5f01e17b48215438a86adad48881a866.fontdata"]
 
 [params]
 
