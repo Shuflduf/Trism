@@ -8,6 +8,7 @@ uniform float speed = 0.03;
 uniform float angle = 0.7854; // in radians
 uniform float mask_width = 0.2; // Width of the mask on the right side, as a fraction of total width
 uniform float shadow_width = 0.02;
+uniform float shadow_strength: hint_range(0.0, 1.0) = 0.5;
 uniform float zigzag_frequency = 10.0; // Frequency of the zigzag pattern
 uniform float zigzag_amplitude = 0.05; // Amplitude of the zigzag pattern
 
@@ -24,7 +25,7 @@ void fragment() {
         COLOR = vec4(0.0, 0.0, 0.0, 0.0); // Example: making the masked area transparent
     } else if (UV.x > zigzag - shadow_width) { // Adjust 0.02 to match the smoothstep range for the shadow width
         // Apply the drop shadow effect on the edge of the mask
-        vec4 shadowColor = mix(vec4(0.0), vec4(0.0, 0.0, 0.0, 0.3), edgeDistance); // Adjust shadow color and opacity as needed
+        vec4 shadowColor = mix(vec4(0.0), vec4(0.0, 0.0, 0.0, shadow_strength), edgeDistance); // Adjust shadow color and opacity as needed
         COLOR = shadowColor;
     } else {
         // Original shader logic
