@@ -1,8 +1,7 @@
-[gd_scene load_steps=34 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=35 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
-[ext_resource type="Resource" uid="uid://0kctrg5r6l25" path="res://Resources/srs.tres" id="4_a6tp2"]
 [ext_resource type="Script" path="res://Scripts/base_game.gd" id="5_1ulw6"]
 [ext_resource type="Script" path="res://Scripts/Data/score_table.gd" id="5_7nou4"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="5_pje1w"]
@@ -13,6 +12,7 @@
 [ext_resource type="Script" path="res://Scripts/Components/ghost_3d.gd" id="7_12qou"]
 [ext_resource type="Script" path="res://Scripts/Components/draw_next_3d.gd" id="7_apvju"]
 [ext_resource type="Script" path="res://Scripts/Components/level_handler.gd" id="9_em7xu"]
+[ext_resource type="Script" path="res://Scripts/Data/srs.gd" id="9_uths7"]
 [ext_resource type="Script" path="res://Scripts/Components/gravity_handler.gd" id="10_rg1cx"]
 [ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 [ext_resource type="Script" path="res://Scripts/Components/hold_piece_3d.gd" id="14_tai0s"]
@@ -37,6 +37,9 @@ tonemap_mode = 2
 glow_enabled = true
 volumetric_fog_density = 0.01
 
+[sub_resource type="Resource" id="Resource_ygc2b"]
+script = ExtResource("9_uths7")
+
 [sub_resource type="Resource" id="Resource_trsve"]
 script = ExtResource("5_7nou4")
 
@@ -47,7 +50,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(207.035, 0, 0)
+uv1_offset = Vector3(326.732, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -345,68 +348,80 @@ shadow_enabled = true
 
 [node name="MainGame" type="Node3D" parent="."]
 script = ExtResource("5_1ulw6")
-active_table = ExtResource("4_a6tp2")
-SPAWN = null
 
-[node name="GameBoard3D" type="GridMap" parent="MainGame"]
+[node name="GameBoard3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("6_1dn88")
 offset = Vector3i(-5, 12, 0)
+active_piece = NodePath("../ActivePiece")
 
-[node name="GhostPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("game_board")]
+[node name="GhostPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("game_board", "active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("7_12qou")
 game_board = NodePath("../GameBoard3D")
+active_piece = NodePath("../ActivePiece")
 
-[node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag")]
+[node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag", "active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("7_apvju")
 bag = NodePath("../SevenBag")
+active_piece = NodePath("../ActivePiece")
 
-[node name="HoldPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base")]
+[node name="HoldPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base", "active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("14_tai0s")
 base = NodePath("../HoldPiece")
 offset = Vector3i(-12, 7, 0)
+active_piece = NodePath("../ActivePiece")
 
-[node name="ActivePiece" type="Node" parent="MainGame"]
+[node name="ActivePiece" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("19_xwl88")
+active_table = SubResource("Resource_ygc2b")
+active_piece = NodePath(".")
 
-[node name="SevenBag" type="Node" parent="MainGame"]
+[node name="SevenBag" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("6_1cvjh")
+active_piece = NodePath("../ActivePiece")
 
-[node name="ScoreHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("label")]
+[node name="ScoreHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("label", "active_piece")]
 script = ExtResource("7_2sjim")
 label = NodePath("../../UI/Score")
 score_table = SubResource("Resource_trsve")
+active_piece = NodePath("../ActivePiece")
 
-[node name="LevelHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("level_label", "lines_label")]
+[node name="LevelHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("level_label", "lines_label", "active_piece")]
 script = ExtResource("9_em7xu")
 level_label = NodePath("../../UI/Level")
 lines_label = NodePath("../../UI/Lines")
+active_piece = NodePath("../ActivePiece")
 
-[node name="GravityHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("levels")]
+[node name="GravityHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("levels", "active_piece")]
 script = ExtResource("10_rg1cx")
 levels = NodePath("../LevelHandler")
+active_piece = NodePath("../ActivePiece")
 
-[node name="HoldPiece" type="Node" parent="MainGame"]
+[node name="HoldPiece" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("13_qfxsn")
+active_piece = NodePath("../ActivePiece")
 
-[node name="GameStateHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("death_screen")]
+[node name="GameStateHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("death_screen", "active_piece")]
 script = ExtResource("15_m1svw")
 death_screen = NodePath("../../UI/Gameover")
+active_piece = NodePath("../ActivePiece")
 
-[node name="ParticleHandler" type="Node" parent="MainGame"]
+[node name="ParticleHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("16_u6h37")
 particles = ExtResource("16_mvh03")
 mesh_library = ExtResource("2_ahqo1")
 offset = Vector3(0, 24, 0.3)
+active_piece = NodePath("../ActivePiece")
 
-[node name="LinesTspinPopupHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("just_cleared_label", "just_tspin_label", "animation_player")]
+[node name="LinesTspinPopupHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("just_cleared_label", "just_tspin_label", "animation_player", "active_piece")]
 script = ExtResource("18_04fbl")
 just_cleared_label = NodePath("../../UI/Cleared")
 just_tspin_label = NodePath("../../UI/Tspin")
 animation_player = NodePath("../../UI/AnimationPlayer")
+active_piece = NodePath("../ActivePiece")
 
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")

@@ -23,10 +23,10 @@ func shuffle_bag() -> void:
 		next.append(pick_piece())
 
 func _ready() -> void:
-	get_parent().piece_placed.connect(func() -> void:
+	active_piece.piece_placed.connect(func() -> void:
 		get_parent().piece_type = next_piece()
 		set_piece.emit())
 
-	get_parent().game_start.connect(func() -> void:
+	parent.game_start.connect(func() -> void:
 		shuffle_bag()
 		set_piece.emit())

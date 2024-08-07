@@ -20,7 +20,7 @@ const TEMP_DROP_TIME = 40
 var piece_type : Array
 
 var rotation_index : int = 0
-var active_piece : Array
+var active_piece_type : Array
 var current_loc : Vector2i
 var piece_color : int
 
@@ -28,6 +28,7 @@ var current_dcd := Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers := [0, 0]
 var counting := false
+
 
 enum TSpin {
 	NONE,
@@ -100,7 +101,7 @@ func _physics_process(_delta: float) -> void:
 	if parent.lost or parent.paused:
 		return
 	current_dcd -= 1
-
+	print(current_loc)
 	# Handle DAS for left movement
 	if moving_dir[0]:
 		dir_timers[0] += 1
@@ -131,8 +132,8 @@ func _physics_process(_delta: float) -> void:
 
 func create_piece() -> void:
 	counting = false
-	parent.check_rows()
-	parent.current_loc = SPAWN
+	parent.check_rows(piece_color)
+	current_loc = SPAWN
 	rotation_index = 0
 
 	if !parent.lost:
@@ -146,10 +147,10 @@ func create_piece() -> void:
 		piece_color = active_table.shapes.find(piece_type)
 
 		active_piece = piece_type[rotation_index]
-		draw_piece(active_piece, current_loc)
+		draw_piece(active_piece_type, current_loc)
 
 
-		parent.update_score.emit(lines_just_cleared, tspin_valid)
+		#parent.update_score.emit(lines_just_cleared, tspin_valid)
 		tspin_valid = TSpin.NONE
 		parent.lines_just_cleared = 0
 		if Input.is_action_pressed("soft"):
@@ -185,7 +186,7 @@ func rotate_piece(dir: String) -> void:
 			active_piece = piece_type[rotation_index]
 
 			current_loc += offset
-			draw_piece(active_piece, current_loc)
+			draw_piece(active_piece_type, current_loc)
 			current_dcd = Settings.dcd
 
 
@@ -259,7 +260,7 @@ func move_piece(dir: Vector2i) -> void:
 		#clear_piece()
 		current_loc += dir
 
-		draw_piece(active_piece, current_loc)
+		draw_piece(active_piece_type, current_loc)
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = TSpin.NONE
@@ -267,7 +268,7 @@ func move_piece(dir: Vector2i) -> void:
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:
 	var cm := true
-	for square: Vector2i in active_piece:
+	for square: Vector2i in active_piece_type:
 		var next_pos := square + current_loc + dir
 		if not is_free(next_pos):
 			cm = false
@@ -294,7 +295,7 @@ func hard_drop() -> void:
 	create_piece()
 
 func is_free_below() -> void:
-	for i: Vector2i in active_piece:
+	for i: Vector2i in active_piece_type:
 		if !is_free(i + Vector2i(0, 1) + current_loc):
 			counting = true
 			return

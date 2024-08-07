@@ -1,7 +1,5 @@
-@icon("res://Assets/Editor/component3d.png")
-
 class_name HoldPiece3D
-extends GridMap
+extends BaseComponent3D
 
 @export var base: HoldPiece
 @export var offset: Vector3i

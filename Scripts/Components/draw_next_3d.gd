@@ -1,7 +1,5 @@
-@icon("res://Assets/Editor/component3d.png")
-
 class_name NextPieces3D
-extends GridMap
+extends BaseComponent3D
 
 @export var bag: BagHandler
 
@@ -15,10 +13,10 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 
 func _ready() -> void:
 	bag.set_piece.connect(func() -> void:
-		draw(bag.next, get_parent().active_table))
+		draw(bag.next, active_piece.active_table))
 
-	get_parent().game_start.connect(func() -> void:
-		draw(bag.next, get_parent().active_table))
+	parent.game_start.connect(func() -> void:
+		draw(bag.next, active_piece.active_table))
 
 
 func draw(pieces: Array, table: KickTable) -> void:

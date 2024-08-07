@@ -11,13 +11,13 @@ var gravity: float = 1.0:
 	set(value):
 		gravity = value
 	get:
-		return gravity if !get_parent().soft_dropping else (gravity / 3) / Settings.sdf
+		return gravity if !active_piece.soft_dropping else (gravity / 3) / Settings.sdf
 
 func _ready() -> void:
 	levels.updated_values.connect(func() -> void:
 		update_gravity())
 
-	get_parent().piece_placed.connect(func() -> void:
+	active_piece.piece_placed.connect(func() -> void:
 		grav_counter = 0)
 
 	get_parent().game_start.connect(func() -> void:
@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 
 	grav_counter += delta
 	if grav_counter > gravity:
-		get_parent().move_piece(get_parent().directions[2])
+		active_piece.move_piece(get_parent().directions[2])
 		grav_counter = 0
 
 func update_gravity() -> void:

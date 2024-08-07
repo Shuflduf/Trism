@@ -5,7 +5,7 @@ extends BaseComponent
 
 func _ready() -> void:
 	death_screen.hide()
-	parent.piece_placed.connect(func() -> void:
+	active_piece.piece_placed.connect(func() -> void:
 		check_death())
 
 	death_screen.find_child("Button").input_event.connect(\

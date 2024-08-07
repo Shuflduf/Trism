@@ -3,6 +3,8 @@ extends BaseComponent
 
 signal update
 
+
+
 var held_piece := []
 var held_piece_color: int
 
@@ -10,7 +12,7 @@ var can_hold := true
 var just_held := false
 
 func _ready() -> void:
-	parent.piece_placed.connect(func() -> void:
+	active_piece.piece_placed.connect(func() -> void:
 		if !just_held:
 			can_hold = true
 			update.emit()
@@ -44,7 +46,7 @@ func hold_piece() -> void:
 
 
 		else:
-			var temp_piece := parent.piece_type
+			var temp_piece := active_piece.piece_type
 			parent.piece_type = held_piece
 			held_piece = temp_piece
 

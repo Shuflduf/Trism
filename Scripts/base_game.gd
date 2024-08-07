@@ -111,7 +111,7 @@ func new_game() -> void:
 
 
 #checks if any rows are full
-func check_rows() -> void:
+func check_rows(piece_color: int) -> void:
 
 	var rows_to_clear: Array[int] = []
 

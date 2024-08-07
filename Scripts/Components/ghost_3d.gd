@@ -1,13 +1,9 @@
-@icon("res://Assets/Editor/component3d.png")
-
 class_name GhostPiece3D
-extends GridMap
+extends BaseComponent3D
 
 @export var game_board: GameBoard3D
 
-var parent: BaseGame:
-	get:
-		return get_parent()
+
 
 var offset: Vector3i
 
@@ -17,7 +13,7 @@ func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
 func _ready() -> void:
 	if game_board:
 		offset = game_board.offset
-	get_parent().piece_moved.connect(func() -> void:
+	active_piece.piece_moved.connect(func() -> void:
 		ghost())
 
 func ghost() -> void:
@@ -26,9 +22,9 @@ func ghost() -> void:
 
 	for i: Vector2i in parent.active_piece:
 		var drop_distance := 1
-		var ghost_pos := i + parent.current_loc + Vector2i(0, 1)
+		var ghost_pos: Vector2i = i + active_piece.current_loc + Vector2i(0, 1)
 
-		while parent.is_free(ghost_pos + Vector2i(0, -1), true):
+		while parent.is_free(ghost_pos + Vector2i(0, -1)):
 			ghost_pos += Vector2i(0, 1)
 			drop_distance += 1
 

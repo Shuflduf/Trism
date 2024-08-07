@@ -1,7 +1,6 @@
-@icon("res://Assets/Editor/component.png")
-
-class_name BaseComponent
-extends Node
+@icon("res://Assets/Editor/component3d.png")
+class_name BaseComponent3D
+extends GridMap
 
 @export var active_piece: ActivePiece
 
