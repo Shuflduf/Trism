@@ -1,9 +1,0 @@
-[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://3hv6ytdg8wv"]
-
-[ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="1_l2qle"]
-
-[resource]
-font = ExtResource("1_l2qle")
-font_size = 20
-outline_size = 6
-outline_color = Color(0, 0, 0, 1)

@@ -42,7 +42,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -234,7 +233,8 @@ alignment = 1
 
 [node name="Label" type="Label" parent="Settings/VBoxContainer/SDF"]
 layout_mode = 2
-text = "SDF
+size_flags_horizontal = 0
+text = "SDF 
 "
 label_settings = ExtResource("5_icmgu")
 
@@ -282,6 +282,7 @@ text = "Customize Controls"
 script = ExtResource("4_rrhu0")
 
 [node name="Controls" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -300,11 +301,9 @@ keybind_resource = ExtResource("5_3k7vs")
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
-current_tab = 2
 tab_focus_mode = 0
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -555,6 +554,7 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="Custom" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50

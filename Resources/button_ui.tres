@@ -237,11 +237,15 @@ shadow_offset = Vector2(10, 10)
 
 [resource]
 default_font = ExtResource("2_3pyto")
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 12
 Button/fonts/font = ExtResource("1_x7t5o")
 Button/styles/disabled = SubResource("StyleBoxFlat_r74j1")
 Button/styles/hover = SubResource("StyleBoxFlat_xpo28")
 Button/styles/normal = SubResource("StyleBoxFlat_0csmp")
 Button/styles/pressed = SubResource("StyleBoxFlat_ltw25")
+CheckButton/colors/font_outline_color = Color(0, 0, 0, 1)
+CheckButton/constants/outline_size = 12
 CheckButton/styles/hover = SubResource("StyleBoxFlat_xt41s")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxFlat_qekyl")
 CheckButton/styles/normal = SubResource("StyleBoxFlat_l6jr6")

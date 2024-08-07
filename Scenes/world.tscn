@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=33 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://bb0xwqqsf54s2" path="res://Scenes/line_clear_particles_3d.tscn" id="16_mvh03"]
 [ext_resource type="Script" path="res://Scripts/Components/line_clear_particle_handler.gd" id="16_u6h37"]
 [ext_resource type="Texture2D" uid="uid://c0di5477uh3n3" path="res://Assets/button_texture.png" id="17_s7jsq"]
+[ext_resource type="Script" path="res://Scripts/Components/cleared_popup_handler.gd" id="18_04fbl"]
 [ext_resource type="Script" path="res://Scripts/UI/scroll_3d_texture.gd" id="18_q4ukc"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
@@ -44,7 +45,8 @@ size = Vector3(21, 6, 3)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yx7r2"]
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
-uv1_scale = Vector3(-0.105, -0.105, -0.105)
+uv1_scale = Vector3(0.07, 0.07, 0.07)
+uv1_offset = Vector3(81.7887, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -395,6 +397,12 @@ particles = ExtResource("16_mvh03")
 mesh_library = ExtResource("2_ahqo1")
 offset = Vector3(0, 24, 0.3)
 
+[node name="LinesTspinPopupHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("just_cleared_label", "just_tspin_label", "animation_player")]
+script = ExtResource("18_04fbl")
+just_cleared_label = NodePath("../../UI/Cleared")
+just_tspin_label = NodePath("../../UI/Tspin")
+animation_player = NodePath("../../UI/AnimationPlayer")
+
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
 data = {
@@ -413,20 +421,22 @@ visible = false
 
 [node name="YouLose" type="Label3D" parent="UI/Gameover"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 4)
+pixel_size = 0.04
 shaded = true
 text = "YOU LOSE"
 font = ExtResource("5_pje1w")
-font_size = 2000
-outline_size = 127
+font_size = 200
+outline_size = 60
 uppercase = true
 
 [node name="Restart" type="Label3D" parent="UI/Gameover"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 4)
+pixel_size = 0.02
 shaded = true
 text = "Restart?"
 font = ExtResource("5_pje1w")
-font_size = 800
-outline_size = 127
+font_size = 210
+outline_size = 67
 uppercase = true
 
 [node name="Button" type="Area3D" parent="UI/Gameover"]
@@ -468,7 +478,7 @@ shaded = true
 text = "0 lines"
 font = ExtResource("5_pje1w")
 font_size = 50
-outline_size = 15
+outline_size = 30
 horizontal_alignment = 2
 uppercase = true
 
@@ -480,7 +490,7 @@ shaded = true
 text = "Level 0"
 font = ExtResource("5_pje1w")
 font_size = 50
-outline_size = 15
+outline_size = 30
 horizontal_alignment = 0
 uppercase = true
 
@@ -492,7 +502,7 @@ shaded = true
 text = "0"
 font = ExtResource("5_pje1w")
 font_size = 80
-outline_size = 20
+outline_size = 30
 uppercase = true
 
 [node name="Cleared" type="Label3D" parent="UI"]

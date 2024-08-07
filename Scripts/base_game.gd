@@ -22,17 +22,7 @@ signal update_score(lines: int, tspin: String)
 @onready var camera := %Camera3D
 
 
-var cleared_lines := {
-	1 : "One",
-	2 : "Two",
-	3 : "Three",
-	4 : "Four",
-}
 
-var tspins_text := {
-	"mini" : "MINI T SPUN",
-	"standard" : "T SPUN",
-}
 
 const camera_positions = [Vector3(0, 1, 35), Vector3(0, -31, 13)]
 const camera_rotations = [Vector3.ZERO, Vector3(60, 0, 0)]
@@ -506,20 +496,12 @@ func is_free_below() -> void:
 			counting = false
 
 #toggles cinematic camera for some reason
-func set_cinematic_camera() -> void:
-	camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
-	camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
+#func set_cinematic_camera() -> void:
+	#camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
+	#camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
 
 
 
 
 #changes the value of cleared label and tspin label
-#func update_lines_cleared_tspin_labels(lines : int, tspin : String) -> void:
-	#animation_player.stop()
-	#tspin_label.text = ""
-	#cleared.text = ""
-	#if lines != 0:
-		#cleared.text = cleared_lines[lines]
-	#if tspin in tspins_text:
-		#tspin_label.text = tspins_text[tspin]
-	#animation_player.play("lines_cleared")
+
