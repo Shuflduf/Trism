@@ -86,6 +86,7 @@ text = "Main Menu"
 script = ExtResource("4_rrhu0")
 
 [node name="Settings" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -281,13 +282,13 @@ text = "Customize Controls"
 script = ExtResource("4_rrhu0")
 
 [node name="Controls" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_0b88x")
 theme_override_constants/margin_left = 70
 theme_override_constants/margin_top = 70
 theme_override_constants/margin_right = 70
@@ -297,10 +298,9 @@ keybind_resource = ExtResource("5_3k7vs")
 
 [node name="TabContainer" type="TabContainer" parent="Controls"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
-current_tab = 1
+current_tab = 2
 tab_focus_mode = 0
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
@@ -431,6 +431,7 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="Arrow Keys" type="MarginContainer" parent="Controls/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -554,7 +555,6 @@ text = "Shift"
 label_settings = ExtResource("6_6ih8y")
 
 [node name="Custom" type="MarginContainer" parent="Controls/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
@@ -578,7 +578,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetLeft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveLeft"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -597,7 +600,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetRight" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/MoveRight"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -616,7 +622,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetSoft" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/SoftDrop"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -635,7 +644,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetHard" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/HardDrop"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -654,7 +666,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetCCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CCW"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -673,7 +688,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetCW" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/CW"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
@@ -692,7 +710,10 @@ label_settings = ExtResource("5_icmgu")
 
 [node name="SetHold" type="Button" parent="Controls/TabContainer/Custom/VBoxContainer/Hold"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96.62, 42.725)
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_fonts/font = ExtResource("8_q8d13")
 theme_override_font_sizes/font_size = 20
