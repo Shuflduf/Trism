@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=34 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://c0di5477uh3n3" path="res://Assets/button_texture.png" id="17_s7jsq"]
 [ext_resource type="Script" path="res://Scripts/Components/cleared_popup_handler.gd" id="18_04fbl"]
 [ext_resource type="Script" path="res://Scripts/UI/scroll_3d_texture.gd" id="18_q4ukc"]
+[ext_resource type="Script" path="res://Scripts/Components/active_piece.gd" id="19_xwl88"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
@@ -46,7 +47,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(81.7887, 0, 0)
+uv1_offset = Vector3(20.0364, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -402,6 +403,9 @@ script = ExtResource("18_04fbl")
 just_cleared_label = NodePath("../../UI/Cleared")
 just_tspin_label = NodePath("../../UI/Tspin")
 animation_player = NodePath("../../UI/AnimationPlayer")
+
+[node name="BaseComponent" type="Node" parent="MainGame"]
+script = ExtResource("19_xwl88")
 
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")

@@ -24,3 +24,6 @@ func _on_lines_cleared(lines: Array[int], colour: int) -> void:
 func get_colour(index: int) -> Color:
 	var colour: Color = mesh_library.get_item_mesh(index).surface_get_material(0).albedo_color
 	return colour
+
+
+

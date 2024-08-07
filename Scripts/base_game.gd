@@ -386,18 +386,6 @@ func hard_drop() -> void:
 	create_piece()
 
 
-#shows the active held piece
-#func show_held_piece(piece: Array, color: int) -> void:
-	#if piece != []:
-		#for i: Vector2i in piece[0]:
-			#var piece_pos := i + Vector2i(-11, -8)
-			##set_cell_item(piece_pos, color)
-			#current_held_piece.append(piece_pos)
-
-#clear held piece
-#func clear_held_piece() -> void:
-	#for i: Vector3i in current_held_piece:
-		#set_cell_item(i, -1)
 
 #draws that little transparent bar at the top
 #func draw_top() -> void:
@@ -418,7 +406,6 @@ func check_rows() -> void:
 			if game[row][col] == -1:
 				k = false
 
-		#if is_row_full and row != -11:
 		if k:
 			rows_to_clear.append(row)
 
@@ -442,13 +429,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 
 
 
-#how did i get 3d buttons to work
-#func _on_button_input_event\
-		#(_c: Node, event: InputEvent, _position: Vector3, \
-		#_normal: Vector3, _shape_idx: int) -> void:
-	#if event is InputEventMouseButton:
-		#if event.button_index == MOUSE_BUTTON_LEFT and event.pressed == true:
-			#new_game()
+
 
 #clears the board
 func clear_board() -> void:
@@ -500,8 +481,4 @@ func is_free_below() -> void:
 	#camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
 	#camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
 
-
-
-
-#changes the value of cleared label and tspin label
 
