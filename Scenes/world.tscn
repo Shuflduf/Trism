@@ -25,12 +25,12 @@
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lvpja"]
 panorama = ExtResource("1_se6jm")
 
-[sub_resource type="Sky" id="Sky_kgqvc"]
+[sub_resource type="Sky" id="Sky_mrgqt"]
 sky_material = SubResource("PanoramaSkyMaterial_lvpja")
 
 [sub_resource type="Environment" id="Environment_eml8j"]
 background_mode = 2
-sky = SubResource("Sky_kgqvc")
+sky = SubResource("Sky_mrgqt")
 tonemap_mode = 2
 glow_enabled = true
 volumetric_fog_density = 0.01
@@ -393,7 +393,7 @@ death_screen = NodePath("../../UI/Gameover")
 script = ExtResource("16_u6h37")
 particles = ExtResource("16_mvh03")
 mesh_library = ExtResource("2_ahqo1")
-offset = Vector3(0, 24, 1)
+offset = Vector3(0, 24, 0.3)
 
 [node name="Board" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
