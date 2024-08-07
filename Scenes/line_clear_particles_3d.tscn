@@ -34,13 +34,11 @@ scale_curve = SubResource("CurveTexture_541cu")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i38na"]
 cull_mode = 2
-no_depth_test = true
 shading_mode = 0
 specular_mode = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oyrug"]
 material = SubResource("StandardMaterial3D_i38na")
-size = Vector2(1, 1)
 orientation = 2
 
 [node name="LineClearParticles3D" type="GPUParticles3D"]

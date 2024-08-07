@@ -419,7 +419,7 @@ func hard_drop() -> void:
 #checks if any rows are full
 func check_rows() -> void:
 
-	var rows_to_clear: Array[int]
+	var rows_to_clear: Array[int] = []
 
 	for row in game.size():
 
