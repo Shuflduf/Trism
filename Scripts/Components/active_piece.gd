@@ -27,6 +27,23 @@ var piece_color : int
 var current_dcd := Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers := [0, 0]
+var counting := false
+
+enum TSpin {
+	NONE,
+	FULL,
+	MINI
+}
+
+var tspin_valid := TSpin
+
+func _ready() -> void:
+	parent.game_start.connect(start)
+
+func start() -> void:
+	await parent.animation_player.animation_finished
+	create_piece()
+
 
 func draw_piece(piece: Array, pos: Vector2i) -> void:
 	for i: Vector2i in piece:
@@ -35,7 +52,7 @@ func draw_piece(piece: Array, pos: Vector2i) -> void:
 	piece_moved.emit()
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if lost or paused:
+	if parent.lost or parent.paused:
 		return
 
 	elif event.is_action_pressed("left"):
@@ -80,7 +97,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _physics_process(_delta: float) -> void:
 
-	if lost or paused:
+	if parent.lost or parent.paused:
 		return
 	current_dcd -= 1
 
@@ -113,7 +130,7 @@ func _physics_process(_delta: float) -> void:
 			hard_drop()
 
 func create_piece() -> void:
-	#counting = false
+	counting = false
 	parent.check_rows()
 	parent.current_loc = SPAWN
 	rotation_index = 0
@@ -131,18 +148,18 @@ func create_piece() -> void:
 		active_piece = piece_type[rotation_index]
 		draw_piece(active_piece, current_loc)
 
-		parent.update_score.emit(lines_just_cleared, tspin_valid)
 
-		tspin_valid = "false"
-		lines_just_cleared = 0
+		parent.update_score.emit(lines_just_cleared, tspin_valid)
+		tspin_valid = TSpin.NONE
+		parent.lines_just_cleared = 0
 		if Input.is_action_pressed("soft"):
 			if Settings.sonic:
 				while can_move(directions[2]):
 					move_piece(directions[2])
 
-func clear_piece() -> void:
-	for i: Vector2i in active_piece:
-		game[i.y + current_loc.y][i.x + current_loc.x] = -1
+#func clear_piece() -> void:
+	#for i: Vector2i in active_piece:
+		#game[i.y + current_loc.y][i.x + current_loc.x] = -1
 
 func rotate_piece(dir: String) -> void:
 	var temp_rotation_index: int
@@ -162,7 +179,7 @@ func rotate_piece(dir: String) -> void:
 		var offset: Vector2i = temp_kick_table[i]
 		if can_rotate(temp_rotation_index, offset):
 			temp_timer = 0
-			clear_piece()
+			#clear_piece()
 			rotation_index = temp_rotation_index
 
 			active_piece = piece_type[rotation_index]
@@ -175,12 +192,12 @@ func rotate_piece(dir: String) -> void:
 		 # Check if the offset is the first or the last in the list
 			if piece_type == active_table.t:
 				match detect_tspin(i):
-					"standard":
-						tspin_valid = "standard"
-					"mini":
-						tspin_valid = "mini"
+					TSpin.FULL:
+						tspin_valid = TSpin.FULL
+					TSpin.MINI:
+						tspin_valid = TSpin.MINI
 					_:
-						tspin_valid = "false"
+						tspin_valid = TSpin.NONE
 			break
 
 # checks if the piece can perform a valid rotation
@@ -189,13 +206,13 @@ func can_rotate(temp_rot_idx: int, offset: Vector2i) -> bool:
 		var next_pos := block_position + current_loc
 		next_pos.x += offset.x
 		next_pos.y += offset.y
-		if not is_free(next_pos, true): # If any position is not free
+		if not is_free(next_pos): # If any position is not free
 			return false
 
 	return true
 
 #hmmmm
-func detect_tspin(kick: int) -> String:
+func detect_tspin(kick: int) -> TSpin:
 	var current_3x3 := []
 	for j: Vector2i in grid_3x3_corners:
 		var grid_space := j + current_loc
@@ -213,63 +230,60 @@ func detect_tspin(kick: int) -> String:
 	if kick == 0:
 		for i: Vector2i in on_front:
 			if is_free(i):
-				return "false"
+				return TSpin.NONE
 		for i: Vector2i in on_back:
 			if !is_free(i):
-				return "standard"
+				return TSpin.FULL
 
 	elif kick == 4:
 		for i: Vector2i in on_back:
 			if is_free(i):
-				return "false"
+				return TSpin.NONE
 		for i: Vector2i in on_front:
 			if !is_free(i):
-				return "standard"
+				return TSpin.FULL
 
 	else:
 		for i: Vector2i in on_back:
 			if is_free(i):
-				return "false"
+				return TSpin.NONE
 		for i: Vector2i in on_front:
 			if !is_free(i):
-				return "mini"
+				return TSpin.MINI
 
-	return "false"
+	return TSpin.NONE
 
 #moves the piece in a specified direction
 func move_piece(dir: Vector2i) -> void:
 	if can_move(dir):
-		clear_piece()
+		#clear_piece()
 		current_loc += dir
 
 		draw_piece(active_piece, current_loc)
 		is_free_below()
 		temp_timer = 0
-		tspin_valid = "false"
+		tspin_valid = TSpin.NONE
 
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:
 	var cm := true
 	for square: Vector2i in active_piece:
 		var next_pos := square + current_loc + dir
-		if not is_free(next_pos, true):
+		if not is_free(next_pos):
 			cm = false
 			break
 	return cm
 
 #helper function that checks if a current grid space is free
-func is_free(pos: Vector2i, exclude_active_piece: bool = false) -> bool:
-	if exclude_active_piece:
-		for block_pos: Vector2i in active_piece:
-			if block_pos + current_loc == pos:
-				return true
+func is_free(pos: Vector2i) -> bool:
+
 	#for i: int in TRANSPARENT_PIECES:
 		#if get_cell_item(pos) == i: TODO
 	#print(pos)
-	if pos.y >= game.size() or pos.x >= game[0].size() or pos.x < 0:
+	if pos.y >= parent.game.size() or pos.x >= parent.game[0].size() or pos.x < 0:
 		return false
 
-	if game[pos.y][pos.x] == -1:
+	if parent.game[pos.y][pos.x] == -1:
 		return true
 	return false
 
@@ -281,7 +295,7 @@ func hard_drop() -> void:
 
 func is_free_below() -> void:
 	for i: Vector2i in active_piece:
-		if !is_free(i + Vector2i(0, 1) + current_loc, true):
+		if !is_free(i + Vector2i(0, 1) + current_loc):
 			counting = true
 			return
 		else:

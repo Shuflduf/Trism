@@ -41,11 +41,11 @@ var paused := false
 
 
 #game piece vars
-var counting := false
+
 
 
 var lines_just_cleared := 0
-var tspin_valid := "false" # standard, mini, false
+
 
 
 #grid vars
@@ -109,33 +109,6 @@ func new_game() -> void:
 	lost = false
 
 
-	#create_piece()
-
-
-#handles new piece creation
-
-
-#clears the drawn piece to avoid ghosting
-
-
-#draws the piece
-
-
-#rotates the piece
-
-
-
-#hard drops the piece
-
-
-
-
-#draws that little transparent bar at the top
-#func draw_top() -> void:
-#
-	#for i in COLS:
-		#if is_free(Vector3i(i -5, 10, 0)):
-			#set_cell_item(Vector3i(i -5, 10, 0), 8)
 
 #checks if any rows are full
 func check_rows() -> void:
