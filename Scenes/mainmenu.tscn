@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=19 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Shader" path="res://Shaders/fullblack.gdshader" id="5_4lll0"]
 [ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
 [ext_resource type="Script" path="res://Scripts/UI/link_image_button.gd" id="6_mafd0"]
+[ext_resource type="Theme" uid="uid://4bv1mxp5rkqk" path="res://Resources/button_ui.tres" id="6_pg2b1"]
 [ext_resource type="Texture2D" uid="uid://dg7aqphbfbkln" path="res://Assets/Icons/shufldufnotextbackround.png" id="6_ry3vr"]
 [ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
 [ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
@@ -66,9 +67,9 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_7d75k")
 [node name="Stripes" type="Panel" parent="."]
 material = SubResource("ShaderMaterial_2janm")
 layout_mode = 2
-anchor_right = 1.0
+anchor_right = 0.592
 anchor_bottom = 1.0
-offset_right = -346.0
+offset_right = 124.016
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -99,14 +100,22 @@ horizontal_alignment = 1
 uppercase = true
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(276.41, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 6
+focus_mode = 0
+theme = ExtResource("6_pg2b1")
 theme_override_fonts/font = ExtResource("2_h4vkp")
 theme_override_font_sizes/font_size = 96
 text = "PLAY"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme = ExtResource("6_pg2b1")
 theme_override_fonts/font = ExtResource("2_h4vkp")
 theme_override_font_sizes/font_size = 50
 text = "OPTIONS"
