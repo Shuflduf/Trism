@@ -1,15 +1,26 @@
-[gd_scene load_steps=14 format=3 uid="uid://bm5u2sn4wmeel"]
+[gd_scene load_steps=18 format=3 uid="uid://bm5u2sn4wmeel"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_dd0bb"]
 [ext_resource type="Shader" path="res://Shaders/mainmenu.gdshader" id="2_cgjbf"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/pfw.ttf" id="2_h4vkp"]
 [ext_resource type="LabelSettings" uid="uid://c28f50cjlfrkj" path="res://Assets/Fonts/Font Styles/Large.tres" id="2_j3nmr"]
+[ext_resource type="Shader" path="res://Shaders/simple_scroll.gdshader" id="2_vg4gn"]
+[ext_resource type="Texture2D" uid="uid://dxefevr0eqhtk" path="res://Assets/thing.png" id="3_jrei6"]
 [ext_resource type="Shader" path="res://Shaders/fullblack.gdshader" id="5_4lll0"]
 [ext_resource type="Texture2D" uid="uid://b454n8582dvh7" path="res://Assets/Icons/discord.png" id="5_iyphx"]
 [ext_resource type="Script" path="res://Scripts/UI/link_image_button.gd" id="6_mafd0"]
 [ext_resource type="Texture2D" uid="uid://dg7aqphbfbkln" path="res://Assets/Icons/shufldufnotextbackround.png" id="6_ry3vr"]
 [ext_resource type="Texture2D" uid="uid://c16tqgxlg0naa" path="res://Assets/Icons/itchio.png" id="8_fegfb"]
 [ext_resource type="Texture2D" uid="uid://dtk037q6wfon3" path="res://Assets/Icons/github.png" id="9_gvkc2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qomgu"]
+shader = ExtResource("2_vg4gn")
+shader_parameter/dir = Vector2(-0.05, -0.05)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7d75k"]
+texture = ExtResource("3_jrei6")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2janm"]
 shader = ExtResource("2_cgjbf")
@@ -40,12 +51,23 @@ grow_vertical = 2
 script = ExtResource("1_dd0bb")
 next_scene = "res://Scenes/world.tscn"
 
-[node name="Panel" type="Panel" parent="."]
-material = SubResource("ShaderMaterial_2janm")
+[node name="Backround" type="Panel" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_qomgu")
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.547743
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7d75k")
+
+[node name="Stripes" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_2janm")
+layout_mode = 2
+anchor_right = -0.300347
+offset_right = 1152.0
+offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -53,7 +75,7 @@ metadata/_edit_use_anchors_ = true
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.5
+anchor_right = 0.609375
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -89,14 +111,10 @@ theme_override_font_sizes/font_size = 50
 text = "OPTIONS"
 
 [node name="Links" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = -80.0
-offset_right = 80.0
-offset_bottom = -30.0
+layout_mode = 2
+offset_top = 598.0
+offset_right = 1152.0
+offset_bottom = 648.0
 grow_vertical = 0
 size_flags_vertical = 8
 metadata/_edit_group_ = true
