@@ -4,9 +4,15 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	await screenshot()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func screenshot() -> void:
+	await RenderingServer.frame_post_draw
+	var img := sub_viewport.get_texture().get_image()
+	img.save_png("user://thing.png")
+	print("saved")
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("hard"):
+		screenshot()
