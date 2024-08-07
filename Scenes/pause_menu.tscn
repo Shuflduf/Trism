@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=14 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/cb.ttf" id="1_epsu2"]
+[ext_resource type="Theme" uid="uid://4bv1mxp5rkqk" path="res://Resources/button_ui.tres" id="3_0b88x"]
 [ext_resource type="LabelSettings" uid="uid://ceef1murwut4i" path="res://Assets/Fonts/Font Styles/Medium.tres" id="3_aq7cx"]
 [ext_resource type="Script" path="res://Scripts/controls.gd" id="4_w80sp"]
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
@@ -64,16 +65,18 @@ text = "PAUSED"
 label_settings = SubResource("LabelSettings_8vvx3")
 
 [node name="OpenSettings" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(201.705, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("1_epsu2")
+theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 36
 text = "Settings"
 
 [node name="MainMenu" type="Button" parent="PAUSED/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(217.165, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("1_epsu2")
+theme = ExtResource("3_0b88x")
 theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 

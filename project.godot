@@ -27,6 +27,11 @@ DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 gdscript/warnings/untyped_declaration=2
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg")
