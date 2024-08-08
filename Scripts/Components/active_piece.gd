@@ -169,7 +169,7 @@ func rotate_piece(dir: String) -> void:
 
 			#active_piece = piece_type[rotation_index]
 
-			current_loc += offset
+			current_loc += offset * Vector2i(1, -1)
 			piece_moved.emit()
 			current_dcd = Settings.dcd
 
