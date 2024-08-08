@@ -134,6 +134,9 @@ func _physics_process(_delta: float) -> void:
 
 func create_piece() -> void:
 	counting = false
+	if piece_type:
+		transfer_current_piece()
+		parent.update_board.emit()
 	parent.check_rows(piece_color)
 	current_loc = SPAWN
 	rotation_index = 0
