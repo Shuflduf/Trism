@@ -47,13 +47,6 @@ func start() -> void:
 	create_piece()
 
 
-@warning_ignore("unused_parameter")
-func draw_piece(piece: Array, pos: Vector2i) -> void:
-	#for i: Vector2i in piece:
-		#parent.game[i.y + pos.y][i.x + pos.x] = parent.piece_color
-	#update_board.emit()
-	piece_moved.emit()
-
 func _unhandled_key_input(event: InputEvent) -> void:
 	if parent.lost or parent.paused:
 		return
@@ -151,9 +144,7 @@ func create_piece() -> void:
 
 		piece_color = active_table.shapes.find(piece_type)
 
-		#active_piece_type = piece_type[rotation_index]
-		#draw_piece(piece_type[rotation_index], current_loc)
-
+		piece_moved.emit()
 
 		#parent.update_score.emit(lines_just_cleared, tspin_valid) #TODO
 		tspin_valid = TSpin.NONE
@@ -193,7 +184,6 @@ func rotate_piece(dir: String) -> void:
 			#active_piece = piece_type[rotation_index]
 
 			current_loc += offset
-			#draw_piece(active_piece_type, current_loc)
 			piece_moved.emit()
 			current_dcd = Settings.dcd
 
@@ -268,7 +258,7 @@ func move_piece(dir: Vector2i) -> void:
 		#clear_piece()
 		current_loc += dir
 
-		#draw_piece(active_piece_type, current_loc)
+
 		piece_moved.emit()
 		is_free_below()
 		temp_timer = 0

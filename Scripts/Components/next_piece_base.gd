@@ -40,7 +40,8 @@ func hold_piece() -> void:
 
 		if held_piece.is_empty():
 			held_piece = active_piece.piece_type
-			#parent.clear_piece()
+			active_piece.piece_moved.emit()
+
 			just_held = true
 			active_piece.piece_type = []
 			active_piece.create_piece()
@@ -51,7 +52,7 @@ func hold_piece() -> void:
 			active_piece.piece_type = held_piece
 			held_piece = temp_piece
 
-			#parent.clear_piece()
+
 
 			active_piece.current_loc = active_piece.SPAWN
 			active_piece.rotation_index = 0
@@ -61,6 +62,7 @@ func hold_piece() -> void:
 			active_piece.piece_color = active_piece.active_table.shapes\
 					.find(active_piece.piece_type)
 
+			active_piece.piece_moved.emit()
 			#parent.draw_piece(parent.active_piece, parent.current_loc)
 
 		can_hold = false
