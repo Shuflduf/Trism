@@ -12,10 +12,7 @@ var grid_3x3_corners := [Vector2i(0, 0), Vector2i(2, 0), Vector2i(2, 2), Vector2
 var moving_dir := [false, false, false]
 var soft_dropping := false
 
-var drop_timer := 0
-var temp_timer := 0
-const MAX_DROP_TIME = 120
-const TEMP_DROP_TIME = 40
+
 
 var piece_type : Array
 
@@ -26,13 +23,8 @@ var piece_color : int
 var current_dcd := Settings.dcd
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var dir_timers := [0, 0]
-var counting := false
 
-#enum TSpin { just use ints lol
-	#NONE = 0,
-	#MINI = 1,
-	#FULL = 2
-#}
+
 
 var tspin_valid: int
 
@@ -75,6 +67,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		moving_dir[1] = false
 
 	elif event.is_action_pressed("soft"):
+		move_piece(directions[2])
 		soft_dropping = true
 		if Settings.sonic:
 			while can_move(directions[2]):
@@ -118,16 +111,9 @@ func _physics_process(_delta: float) -> void:
 
 
 	# Move this to gravity component TODO
-	if counting:
-		drop_timer += 1
-		temp_timer += 1
-		if temp_timer > TEMP_DROP_TIME or drop_timer > MAX_DROP_TIME:
-			drop_timer = 0
-			temp_timer = 0
-			hard_drop()
+
 
 func create_piece() -> void:
-	counting = false
 	if piece_type:
 		transfer_current_piece()
 		parent.update_board.emit()
@@ -178,7 +164,6 @@ func rotate_piece(dir: String) -> void:
 
 		var offset: Vector2i = temp_kick_table[i]
 		if can_rotate(temp_rotation_index, offset):
-			temp_timer = 0
 			#clear_piece()
 			rotation_index = temp_rotation_index
 
@@ -254,8 +239,6 @@ func move_piece(dir: Vector2i) -> void:
 
 
 		piece_moved.emit()
-		is_free_below()
-		temp_timer = 0
 		tspin_valid = 0
 
 #checks if the piece can move in a specified direction
@@ -287,10 +270,4 @@ func hard_drop() -> void:
 		move_piece(directions[2])
 	create_piece()
 
-func is_free_below() -> void:
-	for i: Vector2i in piece_type[rotation_index]:
-		if !is_free(i + Vector2i(0, 1) + current_loc):
-			counting = true
-			return
-		else:
-			counting = false
+

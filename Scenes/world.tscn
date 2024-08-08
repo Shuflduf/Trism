@@ -51,7 +51,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(312.402, 0, 0)
+uv1_offset = Vector3(50.8155, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -365,15 +365,15 @@ active_piece = NodePath("../ActivePiece")
 [node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag", "active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("7_apvju")
-offset = Vector3i(8, 0, 0)
 bag = NodePath("../SevenBag")
+offset = Vector3i(8, 0, 0)
 active_piece = NodePath("../ActivePiece")
 
 [node name="HoldPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base", "active_piece")]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("14_tai0s")
-offset = Vector3i(-12, 7, 0)
 base = NodePath("../HoldPiece")
+offset = Vector3i(-12, 7, 0)
 active_piece = NodePath("../ActivePiece")
 
 [node name="ActivePiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("active_piece")]
@@ -395,15 +395,15 @@ script = ExtResource("7_2sjim")
 label = NodePath("../../UI/Score")
 score_table = SubResource("Resource_trsve")
 
-[node name="LevelHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("level_label", "lines_label")]
-script = ExtResource("9_em7xu")
-level_label = NodePath("../../UI/Level")
-lines_label = NodePath("../../UI/Lines")
-
 [node name="GravityHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("levels", "active_piece")]
 script = ExtResource("10_rg1cx")
 levels = NodePath("../LevelHandler")
 active_piece = NodePath("../ActivePiece")
+
+[node name="LevelHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("level_label", "lines_label")]
+script = ExtResource("9_em7xu")
+level_label = NodePath("../../UI/Level")
+lines_label = NodePath("../../UI/Lines")
 
 [node name="HoldPiece" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("13_qfxsn")
