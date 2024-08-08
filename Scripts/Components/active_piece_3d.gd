@@ -9,6 +9,10 @@ func _ready() -> void:
 
 func draw() -> void:
 	clear()
+
+	if active_piece.piece_type == []:
+		return
+
 	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
 		var loc := convert_vec2_vec3(i + active_piece.current_loc)
 		loc += offset

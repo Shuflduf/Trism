@@ -11,6 +11,9 @@ func ghost() -> void:
 	#ghost_positions = []
 	var min_drop_distance := 99
 
+	if active_piece.piece_type == []:
+		return
+
 	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
 		var drop_distance := 1
 		var ghost_pos: Vector2i = i + active_piece.current_loc + Vector2i(0, 1)

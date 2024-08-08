@@ -42,6 +42,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rdqyn")
 
 [node name="PAUSED" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,7 +86,6 @@ text = "Main Menu"
 script = ExtResource("4_rrhu0")
 
 [node name="Settings" type="CenterContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -266,7 +266,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
 theme = ExtResource("3_0b88x")
-theme_override_fonts/font = ExtResource("1_epsu2")
 theme_override_font_sizes/font_size = 30
 text = " Sonic"
 

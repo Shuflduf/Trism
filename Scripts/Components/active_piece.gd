@@ -40,6 +40,9 @@ func _ready() -> void:
 	parent.game_start.connect(start)
 
 func start() -> void:
+
+	piece_type = []
+	piece_moved.emit()
 	await parent.animation_player.animation_finished
 	parent.lost = false
 	create_piece()
@@ -144,7 +147,6 @@ func create_piece() -> void:
 
 		piece_moved.emit()
 
-		#print(typeof(tspin_valid))
 		parent.update_score.emit(parent.lines_just_cleared, tspin_valid)
 		tspin_valid = 0
 		parent.lines_just_cleared = 0
@@ -170,10 +172,10 @@ func rotate_piece(dir: String) -> void:
 	var srs_kick_table : Array = active_table.get(\
 			("n" if piece_type != active_table.i else "i")\
 	 		+ str(rotation_index) + str(temp_rotation_index))
-	var temp_kick_table := srs_kick_table + [Vector2i(0,0)]
-	#temp_kick_table.push_front))
+	var temp_kick_table := [Vector2i(0,0)] + srs_kick_table
 
 	for i in range(temp_kick_table.size()):
+
 		var offset: Vector2i = temp_kick_table[i]
 		if can_rotate(temp_rotation_index, offset):
 			temp_timer = 0
