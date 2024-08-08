@@ -18,6 +18,7 @@ var can_pause := true
 @onready var sdf_slider := %SDFSlider
 @onready var sdf_num := %SDFLineEdit
 #endregion
+@onready var sonic: CheckButton = $Settings/VBoxContainer/Sonic
 
 signal pause_state(pause_state : bool)
 
@@ -49,7 +50,15 @@ func handle_pause(go_to_options := false) -> void:
 		#get_parent().move_child(self, 0)
 		return
 
+func load_handling() -> void:
+	arr_num.value = Settings.arr
+	das_num.value = Settings.das
+	dcd_num.value = Settings.dcd
+	sdf_num.value = Settings.sdf
+	sonic.button_pressed = Settings.sonic
+
 func _ready() -> void:
+	load_handling()
 	visible = false
 
 func _on_open_settings_pressed() -> void:
