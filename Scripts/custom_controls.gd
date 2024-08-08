@@ -14,11 +14,14 @@ signal updated_keybinds(keys: Array)
 
 @onready var input_buttons := [set_left, set_right, set_soft, set_hard, set_ccw, set_cw, set_hold]
 
+var save_dict := {
+	"custom_inputs" : custom_inputs
+}
+
 func _ready() -> void:
 	updated_keybinds.emit(custom_inputs)
 	for button: InputButton in input_buttons:
-		button.looking_input.connect(func() -> void:
-			cancel_all_look())
+		button.looking_input.connect(cancel_all_look)
 		button.input_found.connect(func(value: String) -> void:
 			update_custom_keybinds(button, value))
 

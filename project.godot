@@ -11,8 +11,10 @@ config_version=5
 [application]
 
 config/name="Trism"
-config/version="0.2.1"
+config/version="0.2.2"
 run/main_scene="res://Scenes/mainmenu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Trism"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://Assets/tetrism_logo.png"
 

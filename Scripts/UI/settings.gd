@@ -23,10 +23,21 @@ var sdf := 6
 
 var sonic := false
 
+var save_dict := {
+	"arr" : arr,
+	"das" : das,
+	"dcd" : dcd,
+	"sdf" : sdf,
+	"sonic" : sonic,
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SceneManager.transitioned_out.connect(func() -> void:
 		settings_changed.emit())
 
+func save_settings() -> void:
+	pass
 
+func load_settings() -> void:
+	pass

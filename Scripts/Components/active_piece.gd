@@ -110,9 +110,6 @@ func _physics_process(_delta: float) -> void:
 		dir_timers[1] = 0
 
 
-	# Move this to gravity component TODO
-
-
 func create_piece() -> void:
 	if piece_type:
 		transfer_current_piece()
@@ -164,15 +161,11 @@ func rotate_piece(dir: String) -> void:
 
 		var offset: Vector2i = temp_kick_table[i]
 		if can_rotate(temp_rotation_index, offset):
-			#clear_piece()
 			rotation_index = temp_rotation_index
-
-			#active_piece = piece_type[rotation_index]
 
 			current_loc += offset * Vector2i(1, -1)
 			piece_moved.emit()
 			current_dcd = Settings.dcd
-
 
 		 # Check if the offset is the first or the last in the list
 			if piece_type == active_table.t:
@@ -199,7 +192,6 @@ func detect_tspin(kick: int) -> int:
 	var on_front := []
 	for i in range(2):
 		on_front.append(current_3x3[(rotation_index + i) % 4])
-
 
 	var on_back := []
 	for i in range(2):
@@ -234,10 +226,7 @@ func detect_tspin(kick: int) -> int:
 #moves the piece in a specified direction
 func move_piece(dir: Vector2i) -> void:
 	if can_move(dir):
-		#clear_piece()
 		current_loc += dir
-
-
 		piece_moved.emit()
 		tspin_valid = 0
 
@@ -253,10 +242,6 @@ func can_move(dir: Vector2i) -> bool:
 
 #helper function that checks if a current grid space is free
 func is_free(pos: Vector2i) -> bool:
-
-	#for i: int in TRANSPARENT_PIECES:
-		#if get_cell_item(pos) == i: TODO
-
 	if pos.y >= parent.game.size() or pos.x >= parent.game[0].size() or pos.x < 0:
 		return false
 
@@ -265,7 +250,6 @@ func is_free(pos: Vector2i) -> bool:
 	return false
 
 func hard_drop() -> void:
-
 	while can_move(directions[2]):
 		move_piece(directions[2])
 	create_piece()
