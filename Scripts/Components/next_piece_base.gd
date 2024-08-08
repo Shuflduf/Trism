@@ -36,30 +36,32 @@ func hold_piece() -> void:
 		return
 
 	if can_hold:
-		held_piece_color = parent.piece_color
+		held_piece_color = active_piece.piece_color
 
 		if held_piece.is_empty():
-			held_piece = parent.piece_type
-			parent.clear_piece()
+			held_piece = active_piece.piece_type
+			#parent.clear_piece()
 			just_held = true
-			parent.create_piece()
+			active_piece.piece_type = []
+			active_piece.create_piece()
 
 
 		else:
 			var temp_piece := active_piece.piece_type
-			parent.piece_type = held_piece
+			active_piece.piece_type = held_piece
 			held_piece = temp_piece
 
-			parent.clear_piece()
+			#parent.clear_piece()
 
-			parent.current_loc = parent.SPAWN
-			parent.rotation_index = 0
+			active_piece.current_loc = active_piece.SPAWN
+			active_piece.rotation_index = 0
 
 
-			parent.active_piece = parent.piece_type[0]
-			parent.piece_color = parent.active_table.shapes.find(parent.piece_type)
+			#active_piece.active_piece = active_piece.piece_type[0]
+			active_piece.piece_color = active_piece.active_table.shapes\
+					.find(active_piece.piece_type)
 
-			parent.draw_piece(parent.active_piece, parent.current_loc)
+			#parent.draw_piece(parent.active_piece, parent.current_loc)
 
 		can_hold = false
 		update.emit()

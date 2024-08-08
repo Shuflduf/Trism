@@ -163,9 +163,6 @@ func create_piece() -> void:
 				while can_move(directions[2]):
 					move_piece(directions[2])
 
-#func clear_piece() -> void:
-	#for i: Vector2i in active_piece:
-		#game[i.y + current_loc.y][i.x + current_loc.x] = -1
 
 func transfer_current_piece() -> void:
 	for i: Vector2i in piece_type[rotation_index]:
