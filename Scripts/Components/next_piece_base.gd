@@ -3,8 +3,6 @@ extends BaseComponent
 
 signal update
 
-
-
 var held_piece := []
 var held_piece_color: int
 
@@ -18,7 +16,6 @@ func _ready() -> void:
 			update.emit()
 		else:
 			just_held = false
-
 		)
 
 	parent.game_start.connect(func() -> void:
@@ -45,25 +42,18 @@ func hold_piece() -> void:
 			just_held = true
 			active_piece.piece_type = []
 			active_piece.create_piece()
-
-
 		else:
 			var temp_piece := active_piece.piece_type
 			active_piece.piece_type = held_piece
 			held_piece = temp_piece
 
-
-
 			active_piece.current_loc = active_piece.SPAWN
 			active_piece.rotation_index = 0
 
-
-			#active_piece.active_piece = active_piece.piece_type[0]
 			active_piece.piece_color = active_piece.active_table.shapes\
 					.find(active_piece.piece_type)
 
 			active_piece.piece_moved.emit()
-			#parent.draw_piece(parent.active_piece, parent.current_loc)
 
 		can_hold = false
 		update.emit()

@@ -10,7 +10,7 @@ var lines_cleared := 0
 var level := 1
 
 func _ready() -> void:
-	get_parent().update_score.connect(func(lines: int, _tspin: String) -> void:
+	get_parent().update_score.connect(func(lines: int, _tspin: int) -> void:
 		lines_cleared += lines
 		update_values())
 

@@ -8,10 +8,8 @@ signal game_start
 
 signal update_board
 
-
 signal lines_cleared(lines: Array[int], piece_color: int)
-signal update_score(lines: int, tspin: String)
-
+signal update_score(lines: int, tspin: int)
 
 
 @onready var gameover := $"../UI/Gameover"
@@ -28,7 +26,6 @@ const camera_positions = [Vector3(0, 1, 35), Vector3(0, -31, 13)]
 const camera_rotations = [Vector3.ZERO, Vector3(60, 0, 0)]
 
 
-
 #grid consts
 const ROWS := 22
 const COLS := 10
@@ -40,19 +37,8 @@ var lost := false
 var paused := false
 
 
-#game piece vars
-
-
 
 var lines_just_cleared := 0
-
-
-
-#grid vars
-
-
-#movement variables
-
 
 
 ## THE BIG BOI

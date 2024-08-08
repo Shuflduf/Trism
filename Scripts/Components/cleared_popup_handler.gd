@@ -5,6 +5,8 @@ extends BaseComponent
 @export var just_tspin_label: Node
 @export var animation_player: AnimationPlayer
 
+
+
 var cleared_lines := {
 	1 : "One",
 	2 : "Two",
@@ -13,8 +15,8 @@ var cleared_lines := {
 }
 
 var tspins_text := {
-	"mini" : "MINI T SPUN",
-	"standard" : "T SPUN",
+	1 : "MINI T SPIN",
+	2 : "T SPIN",
 }
 
 func _ready() -> void:
@@ -24,7 +26,7 @@ func _ready() -> void:
 
 	parent.update_score.connect(update_lines_cleared_tspin_labels)
 
-func update_lines_cleared_tspin_labels(lines : int, tspin : String) -> void:
+func update_lines_cleared_tspin_labels(lines : int, tspin : int) -> void:
 	animation_player.stop()
 	just_tspin_label.text = ""
 	just_cleared_label.text = ""

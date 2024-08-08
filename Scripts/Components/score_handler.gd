@@ -11,19 +11,22 @@ extends BaseComponent
 var score: int
 
 func _ready() -> void:
-	get_parent().update_score.connect(func(lines: int, tspin: String) -> void:
-		handle_score(lines, tspin))
+	if not "text" in label:
+		push_error("Label is not valid")
+		assert(false)
+
+	get_parent().update_score.connect(handle_score)
 
 	get_parent().game_start.connect(func() -> void:
 		score = 0
 		label.text = str(score))
 
-func handle_score(lines_cleared_count: int, tspin_valid: String) -> void:
+func handle_score(lines_cleared_count: int, tspin_valid: int) -> void:
 	var counted := false
-	if tspin_valid == "standard":
+	if tspin_valid == 2:
 		score += score_table.standard_tspin[lines_cleared_count]
 		counted = true
-	if tspin_valid == "mini":
+	elif tspin_valid == 1:
 		score += score_table.mini_tspin[lines_cleared_count]
 		counted = true
 	if !counted and lines_cleared_count > 0:
