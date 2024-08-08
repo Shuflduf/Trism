@@ -20,7 +20,7 @@ const TEMP_DROP_TIME = 40
 var piece_type : Array
 
 var rotation_index : int = 0
-var active_piece_type : Array
+#var active_piece_type : Array
 var current_loc : Vector2i
 var piece_color : int
 
@@ -43,12 +43,14 @@ func _ready() -> void:
 
 func start() -> void:
 	await parent.animation_player.animation_finished
+	parent.lost = false
 	create_piece()
 
 
+@warning_ignore("unused_parameter")
 func draw_piece(piece: Array, pos: Vector2i) -> void:
-	for i: Vector2i in piece:
-		parent.game[i.y + pos.y][i.x + pos.x] = parent.piece_color
+	#for i: Vector2i in piece:
+		#parent.game[i.y + pos.y][i.x + pos.x] = parent.piece_color
 	#update_board.emit()
 	piece_moved.emit()
 
@@ -101,7 +103,7 @@ func _physics_process(_delta: float) -> void:
 	if parent.lost or parent.paused:
 		return
 	current_dcd -= 1
-	print(current_loc)
+	print(piece_type[rotation_index])
 	# Handle DAS for left movement
 	if moving_dir[0]:
 		dir_timers[0] += 1
@@ -146,11 +148,11 @@ func create_piece() -> void:
 
 		piece_color = active_table.shapes.find(piece_type)
 
-		active_piece = piece_type[rotation_index]
-		draw_piece(active_piece_type, current_loc)
+		#active_piece_type = piece_type[rotation_index]
+		#draw_piece(piece_type[rotation_index], current_loc)
 
 
-		#parent.update_score.emit(lines_just_cleared, tspin_valid)
+		#parent.update_score.emit(lines_just_cleared, tspin_valid) #TODO
 		tspin_valid = TSpin.NONE
 		parent.lines_just_cleared = 0
 		if Input.is_action_pressed("soft"):
@@ -161,6 +163,11 @@ func create_piece() -> void:
 #func clear_piece() -> void:
 	#for i: Vector2i in active_piece:
 		#game[i.y + current_loc.y][i.x + current_loc.x] = -1
+
+func transfer_current_piece() -> void:
+	for i: Vector2i in piece_type[rotation_index]:
+		parent.game[i.y + current_loc.y][i.x + current_loc.x] = piece_color
+
 
 func rotate_piece(dir: String) -> void:
 	var temp_rotation_index: int
@@ -173,8 +180,8 @@ func rotate_piece(dir: String) -> void:
 	var srs_kick_table : Array = active_table.get(\
 			("n" if piece_type != active_table.i else "i")\
 	 		+ str(rotation_index) + str(temp_rotation_index))
-	var temp_kick_table := srs_kick_table.duplicate()
-	temp_kick_table.push_front(Vector2i(0,0))
+	var temp_kick_table := srs_kick_table + [Vector2i(0,0)]
+	#temp_kick_table.push_front))
 
 	for i in range(temp_kick_table.size()):
 		var offset: Vector2i = temp_kick_table[i]
@@ -183,10 +190,10 @@ func rotate_piece(dir: String) -> void:
 			#clear_piece()
 			rotation_index = temp_rotation_index
 
-			active_piece = piece_type[rotation_index]
+			#active_piece = piece_type[rotation_index]
 
 			current_loc += offset
-			draw_piece(active_piece_type, current_loc)
+			#draw_piece(active_piece_type, current_loc)
 			current_dcd = Settings.dcd
 
 
@@ -260,7 +267,7 @@ func move_piece(dir: Vector2i) -> void:
 		#clear_piece()
 		current_loc += dir
 
-		draw_piece(active_piece_type, current_loc)
+		#draw_piece(active_piece_type, current_loc)
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = TSpin.NONE
@@ -268,7 +275,7 @@ func move_piece(dir: Vector2i) -> void:
 #checks if the piece can move in a specified direction
 func can_move(dir: Vector2i) -> bool:
 	var cm := true
-	for square: Vector2i in active_piece_type:
+	for square: Vector2i in piece_type[rotation_index]:
 		var next_pos := square + current_loc + dir
 		if not is_free(next_pos):
 			cm = false
@@ -295,7 +302,7 @@ func hard_drop() -> void:
 	create_piece()
 
 func is_free_below() -> void:
-	for i: Vector2i in active_piece_type:
+	for i: Vector2i in piece_type[rotation_index]:
 		if !is_free(i + Vector2i(0, 1) + current_loc):
 			counting = true
 			return

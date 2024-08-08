@@ -106,7 +106,7 @@ func new_game() -> void:
 	gameover.hide()
 	animation_player.play("countdown", -1, 3)
 	await animation_player.animation_finished
-	lost = false
+
 
 
 
@@ -142,7 +142,7 @@ func move_down_rows(cleared_rows_indices: Array) -> void:
 		game.push_front(a)
 	update_board.emit()
 
-func is_free(pos: Vector2i, exclude_active_piece: bool = false) -> bool:
+func is_free(pos: Vector2i) -> bool:
 
 	if pos.y >= game.size() or pos.x >= game[0].size() or pos.x < 0:
 		return false
@@ -163,7 +163,7 @@ func clear_board() -> void:
 #detects if you lost the game
 func detect_lost() -> void:
 	for x in range(0, game[0].size()):
-		if !is_free(Vector2i(x, 11), true):
+		if !is_free(Vector2i(x, 11)):
 			game_lost()
 
 #handles losing
@@ -196,6 +196,7 @@ func _on_pause_menu_pause_state(pause_state: bool) -> void:
 #toggles cinematic camera for some reason
 #func set_cinematic_camera() -> void:
 	#camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
-	#camera.rotation_degrees = camera_rotations[0] if !Settings.cinematic_mode else camera_rotations[1]
+	#camera.rotation_degrees = camera_rotations[0] if \
+		#!Settings.cinematic_mode else camera_rotations[1]
 
 

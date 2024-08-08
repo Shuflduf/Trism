@@ -24,7 +24,7 @@ func shuffle_bag() -> void:
 
 func _ready() -> void:
 	active_piece.piece_placed.connect(func() -> void:
-		get_parent().piece_type = next_piece()
+		active_piece.piece_type = next_piece()
 		set_piece.emit())
 
 	parent.game_start.connect(func() -> void:
