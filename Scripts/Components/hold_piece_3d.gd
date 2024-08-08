@@ -2,10 +2,7 @@ class_name HoldPiece3D
 extends BaseComponent3D
 
 @export var base: HoldPiece
-@export var offset: Vector3i
 
-func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
-	return Vector3i(vec2.x, -vec2.y, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

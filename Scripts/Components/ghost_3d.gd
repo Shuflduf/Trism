@@ -1,18 +1,9 @@
 class_name GhostPiece3D
 extends BaseComponent3D
 
-@export var game_board: GameBoard3D
-
-
-
-var offset: Vector3i
-
-func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
-	return Vector3i(vec2.x, -vec2.y, 0)
 
 func _ready() -> void:
-	if game_board:
-		offset = game_board.offset
+
 	active_piece.piece_moved.connect(func() -> void:
 		ghost())
 
@@ -20,7 +11,7 @@ func ghost() -> void:
 	#ghost_positions = []
 	var min_drop_distance := 99
 
-	for i: Vector2i in active_piece.active_piece_type:
+	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
 		var drop_distance := 1
 		var ghost_pos: Vector2i = i + active_piece.current_loc + Vector2i(0, 1)
 
@@ -38,8 +29,8 @@ func draw_ghost(dist: int) -> void:
 
 	var current_piece_locs: Array[Vector2i] = []
 
-	for i: Vector2i in active_piece.active_piece_type:
-		current_piece_locs.append(i + parent.current_loc)
+	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
+		current_piece_locs.append(i + active_piece.current_loc)
 
 	for i: Vector2i in current_piece_locs:
 		var ghost_pos := i + Vector2i(0, dist - 2)

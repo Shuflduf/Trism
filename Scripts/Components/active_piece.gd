@@ -103,7 +103,7 @@ func _physics_process(_delta: float) -> void:
 	if parent.lost or parent.paused:
 		return
 	current_dcd -= 1
-	print(piece_type[rotation_index])
+
 	# Handle DAS for left movement
 	if moving_dir[0]:
 		dir_timers[0] += 1
@@ -194,6 +194,7 @@ func rotate_piece(dir: String) -> void:
 
 			current_loc += offset
 			#draw_piece(active_piece_type, current_loc)
+			piece_moved.emit()
 			current_dcd = Settings.dcd
 
 
@@ -268,6 +269,7 @@ func move_piece(dir: Vector2i) -> void:
 		current_loc += dir
 
 		#draw_piece(active_piece_type, current_loc)
+		piece_moved.emit()
 		is_free_below()
 		temp_timer = 0
 		tspin_valid = TSpin.NONE
@@ -287,7 +289,7 @@ func is_free(pos: Vector2i) -> bool:
 
 	#for i: int in TRANSPARENT_PIECES:
 		#if get_cell_item(pos) == i: TODO
-	#print(pos)
+
 	if pos.y >= parent.game.size() or pos.x >= parent.game[0].size() or pos.x < 0:
 		return false
 

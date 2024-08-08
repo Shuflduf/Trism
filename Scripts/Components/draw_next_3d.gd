@@ -6,9 +6,7 @@ extends BaseComponent3D
 var next_pieces_tween : Tween
 
 
-#helper function that converts 2d values to 3d
-func convert_vec2_vec3(vec2 : Vector2i) -> Vector3i:
-	return Vector3i(vec2.x, -vec2.y, 0)
+
 
 
 func _ready() -> void:
@@ -36,7 +34,8 @@ func draw(pieces: Array, table: KickTable) -> void:
 		for pos: Vector2i in piece[0]:
 
 			var cell_position := convert_vec2_vec3(pos) + \
-					Vector3i(8, ((bag.next_piece_count * 4) + 5) - vertical_offset, 0)
+					Vector3i(0, ((bag.next_piece_count * 4) + 5) - vertical_offset, 0)
+			cell_position += offset
 
 			set_cell_item(cell_position, table.shapes.find(piece))
 		vertical_offset += 4
