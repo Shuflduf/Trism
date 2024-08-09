@@ -23,7 +23,9 @@ var sdf := 6
 
 var sonic := false
 
-var save_dict := {
+
+func return_save_dict() -> Dictionary:
+	return {
 	"arr" : arr,
 	"das" : das,
 	"dcd" : dcd,
@@ -41,7 +43,7 @@ func _ready() -> void:
 
 func save_settings() -> void:
 	var save_file := FileAccess.open("user://trism.settings", FileAccess.WRITE)
-	var data := JSON.stringify(save_dict)
+	var data := JSON.stringify(return_save_dict())
 	save_file.store_line(data)
 
 

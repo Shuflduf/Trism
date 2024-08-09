@@ -14,8 +14,6 @@ var can_pause := true
 
 signal pause_state(pause_state : bool)
 
-#signal modify_handling(setting, value)
-
 func handle_pause(go_to_options := false) -> void:
 	if not can_pause:
 		return
@@ -43,23 +41,27 @@ func handle_pause(go_to_options := false) -> void:
 		return
 
 func load_handling() -> void:
-	#arr_num.value = Settings.arr
-	#das_num.value = Settings.das
-	#dcd_num.value = Settings.dcd
-	#sdf_num.value = Settings.sdf
+	for i: int in sliders.size():
+		sliders[i].value = Settings.get(sliders[i].get_parent().name)
+
+	sonic.button_pressed = Settings.sonic
+
 	sonic.button_pressed = Settings.sonic
 
 func _ready() -> void:
 	visible = false
-	call_deferred("load_handling")
 
 	for i: int in sliders.size():
 		sliders[i].value_changed.connect(func(value: int) -> void:
-			spinboxes[i] = value
-			Settings.set(sliders[i].get_parent().name, value))
+			print(value)
+			spinboxes[i].value = value
+			Settings.set(sliders[i].get_parent().name, value)
+			Settings.save_settings())
 
 		spinboxes[i].value_changed.connect(func(value: int) -> void:
-			sliders[i] = value)
+			sliders[i].value = value)
+
+	call_deferred("load_handling")
 
 func _on_open_settings_pressed() -> void:
 	main_paused.visible = false
@@ -88,6 +90,7 @@ func _on_cinematic_toggled(toggled_on: bool) -> void:
 
 func _on_sonic_toggled(toggled_on: bool) -> void:
 	Settings.sonic = toggled_on
+	Settings.save_settings()
 
 
 
