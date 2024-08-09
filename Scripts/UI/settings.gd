@@ -48,6 +48,9 @@ func save_settings() -> void:
 
 
 func load_settings() -> void:
+	if not FileAccess.file_exists("user://trism.settings"):
+		return
+
 	var save_file := FileAccess.open("user://trism.settings", FileAccess.READ)
 	var json_string := save_file.get_line()
 
