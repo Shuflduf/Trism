@@ -126,18 +126,18 @@ text = "HANDLING"
 label_settings = ExtResource("3_aq7cx")
 horizontal_alignment = 1
 
-[node name="ARR" type="HBoxContainer" parent="Settings/VBoxContainer"]
+[node name="arr" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 tooltip_text = "Automatic Repeat Rate: the speed at which tetrominoes move when holding down movement keys, measured in frames per movement"
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/VBoxContainer/ARR"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/arr"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "ARR"
 label_settings = ExtResource("5_icmgu")
 
-[node name="ARRSlider" type="HSlider" parent="Settings/VBoxContainer/ARR"]
+[node name="ARRSlider" type="HSlider" parent="Settings/VBoxContainer/arr"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -149,7 +149,7 @@ max_value = 5.0
 value = 2.0
 rounded = true
 
-[node name="ARRLineEdit" type="SpinBox" parent="Settings/VBoxContainer/ARR"]
+[node name="ARRLineEdit" type="SpinBox" parent="Settings/VBoxContainer/arr"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -159,18 +159,18 @@ value = 2.0
 rounded = true
 suffix = "F"
 
-[node name="DAS" type="HBoxContainer" parent="Settings/VBoxContainer"]
+[node name="das" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 tooltip_text = "Delayed Auto Shift: the time between the initial keypress and the start of its automatic repeat movement, measured in frames"
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/VBoxContainer/DAS"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/das"]
 layout_mode = 2
 text = "DAS
 "
 label_settings = ExtResource("5_icmgu")
 
-[node name="DASSlider" type="HSlider" parent="Settings/VBoxContainer/DAS"]
+[node name="DASSlider" type="HSlider" parent="Settings/VBoxContainer/das"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -182,7 +182,7 @@ max_value = 20.0
 value = 10.0
 rounded = true
 
-[node name="DASLineEdit" type="SpinBox" parent="Settings/VBoxContainer/DAS"]
+[node name="DASLineEdit" type="SpinBox" parent="Settings/VBoxContainer/das"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("3_0b88x")
@@ -192,19 +192,19 @@ value = 10.0
 rounded = true
 suffix = "F"
 
-[node name="DCD" type="HBoxContainer" parent="Settings/VBoxContainer"]
+[node name="dcd" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 tooltip_text = "DAS Cut Delay: if not 0, any ongoing DAS movement will pause for a set amount of time after dropping/rotating a piece, measured in frames"
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/VBoxContainer/DCD"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/dcd"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "DCD
 "
 label_settings = ExtResource("5_icmgu")
 
-[node name="DCDSlider" type="HSlider" parent="Settings/VBoxContainer/DCD"]
+[node name="DCDSlider" type="HSlider" parent="Settings/VBoxContainer/dcd"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(191.845, 0)
 layout_mode = 2
@@ -216,7 +216,7 @@ max_value = 20.0
 value = 1.0
 rounded = true
 
-[node name="DCDLineEdit" type="SpinBox" parent="Settings/VBoxContainer/DCD"]
+[node name="DCDLineEdit" type="SpinBox" parent="Settings/VBoxContainer/dcd"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -225,20 +225,20 @@ max_value = 20.0
 value = 1.0
 rounded = true
 
-[node name="SDF" type="HBoxContainer" parent="Settings/VBoxContainer"]
+[node name="sdf" type="HBoxContainer" parent="Settings/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 2
 tooltip_text = "Soft Drop Factor: the factor with which soft drops change the gravity speed"
 alignment = 1
 
-[node name="Label" type="Label" parent="Settings/VBoxContainer/SDF"]
+[node name="Label" type="Label" parent="Settings/VBoxContainer/sdf"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "SDF 
 "
 label_settings = ExtResource("5_icmgu")
 
-[node name="SDFSlider" type="HSlider" parent="Settings/VBoxContainer/SDF"]
+[node name="SDFSlider" type="HSlider" parent="Settings/VBoxContainer/sdf"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -250,7 +250,7 @@ max_value = 30.0
 value = 6.0
 rounded = true
 
-[node name="SDFLineEdit" type="SpinBox" parent="Settings/VBoxContainer/SDF"]
+[node name="SDFLineEdit" type="SpinBox" parent="Settings/VBoxContainer/sdf"]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("3_0b88x")
@@ -723,14 +723,13 @@ script = ExtResource("9_tjw1b")
 [connection signal="pressed" from="PAUSED/CenterContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="toggled" from="Settings/VBoxContainer/RTX" to="." method="_on_rtx_toggled"]
 [connection signal="toggled" from="Settings/VBoxContainer/Cinematic" to="." method="_on_cinematic_toggled"]
-[connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRSlider" to="." method="_on_arr_slider_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/ARR/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/DAS/DASSlider" to="." method="_on_das_slider_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/DAS/DASLineEdit" to="." method="_on_das_line_edit_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/DCD/DCDSlider" to="." method="_on_dcd_slider_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/DCD/DCDLineEdit" to="." method="_on_dcd_line_edit_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
-[connection signal="value_changed" from="Settings/VBoxContainer/SDF/SDFLineEdit" to="." method="_on_sdf_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/arr/ARRSlider" to="." method="_on_arr_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/arr/ARRLineEdit" to="." method="_on_arr_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/das/DASSlider" to="." method="_on_das_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/das/DASLineEdit" to="." method="_on_das_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/dcd/DCDSlider" to="." method="_on_dcd_slider_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/dcd/DCDLineEdit" to="." method="_on_dcd_line_edit_value_changed"]
+[connection signal="value_changed" from="Settings/VBoxContainer/sdf/SDFSlider" to="." method="_on_sdf_slider_value_changed"]
 [connection signal="toggled" from="Settings/VBoxContainer/Sonic" to="." method="_on_sonic_toggled"]
 [connection signal="pressed" from="Settings/VBoxContainer/SwitchToControls" to="." method="_on_switch_to_controls_pressed"]
 [connection signal="tab_changed" from="Controls/TabContainer" to="Controls" method="_on_tab_container_tab_changed"]
