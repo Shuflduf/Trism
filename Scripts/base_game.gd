@@ -184,5 +184,3 @@ func _on_pause_menu_pause_state(pause_state: bool) -> void:
 	#camera.position = camera_positions[0] if !Settings.cinematic_mode else camera_positions[1]
 	#camera.rotation_degrees = camera_rotations[0] if \
 		#!Settings.cinematic_mode else camera_rotations[1]
-
-

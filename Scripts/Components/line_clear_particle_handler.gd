@@ -10,7 +10,6 @@ func _ready() -> void:
 
 
 func _on_lines_cleared(lines: Array[int], colour: int) -> void:
-	print(colour)
 	var new_particles := particles.instantiate()
 	new_particles.position.y = lines.max() * -2
 	new_particles.position += offset
@@ -24,6 +23,3 @@ func _on_lines_cleared(lines: Array[int], colour: int) -> void:
 func get_colour(index: int) -> Color:
 	var colour: Color = mesh_library.get_item_mesh(index).surface_get_material(0).albedo_color
 	return colour
-
-
-

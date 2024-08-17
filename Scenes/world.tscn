@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=37 format=3 uid="uid://bey7iu5tc1cjs"]
 
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://Scripts/Components/level_handler.gd" id="9_em7xu"]
 [ext_resource type="Script" path="res://Scripts/Data/srs.gd" id="9_uths7"]
 [ext_resource type="Script" path="res://Scripts/Components/gravity_handler.gd" id="10_rg1cx"]
+[ext_resource type="Script" path="res://Scripts/Components/all_clear.gd" id="12_xr15r"]
 [ext_resource type="Script" path="res://Scripts/Components/next_piece_base.gd" id="13_qfxsn"]
 [ext_resource type="Script" path="res://Scripts/Components/hold_piece_3d.gd" id="14_tai0s"]
 [ext_resource type="Script" path="res://Scripts/Components/state_handler.gd" id="15_m1svw"]
@@ -51,7 +52,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(90.5989, 0, 0)
+uv1_offset = Vector3(173.797, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -190,6 +191,40 @@ tracks/11/keys = {
 "points": PackedFloat32Array(15, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
+tracks/12/type = "bezier"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../AllClear:transparency")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/13/type = "bezier"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../AllClear:position:z")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(7, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../AllClear:text")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
 
 [sub_resource type="Animation" id="Animation_gnq3r"]
 resource_name = "countdown"
@@ -288,24 +323,24 @@ resource_name = "lines_cleared"
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%Cleared:position:z")
+tracks/0/path = NodePath("%Cleared:transparency")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 15, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1)
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.7)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%Cleared:transparency")
+tracks/1/path = NodePath("%Cleared:position:z")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.7)
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 15, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -328,6 +363,40 @@ tracks/3/keys = {
 "handle_modes": PackedInt32Array(0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 15, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../AllClear:transparency")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.7)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../AllClear:position:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(7, -0.25, 0, 0.25, 0, 25, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../AllClear:text")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ep4b"]
@@ -389,6 +458,10 @@ active_table = SubResource("Resource_ygc2b")
 [node name="SevenBag" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("6_1cvjh")
 active_piece = NodePath("../ActivePiece")
+
+[node name="AllClear" type="Node" parent="MainGame" node_paths=PackedStringArray("label")]
+script = ExtResource("12_xr15r")
+label = NodePath("../../UI/AllClear")
 
 [node name="ScoreHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("label")]
 script = ExtResource("7_2sjim")
@@ -517,6 +590,16 @@ font = ExtResource("5_pje1w")
 font_size = 50
 outline_size = 30
 horizontal_alignment = 0
+uppercase = true
+
+[node name="AllClear" type="Label3D" parent="UI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+transparency = 1.0
+pixel_size = 0.03
+shaded = true
+font = ExtResource("6_2n4b1")
+font_size = 492
+outline_size = 70
 uppercase = true
 
 [node name="Score" type="Label3D" parent="UI"]

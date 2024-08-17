@@ -23,7 +23,6 @@ func _ready() -> void:
 func check_death() -> void:
 	for i: int in parent.game[2]:
 		if i != -1:
-			print("Ah")
 			parent.lost = true
 			death_screen.show()
 			break

@@ -300,6 +300,7 @@ keybind_resource = ExtResource("5_3k7vs")
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
+current_tab = 0
 tab_focus_mode = 0
 
 [node name="WASD" type="MarginContainer" parent="Controls/TabContainer"]
@@ -308,6 +309,7 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/WASD"]
 layout_mode = 2
@@ -435,6 +437,7 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
+metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Arrow Keys"]
 layout_mode = 2
@@ -560,6 +563,7 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 script = ExtResource("8_0namw")
+metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/TabContainer/Custom"]
 layout_mode = 2

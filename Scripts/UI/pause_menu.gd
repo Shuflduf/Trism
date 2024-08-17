@@ -53,7 +53,6 @@ func _ready() -> void:
 
 	for i: int in sliders.size():
 		sliders[i].value_changed.connect(func(value: int) -> void:
-			print(value)
 			spinboxes[i].value = value
 			Settings.set(sliders[i].get_parent().name, value)
 			Settings.save_settings())
@@ -91,9 +90,3 @@ func _on_cinematic_toggled(toggled_on: bool) -> void:
 func _on_sonic_toggled(toggled_on: bool) -> void:
 	Settings.sonic = toggled_on
 	Settings.save_settings()
-
-
-
-
-
-
