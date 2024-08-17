@@ -1,5 +1,6 @@
-[gd_scene load_steps=37 format=3 uid="uid://bey7iu5tc1cjs"]
+[gd_scene load_steps=38 format=3 uid="uid://bey7iu5tc1cjs"]
 
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_nqy5e"]
 [ext_resource type="Texture2D" uid="uid://d3pdbkoe7i6n3" path="res://Assets/SkyHDR.hdr" id="1_se6jm"]
 [ext_resource type="MeshLibrary" uid="uid://f53i3u6nmcb5" path="res://Assets/Cubes.meshlib" id="2_ahqo1"]
 [ext_resource type="Script" path="res://Scripts/base_game.gd" id="5_1ulw6"]
@@ -52,7 +53,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(173.797, 0, 0)
+uv1_offset = Vector3(196.874, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -150,7 +151,7 @@ tracks/7/keys = {
 tracks/8/type = "bezier"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("%Cleared:position:z")
+tracks/8/path = NodePath("../Cleared:position:z")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -161,7 +162,7 @@ tracks/8/keys = {
 tracks/9/type = "bezier"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("%Cleared:transparency")
+tracks/9/path = NodePath("../Cleared:transparency")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -172,7 +173,7 @@ tracks/9/keys = {
 tracks/10/type = "bezier"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("%Tspin:transparency")
+tracks/10/path = NodePath("../Tspin:transparency")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -183,7 +184,7 @@ tracks/10/keys = {
 tracks/11/type = "bezier"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("%Tspin:position:z")
+tracks/11/path = NodePath("../Tspin:position:z")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -323,7 +324,7 @@ resource_name = "lines_cleared"
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%Cleared:transparency")
+tracks/0/path = NodePath("../Cleared:transparency")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -334,7 +335,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%Cleared:position:z")
+tracks/1/path = NodePath("../Cleared:position:z")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -345,7 +346,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%Tspin:transparency")
+tracks/2/path = NodePath("../Tspin:transparency")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -356,7 +357,7 @@ tracks/2/keys = {
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%Tspin:position:z")
+tracks/3/path = NodePath("../Tspin:position:z")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -406,7 +407,8 @@ _data = {
 "lines_cleared": SubResource("Animation_vx65w")
 }
 
-[node name="Node3D" type="Node3D"]
+[node name="World" type="Node3D"]
+script = ExtResource("1_nqy5e")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 unique_name_in_owner = true
