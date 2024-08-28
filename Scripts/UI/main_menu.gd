@@ -15,3 +15,8 @@ func _input(event: InputEvent) -> void:
 
 func _on_options_pressed() -> void:
 	PauseMenu.handle_pause(true)
+
+func _ready() -> void:
+	var new_dir := Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+	new_dir /= 30.0
+	$Backround.material.set_shader_parameter("dir", new_dir)
