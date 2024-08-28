@@ -1,11 +1,11 @@
 extends Node
 
-#var save_nodes = get_tree().get_nodes_in_group("Persist")
-
 @export var keybind_resource : PlayerKeybindResource
 
 func _ready() -> void:
+
 	_on_tab_container_tab_changed(get_child(0).current_tab)
+
 
 func _on_tab_container_tab_changed(tab: int) -> void:
 	match tab:
@@ -29,8 +29,7 @@ func switch_keybind_presets(preset: Array) -> void:
 
 
 func _on_custom_updated_keybinds(keys: Array) -> void:
+	FileAccess.open("user://trism.keybinds", FileAccess.WRITE).store_var(keys)
+	print(FileAccess.open("user://trism.keybinds", FileAccess.READ).get_var())
 	keybind_resource.custom_keys = keys
 	switch_keybind_presets(keybind_resource.custom_keys)
-
-
-

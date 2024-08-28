@@ -4,3 +4,6 @@
 
 [resource]
 script = ExtResource("1_wej3m")
+input_keys = ["left", "right", "soft", "hard", "rot_left", "rot_right", "hold"]
+wasd_keys = [65, 68, 87, 83, 4194319, 4194321, 4194325]
+arrow_keys = [4194319, 4194321, 4194322, 32, 90, 88, 4194325]

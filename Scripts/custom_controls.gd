@@ -19,8 +19,15 @@ var save_dict := {
 }
 
 func _ready() -> void:
+	if FileAccess.file_exists("user://trism.keybinds"):
+		custom_inputs = \
+				FileAccess.open("user://trism.keybinds", FileAccess.READ).get_var()
+
+
 	updated_keybinds.emit(custom_inputs)
-	for button: InputButton in input_buttons:
+	for i: int in input_buttons.size():
+		var button: InputButton = input_buttons[i]
+
 		button.looking_input.connect(cancel_all_look)
 		button.input_found.connect(func(value: String) -> void:
 			update_custom_keybinds(button, value))
@@ -35,7 +42,3 @@ func update_custom_keybinds(button: InputButton, value: String) -> void:
 	custom_inputs.remove_at(input_index)
 	custom_inputs.insert(input_index, OS.find_keycode_from_string(value))
 	updated_keybinds.emit(custom_inputs)
-
-
-
-
