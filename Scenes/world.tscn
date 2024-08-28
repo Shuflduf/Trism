@@ -53,7 +53,7 @@ size = Vector3(21, 6, 3)
 shading_mode = 0
 albedo_texture = ExtResource("17_s7jsq")
 uv1_scale = Vector3(0.07, 0.07, 0.07)
-uv1_offset = Vector3(196.874, 0, 0)
+uv1_offset = Vector3(33.3418, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 2
@@ -421,45 +421,33 @@ shadow_enabled = true
 [node name="MainGame" type="Node3D" parent="."]
 script = ExtResource("5_1ulw6")
 
-[node name="GameBoard3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("active_piece")]
+[node name="GameBoard3D" type="GridMap" parent="MainGame"]
 mesh_library = ExtResource("2_ahqo1")
 script = ExtResource("6_1dn88")
 offset = Vector3i(-5, 12, 0)
-active_piece = NodePath("../ActivePiece")
-
-[node name="GhostPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("active_piece")]
-mesh_library = ExtResource("2_ahqo1")
-script = ExtResource("7_12qou")
-offset = Vector3i(-5, 12, 0)
-active_piece = NodePath("../ActivePiece")
-
-[node name="NextPieces3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("bag", "active_piece")]
-mesh_library = ExtResource("2_ahqo1")
-script = ExtResource("7_apvju")
-bag = NodePath("../SevenBag")
-offset = Vector3i(8, 0, 0)
-active_piece = NodePath("../ActivePiece")
-
-[node name="HoldPiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("base", "active_piece")]
-mesh_library = ExtResource("2_ahqo1")
-script = ExtResource("14_tai0s")
-base = NodePath("../HoldPiece")
-offset = Vector3i(-12, 7, 0)
-active_piece = NodePath("../ActivePiece")
-
-[node name="ActivePiece3D" type="GridMap" parent="MainGame" node_paths=PackedStringArray("active_piece")]
-mesh_library = ExtResource("2_ahqo1")
-script = ExtResource("8_1l32o")
-offset = Vector3i(-5, 12, 0)
-active_piece = NodePath("../ActivePiece")
 
 [node name="ActivePiece" type="Node" parent="MainGame"]
 script = ExtResource("19_xwl88")
 active_table = SubResource("Resource_ygc2b")
 
+[node name="ActivePiece3D" type="GridMap" parent="MainGame/ActivePiece"]
+mesh_library = ExtResource("2_ahqo1")
+script = ExtResource("8_1l32o")
+offset = Vector3i(-5, 12, 0)
+
+[node name="GhostPiece3D" type="GridMap" parent="MainGame/ActivePiece"]
+mesh_library = ExtResource("2_ahqo1")
+script = ExtResource("7_12qou")
+offset = Vector3i(-5, 12, 0)
+
 [node name="SevenBag" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("6_1cvjh")
 active_piece = NodePath("../ActivePiece")
+
+[node name="NextPieces3D" type="GridMap" parent="MainGame/SevenBag"]
+mesh_library = ExtResource("2_ahqo1")
+script = ExtResource("7_apvju")
+offset = Vector3i(8, 0, 0)
 
 [node name="AllClear" type="Node" parent="MainGame" node_paths=PackedStringArray("label")]
 script = ExtResource("12_xr15r")
@@ -483,6 +471,12 @@ lines_label = NodePath("../../UI/Lines")
 [node name="HoldPiece" type="Node" parent="MainGame" node_paths=PackedStringArray("active_piece")]
 script = ExtResource("13_qfxsn")
 active_piece = NodePath("../ActivePiece")
+
+[node name="HoldPiece3D" type="GridMap" parent="MainGame/HoldPiece" node_paths=PackedStringArray("base")]
+mesh_library = ExtResource("2_ahqo1")
+script = ExtResource("14_tai0s")
+base = NodePath("..")
+offset = Vector3i(-12, 7, 0)
 
 [node name="GameStateHandler" type="Node" parent="MainGame" node_paths=PackedStringArray("death_screen", "active_piece")]
 script = ExtResource("15_m1svw")

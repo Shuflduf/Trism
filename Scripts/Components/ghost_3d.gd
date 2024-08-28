@@ -1,24 +1,25 @@
 class_name GhostPiece3D
 extends BaseComponent3D
 
+@onready var board: BaseGame = $"../.."
+
 
 func _ready() -> void:
-
-	active_piece.piece_moved.connect(func() -> void:
+	get_parent().piece_moved.connect(func() -> void:
 		ghost())
 
 func ghost() -> void:
 	#ghost_positions = []
 	var min_drop_distance := 99
 
-	if active_piece.piece_type == []:
+	if get_parent().piece_type == []:
 		return
 
-	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
+	for i: Vector2i in get_parent().piece_type[get_parent().rotation_index]:
 		var drop_distance := 1
-		var ghost_pos: Vector2i = i + active_piece.current_loc + Vector2i(0, 1)
+		var ghost_pos: Vector2i = i + get_parent().current_loc + Vector2i(0, 1)
 
-		while parent.is_free(ghost_pos + Vector2i(0, -1)):
+		while board.is_free(ghost_pos + Vector2i(0, -1)):
 			ghost_pos += Vector2i(0, 1)
 			drop_distance += 1
 
@@ -32,8 +33,8 @@ func draw_ghost(dist: int) -> void:
 
 	var current_piece_locs: Array[Vector2i] = []
 
-	for i: Vector2i in active_piece.piece_type[active_piece.rotation_index]:
-		current_piece_locs.append(i + active_piece.current_loc)
+	for i: Vector2i in get_parent().piece_type[get_parent().rotation_index]:
+		current_piece_locs.append(i + get_parent().current_loc)
 
 	for i: Vector2i in current_piece_locs:
 		var ghost_pos := i + Vector2i(0, dist - 2)

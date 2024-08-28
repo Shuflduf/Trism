@@ -9,6 +9,7 @@ signal game_start
 signal update_board
 
 signal lines_cleared(lines: Array[int], piece_color: int)
+@warning_ignore("unused_signal")
 signal update_score(lines: int, tspin: int)
 
 

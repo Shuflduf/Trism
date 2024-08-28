@@ -4,7 +4,7 @@ extends BaseComponent
 @export var label: Node
 
 func _ready() -> void:
-	parent.lines_cleared.connect(func(lines: Array[int], _piece_color: int) -> void:
+	parent.lines_cleared.connect(func(_lines: Array[int], _piece_color: int) -> void:
 		detect_all_clear())
 
 func detect_all_clear() -> void:
