@@ -314,117 +314,113 @@ metadata/_tab_index = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/KeybindPresets/WASD"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
+[node name="MoveLeft" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+size_flags_vertical = 3
 
-[node name="MoveLeft" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/MoveLeft"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/MoveLeft"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Move Piece Left"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/MoveLeft"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/MoveLeft"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "A"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="MoveRight" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="MoveRight" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/MoveRight"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/MoveRight"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Move Piece Right"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/MoveRight"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/MoveRight"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "D"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="SoftDrop" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="SoftDrop" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/SoftDrop"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/SoftDrop"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Soft Drop"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/SoftDrop"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/SoftDrop"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "W"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="HardDrop" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="HardDrop" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/HardDrop"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/HardDrop"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Hard Drop"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/HardDrop"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/HardDrop"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "S"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="CCW" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="CCW" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/CCW"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/CCW"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Rotate Counterclockwise"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/CCW"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/CCW"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Left Arrow"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="CW" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="CW" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/CW"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/CW"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Rotate Clockwise"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/CW"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/CW"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Right Arrow"
 label_settings = ExtResource("6_6ih8y")
 
-[node name="Hold" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer"]
+[node name="Hold" type="HBoxContainer" parent="Controls/KeybindPresets/WASD/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/Hold"]
+[node name="Label" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/Hold"]
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Hold Piece"
 label_settings = ExtResource("5_icmgu")
 
-[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/VBoxContainer/Hold"]
+[node name="Label2" type="Label" parent="Controls/KeybindPresets/WASD/VBoxContainer/Hold"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Shift"
@@ -441,11 +437,10 @@ metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/KeybindPresets/Arrow Keys"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
 [node name="MoveLeft" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/MoveLeft"]
 layout_mode = 2
@@ -461,7 +456,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="MoveRight" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/MoveRight"]
 layout_mode = 2
@@ -477,7 +472,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="SoftDrop" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/SoftDrop"]
 layout_mode = 2
@@ -493,7 +488,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="HardDrop" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/HardDrop"]
 layout_mode = 2
@@ -509,7 +504,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="CCW" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/CCW"]
 layout_mode = 2
@@ -525,7 +520,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="CW" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/CW"]
 layout_mode = 2
@@ -541,7 +536,7 @@ label_settings = ExtResource("6_6ih8y")
 
 [node name="Hold" type="HBoxContainer" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Arrow Keys/VBoxContainer/Hold"]
 layout_mode = 2
@@ -567,11 +562,10 @@ metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/KeybindPresets/Custom"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
 [node name="MoveLeft" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/MoveLeft"]
 layout_mode = 2
@@ -593,7 +587,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="MoveRight" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/MoveRight"]
 layout_mode = 2
@@ -615,7 +609,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="SoftDrop" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/SoftDrop"]
 layout_mode = 2
@@ -637,7 +631,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="HardDrop" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/HardDrop"]
 layout_mode = 2
@@ -659,7 +653,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="CCW" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/CCW"]
 layout_mode = 2
@@ -681,7 +675,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="CW" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/CW"]
 layout_mode = 2
@@ -703,7 +697,7 @@ script = ExtResource("9_tjw1b")
 
 [node name="Hold" type="HBoxContainer" parent="Controls/KeybindPresets/Custom/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Controls/KeybindPresets/Custom/VBoxContainer/Hold"]
 layout_mode = 2
