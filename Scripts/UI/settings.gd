@@ -23,12 +23,6 @@ var sdf := 6
 
 var sonic := false
 
-var keybind_preset: int:
-	get:
-		#if %KeybindPresets == null:
-			#await %KeybindPresets.ready
-		print($"../Controls")
-		return %KeybindPresets.current_tab
 
 func return_save_dict() -> Dictionary:
 	return {
@@ -37,7 +31,6 @@ func return_save_dict() -> Dictionary:
 		"dcd" : dcd,
 		"sdf" : sdf,
 		"sonic" : sonic,
-		"keybind_preset" : keybind_preset
 	}
 
 # Called when the node enters the scene tree for the first time.
@@ -73,7 +66,4 @@ func load_settings() -> void:
 	var node_data: Dictionary = json.get_data()
 
 	for i: String in node_data.keys():
-		if i == "keybind_preset":
-			%KeybindPresets.current_tab = int(node_data[i])
-			continue
 		set(i, node_data[i])

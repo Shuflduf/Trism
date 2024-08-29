@@ -3,8 +3,10 @@ extends Node
 @export var keybind_resource : PlayerKeybindResource
 
 func _ready() -> void:
-
-	_on_tab_container_tab_changed(get_child(0).current_tab)
+	if FileAccess.file_exists("user://trism.keypreset"):
+		$KeybindPresets.current_tab = \
+				FileAccess.open("user://trism.keypreset", FileAccess.READ).get_var()
+	_on_tab_container_tab_changed($KeybindPresets.current_tab)
 
 
 func _on_tab_container_tab_changed(tab: int) -> void:
@@ -16,7 +18,7 @@ func _on_tab_container_tab_changed(tab: int) -> void:
 		0:
 			switch_keybind_presets(keybind_resource.wasd_keys)
 
-	$"../Settings".save_settings()
+	FileAccess.open("user://trism.keypreset", FileAccess.WRITE).store_var($KeybindPresets.current_tab)
 
 func switch_keybind_presets(preset: Array) -> void:
 	for i in range(preset.size()):
@@ -32,6 +34,6 @@ func switch_keybind_presets(preset: Array) -> void:
 
 func _on_custom_updated_keybinds(keys: Array) -> void:
 	FileAccess.open("user://trism.keybinds", FileAccess.WRITE).store_var(keys)
-	#print(FileAccess.open("user://trism.keybinds", FileAccess.READ).get_var())
+
 	keybind_resource.custom_keys = keys
 	switch_keybind_presets(keybind_resource.custom_keys)

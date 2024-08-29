@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dhy2c3qh7bhrl"]
+[gd_scene load_steps=15 format=3 uid="uid://dhy2c3qh7bhrl"]
 
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_dkwbe"]
 [ext_resource type="FontFile" uid="uid://cejipfrgvlr25" path="res://Assets/Fonts/main.ttf" id="1_epsu2"]
@@ -9,7 +9,6 @@
 [ext_resource type="Resource" uid="uid://bvk42xy6rkbdr" path="res://Resources/default_keybinds.tres" id="5_3k7vs"]
 [ext_resource type="LabelSettings" uid="uid://btgmmh81cnotg" path="res://Assets/Fonts/Font Styles/Small.tres" id="5_icmgu"]
 [ext_resource type="LabelSettings" uid="uid://b8ki582y8fda5" path="res://Assets/Fonts/Font Styles/Info.tres" id="6_6ih8y"]
-[ext_resource type="Script" path="res://Scripts/UI/settings.gd" id="6_ix6uv"]
 [ext_resource type="Script" path="res://Scripts/custom_controls.gd" id="8_0namw"]
 [ext_resource type="FontFile" uid="uid://biclhtqfu4mgj" path="res://Assets/Fonts/config.ttf" id="8_q8d13"]
 [ext_resource type="Script" path="res://Scripts/UI/input_button.gd" id="9_tjw1b"]
@@ -93,7 +92,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_ix6uv")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Settings"]
 layout_mode = 2
@@ -298,8 +296,7 @@ theme_override_constants/margin_bottom = 70
 script = ExtResource("4_w80sp")
 keybind_resource = ExtResource("5_3k7vs")
 
-[node name="KeybindPresets" type="TabContainer" parent="Controls"]
-unique_name_in_owner = true
+[node name="KeybindPresets" type="TabContainer" parent="Controls" groups=["KeybindPresets"]]
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
 tab_alignment = 1
