@@ -23,18 +23,21 @@ var sdf := 6
 
 var sonic := false
 
+var keybind_preset: int:
+	get:
+		#if %KeybindPresets == null:
+			#await %KeybindPresets.ready
+		print($"../Controls")
+		return %KeybindPresets.current_tab
 
 func return_save_dict() -> Dictionary:
-	if $Controls/TabContainer == null:
-		await $Controls/TabContainer.ready
-	print($Controls/TabContainer.current_tab)
 	return {
 		"arr" : arr,
 		"das" : das,
 		"dcd" : dcd,
 		"sdf" : sdf,
 		"sonic" : sonic,
-		#"keybind_preset" : $Controls/TabContainer.current_tab
+		"keybind_preset" : keybind_preset
 	}
 
 # Called when the node enters the scene tree for the first time.
@@ -47,12 +50,14 @@ func _ready() -> void:
 
 func save_settings() -> void:
 	var save_file := FileAccess.open("user://trism.settings", FileAccess.WRITE)
-	var data := JSON.stringify(await return_save_dict())
+	var data := JSON.stringify(return_save_dict())
 	save_file.store_line(data)
 
 
 func load_settings() -> void:
 	if not FileAccess.file_exists("user://trism.settings"):
+		return
+	elif FileAccess.get_file_as_string("user://trism.settings").is_empty():
 		return
 
 	var save_file := FileAccess.open("user://trism.settings", FileAccess.READ)
@@ -68,4 +73,7 @@ func load_settings() -> void:
 	var node_data: Dictionary = json.get_data()
 
 	for i: String in node_data.keys():
+		if i == "keybind_preset":
+			%KeybindPresets.current_tab = int(node_data[i])
+			continue
 		set(i, node_data[i])

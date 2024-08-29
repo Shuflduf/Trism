@@ -16,6 +16,8 @@ func _on_tab_container_tab_changed(tab: int) -> void:
 		0:
 			switch_keybind_presets(keybind_resource.wasd_keys)
 
+	$"../Settings".save_settings()
+
 func switch_keybind_presets(preset: Array) -> void:
 	for i in range(preset.size()):
 		var event_key := InputEventKey.new()
@@ -30,6 +32,6 @@ func switch_keybind_presets(preset: Array) -> void:
 
 func _on_custom_updated_keybinds(keys: Array) -> void:
 	FileAccess.open("user://trism.keybinds", FileAccess.WRITE).store_var(keys)
-	print(FileAccess.open("user://trism.keybinds", FileAccess.READ).get_var())
+	#print(FileAccess.open("user://trism.keybinds", FileAccess.READ).get_var())
 	keybind_resource.custom_keys = keys
 	switch_keybind_presets(keybind_resource.custom_keys)
