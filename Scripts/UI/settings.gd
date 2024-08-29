@@ -25,13 +25,17 @@ var sonic := false
 
 
 func return_save_dict() -> Dictionary:
+	if $Controls/TabContainer == null:
+		await $Controls/TabContainer.ready
+	print($Controls/TabContainer.current_tab)
 	return {
-	"arr" : arr,
-	"das" : das,
-	"dcd" : dcd,
-	"sdf" : sdf,
-	"sonic" : sonic,
-}
+		"arr" : arr,
+		"das" : das,
+		"dcd" : dcd,
+		"sdf" : sdf,
+		"sonic" : sonic,
+		#"keybind_preset" : $Controls/TabContainer.current_tab
+	}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,7 +47,7 @@ func _ready() -> void:
 
 func save_settings() -> void:
 	var save_file := FileAccess.open("user://trism.settings", FileAccess.WRITE)
-	var data := JSON.stringify(return_save_dict())
+	var data := JSON.stringify(await return_save_dict())
 	save_file.store_line(data)
 
 

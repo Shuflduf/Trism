@@ -27,7 +27,7 @@ func _ready() -> void:
 	updated_keybinds.emit(custom_inputs)
 	for i: int in input_buttons.size():
 		var button: InputButton = input_buttons[i]
-
+		button.text = button.get_input_text(OS.get_keycode_string(custom_inputs[i]))
 		button.looking_input.connect(cancel_all_look)
 		button.input_found.connect(func(value: String) -> void:
 			update_custom_keybinds(button, value))

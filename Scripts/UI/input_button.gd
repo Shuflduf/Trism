@@ -1,7 +1,7 @@
 class_name InputButton
 extends Button
 
-var arrows := ["Left", "Right", "Down", "Up"]
+
 
 signal looking_input
 
@@ -18,9 +18,14 @@ func _input(event: InputEvent) -> void:
 	if looking_for_input and event is InputEventKey:
 		var keycode := OS.get_keycode_string(event.key_label)
 		looking_for_input = false
-		print(keycode)
-		if str(keycode) in arrows:
-			text = keycode + " Arrow"
-		else:
-			text = str(keycode)
+		text = get_input_text(keycode)
 		input_found.emit(keycode)
+
+func get_input_text(keycode: String) -> String:
+	var arrows := ["Left", "Right", "Down", "Up"]
+	var new_text := ""
+	if str(keycode) in arrows:
+		new_text = keycode + " Arrow"
+	else:
+		new_text = str(keycode)
+	return new_text
